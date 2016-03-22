@@ -14,29 +14,37 @@ namespace sb_admin_2.Web1.Controllers
     public class ProjectController : Controller
     {
         //TEMP DATA ACCESS
-        private List<Project> projects = new List<Project>();
+        private Container container = Container.Instance;
+        //private List<Project> projects = new List<Project>();
         private int z;
+        private int taskid;
 
         // GET: Project
         public ActionResult Index()
         {
-            Project y = new Project { Description = "Awesome project", Id = z++, Name = "42" };
-            projects.Add(y);
-            return View(projects.ToList());
+            //Project y = new Project { Description = "Awesome project", Id = z++, Name = "42" };
+            //projects.Add(y);
+            List<Task> tasks = new List<Task>();
+            Task task1 = new Task {Title = "We gotta do this", Description = "Shit", Id = taskid++, ProjectId = z++, Timestamp = DateTime.Now};
+            Task task2 = new Task { Title = "Shit", Description = "We gotta do", Id = taskid++, ProjectId = z, Timestamp = DateTime.Now };
+            tasks.Add(task1);
+            tasks.Add(task2);
+            Project y = new Project { Description = "Awesome project", Id = z, Name = "42", Tasks = tasks};
+            container.AddProject(y);
+
+            return View(container.GetAllProjects().ToList());
         }
 
         // GET: Project/Details/5
         public ActionResult Details(int? id)
         {
-            Project y = new Project {Description = "Awesome project", Id = z++, Name = "42"};
-            projects.Add(y);
             if (id == null)
             {
                 //Console.WriteLine("Id is equal to null");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             //todo Change to impliment data access
-            Project project = projects.FirstOrDefault(x => x.Id == id);
+            Project project = container.GetAllProjects().FirstOrDefault(x => x.Id == id);
             if (project == null)
             {
                 return HttpNotFound();
@@ -64,7 +72,7 @@ namespace sb_admin_2.Web1.Controllers
                     string description = Request.Form["description"];
                     if (name != null && description != null)
                     {
-                        projects.Add(new Project
+                        container.AddProject(new Project
                         {
                             Name = name,
                             Description = description
