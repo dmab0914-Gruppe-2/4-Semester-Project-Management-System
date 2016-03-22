@@ -10,6 +10,9 @@ body {
 table tr td {
     border: 1px solid black
 }
+#test table tr td {
+    border: 1px solid yellow;
+}
 
 #wrapper {
     width: 100%;
