@@ -33,42 +33,51 @@
     <br />
     <br />
 <h4>Tasks</h4>
-<table>
-    <tr>
-        <th style="padding: 10px"><h4>Title</h4></th>
-        <th style="padding: 10px"><h4>Description</h4></th>
-        <th style="padding: 10px"><h4>Assigned User</h4></th>
-        <th style="padding: 10px"><h4>Time changed</h4></th>
-        <th style="padding: 10px"><h4>Edit</h4></th>
-
-    </tr>
-
-    @{
-        List<Task> tasks = Model.Tasks;
-        foreach (Task task in tasks)
-        {@:
+<div id="details">
+    <table>
         <tr>
-            <td style="padding: 5px">
-                @task.Title
-            </td>
-            <td style="padding: 5px">
-                @task.Description
-            </td>
-            <td style="padding: 5px">
-                @task.AssignedUser
-            </td>
-            <td style="padding: 5px">
-                @task.Timestamp
-            </td>
-            <td>
-                Edit coming...
-            </td>
+            <th style="padding: 10px"><h4>Title</h4></th>
+            <th style="padding: 10px"><h4>Description</h4></th>
+            <th style="padding: 10px"><h4>Assigned User</h4></th>
+            <th style="padding: 10px"><h4>Time changed</h4></th>
+            <th style="padding: 10px"><h4>Edit</h4></th>
+
         </tr>
+
+        @{
+            List<Task> tasks = Model.Tasks;
+            foreach (Task task in tasks)
+            {@:
+            <tr>
+                <td style="padding: 5px">
+                    @task.Title
+                </td>
+                <td style="padding: 5px">
+                    @task.Description
+                </td>
+                <td style="padding: 5px">
+                    @if (task.AssignedUser != null)
+                    {
+                        @task.AssignedUser
+                    }
+                    else
+                    {
+                        @:Not assigned
+                    }
+                    
+                </td>
+                <td style="padding: 5px">
+                    @task.Timestamp
+                </td>
+                <td>
+                    Edit coming...
+                </td>
+            </tr>
+            }
         }
-    }
 
-</table>
-
+    </table>
+</div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
