@@ -7,10 +7,8 @@
 body {
     background-color: #f8f8f8;
 }
-table tr td {
-    border: 1px solid black
-}
-#test table tr td {
+
+#details table tr td {
     border: 1px solid yellow;
 }
 
