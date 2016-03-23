@@ -11,6 +11,9 @@ body {
 #details table tr td {
     border: 1px solid black;
 }
+#details th {
+    padding: 10px;
+}
 
 #wrapper {
     width: 100%;

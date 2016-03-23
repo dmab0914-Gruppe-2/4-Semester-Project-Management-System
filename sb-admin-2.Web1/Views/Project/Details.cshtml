@@ -36,11 +36,11 @@
 <div id="details">
     <table>
         <tr>
-            <th style="padding: 10px"><h4>Title</h4></th>
-            <th style="padding: 10px"><h4>Description</h4></th>
-            <th style="padding: 10px"><h4>Assigned User</h4></th>
-            <th style="padding: 10px"><h4>Time changed</h4></th>
-            <th style="padding: 10px"><h4>Edit</h4></th>
+            <th><h4>Title</h4></th>
+            <th><h4>Description</h4></th>
+            <th><h4>Assigned User</h4></th>
+            <th><h4>Time changed</h4></th>
+            <th><h4>Edit</h4></th>
 
         </tr>
 
@@ -70,7 +70,7 @@
                     @task.Timestamp
                 </td>
                 <td>
-                    Edit coming...
+                    @Html.ActionLink("Edit", "Edit", new {id = task.Id})
                 </td>
             </tr>
             }
@@ -79,6 +79,6 @@
     </table>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Edit", "Ed", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
