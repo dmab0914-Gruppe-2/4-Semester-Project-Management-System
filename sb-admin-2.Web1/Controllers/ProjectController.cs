@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using sb_admin_2.Web1.Models;
 
 namespace sb_admin_2.Web1.Controllers
@@ -66,12 +67,12 @@ namespace sb_admin_2.Web1.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    //todo insert dbinsert here....
-                    //projects.Add(collection);
+                    
                     string name = Request.Form["name"];
                     string description = Request.Form["description"];
                     if (name != null && description != null)
                     {
+                        //todo insert dbinsert here....
                         container.AddProject(new Project
                         {
                             Name = name,
@@ -93,7 +94,12 @@ namespace sb_admin_2.Web1.Controllers
         // GET: Project/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+
+            Project project = container.GetAllProjects().FirstOrDefault(x => x.Id == id);
+            if (project == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            // ViewBag.Title = new TextBox();
+            return View(project);
         }
 
         // POST: Project/Edit/5
@@ -102,6 +108,15 @@ namespace sb_admin_2.Web1.Controllers
         {
             try
             {
+                if (ModelState.IsValid)
+                {
+                    Project project = new Project();
+                    project.Name = Request.Form["name"];
+                    project.Description = Request.Form["description"];
+                }
+                else
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                
                 // TODO: Add update logic here
 
                 return RedirectToAction("Index");
