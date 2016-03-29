@@ -11,7 +11,8 @@ namespace sb_admin_2.Web1.Controllers
 {
     public class TaskController : Controller
     {
-        private List<Models.Task> Tasks = new List<Models.Task>();
+        private Container container = Container.Instance;
+        private List<Task> Tasks = new List<Task>();
         private int y;
         // GET: Task
         public ActionResult Index()
@@ -32,7 +33,7 @@ namespace sb_admin_2.Web1.Controllers
         public ActionResult Details(int? id)
         {
 
-            Task taskk = new Models.Task
+            Task taskk = new Task
             {
                 Id = y++,
                 Description = "Do the following........",
@@ -67,9 +68,33 @@ namespace sb_admin_2.Web1.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
+                if (ModelState.IsValid)
+                {
+                    string title = Request.Form["title"];
+                    string description = Request.Form["description"];
+                    //DateTime timestamp = DateTime.UtcNow;
 
-                return RedirectToAction("Index");
+
+                    if (title != null && description != null)
+                    {
+                        Task task = new Task
+                        {
+                            Title = title,
+                            Description = description,
+                            Timestamp = DateTime.UtcNow,
+
+                        };
+                        //TODO insert dbinsert here....
+                        if (container.AddTask(task) == 0)
+                        {
+                            return RedirectToAction("Index");
+                        }
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+                    }
+                }
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return RedirectToAction("Index");
             }
             catch
             {
@@ -90,6 +115,18 @@ namespace sb_admin_2.Web1.Controllers
             try
             {
                 // TODO: Add update logic here
+                // TODO: Update timestamp to use the one in model and not the one made up here...
+
+                if (ModelState.IsValid)
+                {
+                    Task task = new Task();
+                    task.Title = Request.Form["Title"];
+                    task.Description = Request.Form["Description"];
+                    task.Timestamp = DateTime.UtcNow;
+
+                    // TODO: Change from container to DB
+                    container.AddTask(task);
+                }
 
                 return RedirectToAction("Index");
             }
