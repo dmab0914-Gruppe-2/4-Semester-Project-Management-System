@@ -475,7 +475,6 @@
     <Content Include="bower_components\jquery\src\manipulation\var\rcheckableType.js" />
     <Content Include="bower_components\jquery\src\manipulation\_evalUrl.js" />
     <Content Include="bower_components\jquery\src\offset.js" />
-    <Content Include="bower_components\jquery\src\outro.js" />
     <Content Include="bower_components\jquery\src\queue.js" />
     <Content Include="bower_components\jquery\src\queue\delay.js" />
     <Content Include="bower_components\jquery\src\selector-native.js" />
