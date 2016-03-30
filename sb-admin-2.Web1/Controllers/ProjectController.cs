@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using sb_admin_2.Web1.Models;
+using sb_admin_2.Web1.Models.ViewModels;
 
 namespace sb_admin_2.Web1.Controllers
 {
@@ -26,14 +27,17 @@ namespace sb_admin_2.Web1.Controllers
             //Project y = new Project { Description = "Awesome project", Id = z++, Name = "42" };
             //projects.Add(y);
             List<Task> tasks = new List<Task>();
-            Task task1 = new Task {Title = "We gotta do this", Description = "Shit", Id = taskid++, ProjectId = z++, Timestamp = DateTime.Now};
-            Task task2 = new Task { Title = "Shit", Description = "We gotta do", Id = taskid++, ProjectId = z, Timestamp = DateTime.Now };
+            Task task1 = new Task {Title = "We gotta do this", Description = "Shit", Id = taskid++, ProjectId = 404, Timestamp = DateTime.Now};
+            Task task2 = new Task { Title = "Shit", Description = "We gotta do", Id = taskid++, ProjectId = 405, Timestamp = DateTime.Now };
             tasks.Add(task1);
             tasks.Add(task2);
             Project y = new Project { Description = "Awesome project", Id = z, Name = "42", Tasks = tasks};
             container.AddProject(y);
 
-            return View(container.GetAllProjects().ToList());
+            VMProject project = new VMProject();
+            project.Projectname = "name";
+
+            return View(project);
         }
 
         // GET: Project/Details/5

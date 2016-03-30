@@ -1,4 +1,5 @@
 ﻿@using System.Collections
+@using sb_admin_2.Web1.Controllers
 @using sb_admin_2.Web1.Models
 @model sb_admin_2.Web1.Models.Task
 
@@ -23,7 +24,7 @@
             @Html.LabelFor(model => model.ProjectId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <!--TODO: FIX!!-->
-                @Html.DropDownListFor(model => model.ProjectId, IEnumerable<Project>, new {@class = "control-label col-md-2"})
+                @Html.DropDownListFor(model => model.ProjectId, Container.Instance.GetAllProjects(), new {@class = "control-label col-md-2"})
                 @Html.ValidationMessageFor(model => model.ProjectId, "", new {@class = "text-danger"})
             </div>
         </div>

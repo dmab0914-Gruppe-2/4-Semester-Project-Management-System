@@ -1,4 +1,4 @@
-﻿@model System.Collections.Generic.IEnumerable<sb_admin_2.Web1.Models.Project>
+﻿@model sb_admin_2.Web1.Models.ViewModels.VMProject
 
 @{
     ViewBag.Title = "Project Page";
@@ -20,7 +20,7 @@
         <table class="table">
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Name)
+                    @Html.DisplayNameFor(model => model.Projectname)
                 </th>
                 <th>Leader<br></th>
                 <th>
@@ -29,24 +29,9 @@
                 <th></th>
             </tr>
 
-            @foreach (var item in Model)
+            @foreach (var item in Model.Tasks)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LeaderUser)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                    </td>
-                </tr>
+                @Html.Partial("_VMTask", item)
             }
 
         </table>
