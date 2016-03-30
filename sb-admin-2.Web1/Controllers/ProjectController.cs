@@ -6,7 +6,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using sb_admin_2.Web1.Models;
-using sb_admin_2.Web1.Models.ViewModels;
 
 namespace sb_admin_2.Web1.Controllers
 {
@@ -34,10 +33,10 @@ namespace sb_admin_2.Web1.Controllers
             Project y = new Project { Description = "Awesome project", Id = z, Name = "42", Tasks = tasks};
             container.AddProject(y);
 
-            VMProject project = new VMProject();
-            project.Projectname = "name";
+            //VMProject project = new VMProject();
+            //project.Projectname = "name";
 
-            return View(project);
+            return View();
         }
 
         // GET: Project/Details/5

@@ -1,4 +1,4 @@
-﻿@model sb_admin_2.Web1.Models.ViewModels.VMProject
+﻿@model sb_admin_2.Web1.Models.Project
 
 @{
     ViewBag.Title = "Project Page";
@@ -20,7 +20,7 @@
         <table class="table">
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Projectname)
+                    @Html.DisplayNameFor(model => model.Name)
                 </th>
                 <th>Leader<br></th>
                 <th>
@@ -29,10 +29,10 @@
                 <th></th>
             </tr>
 
-            @foreach (var item in Model.Tasks)
+            @*@foreach (var item in Model.Tasks)
             {
                 @Html.Partial("_VMTask", item)
-            }
+            }*@
 
         </table>
     </div>
