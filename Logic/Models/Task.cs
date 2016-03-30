@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.AccessControl;
 using System.Web;
@@ -12,16 +11,12 @@ namespace sb_admin_2.Web1.Models
         //id from db
         public int? Id { get; set; }
 
-        [Required]
         public int ProjectId { get; set; }
 
         //title of task
-        [Required]
-        [StringLength(50)]
         public string Title { get; set; }
 
         //description of task
-        [StringLength(100)]
         public string Description { get; set; }
 
         //status of task

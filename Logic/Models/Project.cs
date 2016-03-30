@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -12,13 +11,9 @@ namespace sb_admin_2.Web1.Models
         public int? Id { get; set; }
 
         //name of the project
-        [Required]
-        [StringLength(50, ErrorMessage = "Project Name can not be anymore than 50 characters.")]
-        [Display(Name = "Project Name")]
         public string Name { get; set; }
 
         //description of the project
-        [Display(Name = "Project Discription")]
         public string Description { get; set; }
         //Selected admin of the project
         public User LeaderUser { get; set; }

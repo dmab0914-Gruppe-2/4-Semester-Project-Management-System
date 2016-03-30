@@ -41,7 +41,6 @@
   <ItemGroup>
     <Compile Include="Models\Container.cs" />
     <Compile Include="Models\Enums.cs" />
-    <Compile Include="Models\Navbar.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Task.cs" />
     <Compile Include="Models\User.cs" />
