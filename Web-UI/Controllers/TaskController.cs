@@ -4,14 +4,15 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using sb_admin_2.Web1.Models;
-using TaskStatus = sb_admin_2.Web1.Models.TaskStatus;
+//using Logic.Models;
+using Web_UI.Models;
+//using Web_UI.Models;
 
-namespace sb_admin_2.Web1.Controllers
+namespace Web_UI.Controllers
 {
     public class TaskController : Controller
     {
-        private Container container = Container.Instance;
+        //private Container container = Container.Instance;
         private List<Task> Tasks = new List<Task>();
         private int y;
         // GET: Task
@@ -22,7 +23,7 @@ namespace sb_admin_2.Web1.Controllers
                 Id = y++,
                 Description = "Do the following........",
                 Timestamp = DateTime.UtcNow,
-                Status = TaskStatus.Assigned,
+                //Status = TaskStatus.Assigned,
                 Title = "Alright people, wake up!"
             };
             Tasks.Add(task);
@@ -38,7 +39,7 @@ namespace sb_admin_2.Web1.Controllers
                 Id = y++,
                 Description = "Do the following........",
                 Timestamp = DateTime.UtcNow,
-                Status = TaskStatus.Assigned,
+                //Status = TaskStatus.Assigned,
                 Title = "Alright people, wake up!"
             };
             Tasks.Add(taskk);
@@ -85,10 +86,10 @@ namespace sb_admin_2.Web1.Controllers
 
                         };
                         //TODO insert dbinsert here....
-                        if (container.AddTask(task) == 0)
-                        {
-                            return RedirectToAction("Index");
-                        }
+                        //if (container.AddTask(task) == 0)
+                        //{
+                        //    return RedirectToAction("Index");
+                        //}
                         return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
                     }
@@ -125,7 +126,7 @@ namespace sb_admin_2.Web1.Controllers
                     task.Timestamp = DateTime.UtcNow;
 
                     // TODO: Change from container to DB
-                    container.AddTask(task);
+                    //container.AddTask(task);
                 }
 
                 return RedirectToAction("Index");

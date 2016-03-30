@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.AccessControl;
 using System.Web;
 
-namespace Logic.Models
+namespace Web_UI.Models
 {
     public class Task
     {
@@ -20,7 +19,8 @@ namespace Logic.Models
         public string Description { get; set; }
 
         //status of task
-        public TaskStatus Status { get; set; }
+        //TODO Uncomment line below when ready...
+        //public TaskStatus Status { get; set; }
 
         //assigned user for the task
         //TODO Can be changed to array or list later for convience

@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
-namespace sb_admin_2.Web1
+namespace Web_UI
 {
     public class MvcApplication : System.Web.HttpApplication
     {

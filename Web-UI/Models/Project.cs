@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
-//using Web_UI.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
-namespace Logic.Models
+namespace Web_UI.Models
 {
     public class Project
     {
@@ -19,6 +21,5 @@ namespace Logic.Models
         public List<User> Members { get; set; }
         //list of assigned tasks to the project
         public List<Task> Tasks { get; set; }
-
     }
 }

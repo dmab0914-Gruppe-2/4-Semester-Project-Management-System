@@ -1,4 +1,4 @@
-﻿namespace sb_admin_2.Web1.Models
+﻿namespace Logic
 {
     public enum TaskStatus
     {

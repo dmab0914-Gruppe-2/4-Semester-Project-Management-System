@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Logic.Models
+namespace Web_UI.Models
 {
     public class User
     {

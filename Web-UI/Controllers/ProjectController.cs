@@ -5,9 +5,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
-using sb_admin_2.Web1.Models;
+using Logic.Models;
+using Project = Web_UI.Models.Project;
+using Task = Web_UI.Models.Task;
 
-namespace sb_admin_2.Web1.Controllers
+namespace Web_UI.Controllers
 {
     
     
@@ -25,13 +27,16 @@ namespace sb_admin_2.Web1.Controllers
         {
             //Project y = new Project { Description = "Awesome project", Id = z++, Name = "42" };
             //projects.Add(y);
+
+            //TODO Fix add methods
             List<Task> tasks = new List<Task>();
             Task task1 = new Task {Title = "We gotta do this", Description = "Shit", Id = taskid++, ProjectId = 404, Timestamp = DateTime.Now};
             Task task2 = new Task { Title = "Shit", Description = "We gotta do", Id = taskid++, ProjectId = 405, Timestamp = DateTime.Now };
             tasks.Add(task1);
             tasks.Add(task2);
             Project y = new Project { Description = "Awesome project", Id = z, Name = "42", Tasks = tasks};
-            container.AddProject(y);
+
+            //container.AddProject(y);
 
             //VMProject project = new VMProject();
             //project.Projectname = "name";
@@ -48,12 +53,12 @@ namespace sb_admin_2.Web1.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             //todo Change to impliment data access
-            Project project = container.GetAllProjects().FirstOrDefault(x => x.Id == id);
-            if (project == null)
-            {
-                return HttpNotFound();
-            }
-            return View(project);
+            //Project project = container.GetAllProjects().FirstOrDefault(x => x.Id == id);
+            //if (project == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            return View();
         }
 
         // GET: Project/Create
@@ -76,11 +81,11 @@ namespace sb_admin_2.Web1.Controllers
                     if (name != null && description != null)
                     {
                         //todo insert dbinsert here....
-                        container.AddProject(new Project
-                        {
-                            Name = name,
-                            Description = description
-                        });
+                        //container.AddProject(new Project
+                        //{
+                        //    Name = name,
+                        //    Description = description
+                        //});
                         return RedirectToAction("Index");
                     }
                 }
@@ -98,11 +103,11 @@ namespace sb_admin_2.Web1.Controllers
         public ActionResult Edit(int id)
         {
 
-            Project project = container.GetAllProjects().FirstOrDefault(x => x.Id == id);
-            if (project == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            // ViewBag.Title = new TextBox();
-            return View(project);
+            ////Project project = container.GetAllProjects().FirstOrDefault(x => x.Id == id);
+            //if (project == null)
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //// ViewBag.Title = new TextBox();
+            return View();
         }
 
         // POST: Project/Edit/5

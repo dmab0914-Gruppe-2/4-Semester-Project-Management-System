@@ -1,12 +1,12 @@
-﻿using sb_admin_2.Web1.Domain;
-using sb_admin_2.Web1.Models;
+﻿using Web_UI.Domain;
+using Web_UI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace sb_admin_2.Web1.Controllers
+namespace Web_UI.Controllers
 {
     public class NavbarController : Controller
     {

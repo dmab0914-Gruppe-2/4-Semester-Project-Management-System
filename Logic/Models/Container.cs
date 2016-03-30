@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace sb_admin_2.Web1.Models
+namespace Logic.Models
 {
     /// <summary>
     /// TEST container class to store Task and Project. 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace sb_admin_2.Web1.Models
+namespace Web_UI.Models
 {
     public class Navbar
     {

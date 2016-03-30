@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace sb_admin_2.Web1
+namespace Web_UI
 {
     public class FilterConfig
     {
