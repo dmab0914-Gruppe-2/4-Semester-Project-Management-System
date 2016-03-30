@@ -8,6 +8,13 @@ body {
     background-color: #f8f8f8;
 }
 
+#details table tr td {
+    border: 1px solid black;
+}
+#details th {
+    padding: 10px;
+}
+
 #wrapper {
     width: 100%;
 }
