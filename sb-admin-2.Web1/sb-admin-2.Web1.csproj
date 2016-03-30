@@ -113,11 +113,20 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NavbarController.cs" />
+    <Compile Include="Controllers\ProjectController.cs" />
+    <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Domain\Data.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Container.cs" />
+    <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\Navbar.cs" />
+    <Compile Include="Models\Project.cs" />
+    <Compile Include="Models\Task.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\ViewModels\VMProject.cs" />
+    <Compile Include="Models\ViewModels\VMTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -468,7 +477,6 @@
     <Content Include="bower_components\jquery\src\manipulation\var\rcheckableType.js" />
     <Content Include="bower_components\jquery\src\manipulation\_evalUrl.js" />
     <Content Include="bower_components\jquery\src\offset.js" />
-    <Content Include="bower_components\jquery\src\outro.js" />
     <Content Include="bower_components\jquery\src\queue.js" />
     <Content Include="bower_components\jquery\src\queue\delay.js" />
     <Content Include="bower_components\jquery\src\selector-native.js" />
@@ -905,6 +913,15 @@
     <Content Include="Views\Home\Grid.cshtml" />
     <Content Include="Views\Home\Blank.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Project\Index.cshtml" />
+    <Content Include="Views\Project\Details.cshtml" />
+    <Content Include="Views\Task\Index.cshtml" />
+    <Content Include="Views\Task\Details.cshtml" />
+    <Content Include="Views\Project\Create.cshtml" />
+    <Content Include="Views\Task\Create.cshtml" />
+    <Content Include="Views\Task\Edit.cshtml" />
+    <Content Include="Views\Project\Edit.cshtml" />
+    <Content Include="Views\Shared\_VMTask.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
