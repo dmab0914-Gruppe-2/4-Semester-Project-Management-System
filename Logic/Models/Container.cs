@@ -48,7 +48,7 @@ namespace Logic.Models
 
         public void RemoveProject(string name)
         {
-            projects.Remove(projects.LastOrDefault(x => x.Name.Equals(name)));
+            projects.Remove(projects.LastOrDefault(x => x.Title.Equals(name)));
 
 
         }
@@ -99,7 +99,7 @@ namespace Logic.Models
 
         public Project[] GetProject(string name)
         {
-            return projects.FindAll(x => x.Name == name).ToArray();
+            return projects.FindAll(x => x.Title == name).ToArray();
         }
     }
 }
