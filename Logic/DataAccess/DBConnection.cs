@@ -56,13 +56,33 @@ namespace Logic.DataAccess
             }
         }
 
-        public DBConnection Singleton()
+        public static DBConnection Singleton()
         {
             if (instance == null)
             {
                 instance = new DBConnection();
             }
             return instance;
+        }
+
+        private System.Data.SqlClient.SqlCommand SqlCommand(string sqlString)
+        {
+            return new System.Data.SqlClient.SqlCommand(sqlString, con);
+        }
+
+        public SqlDataReader ReadData(string sqlString)
+        {
+            SqlDataReader myDataReader;
+            try
+            {
+                myDataReader = SqlCommand(sqlString).ExecuteReader();
+                return myDataReader;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return null;
         }
 
         public void CLoseConnection()
