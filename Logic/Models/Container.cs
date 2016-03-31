@@ -5,7 +5,7 @@ using System.Linq;
 namespace Logic.Models
 {
     /// <summary>
-    /// TEST container class to store Task and Project. 
+    /// TEST container class to store Task and Project. When data access is finished, replace this class.
     /// </summary>
     public sealed class Container
     {
@@ -27,6 +27,31 @@ namespace Logic.Models
             tasks = new List<Task>();
         }
 
+        public int RemoveProject(Project project)
+        {
+            if (projects.Remove(project))
+            {
+                return 0;
+            }
+            else
+            {
+                return 1;
+            }
+
+        }
+
+        public int RemoveProject(int id)
+        {
+            projects.Remove(projects.First(x => x.Id == id));
+            return 1;
+        }
+
+        public void RemoveProject(string name)
+        {
+            projects.Remove(projects.LastOrDefault(x => x.Name.Equals(name)));
+
+
+        }
         /// <summary>
         /// Adds a project to a singleton list of projects
         /// </summary>
@@ -56,6 +81,25 @@ namespace Logic.Models
         public List<Project> GetAllProjects()
         {
             return projects;
+        }
+
+        public Task GetTask(int id)
+        {
+            return tasks.First(x => x.Id == id);
+        }
+        public Task[] GetTask(string title)
+        {
+            return tasks.FindAll(x => x.Title == title).ToArray();
+        }
+
+        public Project GetProject(int id)
+        {
+            return projects.FirstOrDefault(x => x.Id == id);
+        }
+
+        public Project[] GetProject(string name)
+        {
+            return projects.FindAll(x => x.Name == name).ToArray();
         }
     }
 }

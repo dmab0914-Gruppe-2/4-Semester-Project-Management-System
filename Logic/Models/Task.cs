@@ -26,7 +26,14 @@ namespace Logic.Models
         //TODO Can be changed to array or list later for convience
         public User AssignedUser { get; set; }
 
-        //Timestamp of change / creation. TBD
-        public DateTime Timestamp { get; set; }
+        //Timestamp of creation
+        public DateTime CreateDateTime { get; set; }
+
+        //Timestamp of last edit
+        public DateTime LastEditedDateTime { get; set; }
+
+        //Timestamp of duedate
+        public DateTime DueDateTime { get; set; }
+
     }
 }
