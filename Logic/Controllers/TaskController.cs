@@ -10,11 +10,11 @@ namespace Logic.Controllers
     public class TaskController : ITaskController
     {
         private Container container = Container.Instance;
-        public int CreateTask(string name, string description, User assignedUser)
+        public int CreateTask(string title, string description, Priority priority, User assignedUser)
         {
             Models.Task task = new Models.Task
             {
-                Title = name,
+                Title = title,
                 Description = description,
                 Status = TaskStatus.Assigned,
                 AssignedUser = assignedUser,
@@ -35,11 +35,11 @@ namespace Logic.Controllers
             }
         }
 
-        public int CreateTask(string name, string description)
+        public int CreateTask(string title, string description, Priority priority)
         {
             Models.Task task = new Models.Task
             {
-                Title = name,
+                Title = title,
                 Description = description,
                 Status = TaskStatus.Unassigned,
                 CreateDateTime = DateTime.UtcNow
@@ -59,12 +59,22 @@ namespace Logic.Controllers
             }
         }
 
-        public Models.Task[] GetTask(string name)
+        public int CreateTask(string title, Priority priority)
         {
-            if (name.Length > 0)
-                return container.GetTask(name).ToArray();
+            throw new NotImplementedException();
+        }
+
+        public int CreateTask(string title)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Models.Task[] GetTask(string title)
+        {
+            if (title.Length > 0)
+                return container.GetTask(title).ToArray();
             else
-                throw new KeyNotFoundException(name + "Does not excist!");
+                throw new KeyNotFoundException(title + "Does not excist!");
         }
 
         public Models.Task GetTask(int id)
@@ -75,6 +85,33 @@ namespace Logic.Controllers
                 throw new KeyNotFoundException(id.ToString() + " Does not excist!");
             }
             return task;
+        }
+
+
+        public int RemoveTask(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        /// <summary>
+        /// Checks if theres an attempt for SQL injection
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns>false if no hazzards, true if test is positive for hazzards.</returns>
+        public bool CheckInjection(string input)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// If a string contains hazzardous characters 
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns>string which is safe to input into a database</returns>
+        public string CorrectInjection(string input)
+        {
+            throw new NotImplementedException();
         }
     }
 }

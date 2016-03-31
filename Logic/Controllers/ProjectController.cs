@@ -28,7 +28,7 @@ namespace Logic.Controllers
             {
                 Description = description,
                 LeaderUser = leaderUser,
-                Name = name
+                Title = name
             };
             container.AddProject(project);
             throw new NotImplementedException();
@@ -46,7 +46,7 @@ namespace Logic.Controllers
             }
             Project project = new Project
             {
-                Name = name,
+                Title = name,
                 Description = description
 
             };
@@ -69,7 +69,7 @@ namespace Logic.Controllers
 
         public int CreateProject(string name)
         {
-            Project project = new Project { Name = name };
+            Project project = new Project { Title = name };
             switch (container.AddProject(project))
             {
                 //Success
