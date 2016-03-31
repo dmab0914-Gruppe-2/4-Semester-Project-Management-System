@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccess\DBConnection.cs" />
+    <Compile Include="DataAccess\DBProject.cs" />
     <Compile Include="Models\Container.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\Project.cs" />

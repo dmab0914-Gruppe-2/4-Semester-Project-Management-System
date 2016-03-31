@@ -8,9 +8,9 @@ using Logic.Models;
 
 namespace Logic.DataAccess
 {
-    class DBProject
+    public class DBProject
     {
-        public Project GetProject(int projectID)
+        public static Project GetProject(int projectID)
         {
             string sql = @"select * from Project where id = "
                             + projectID;
@@ -28,6 +28,7 @@ namespace Logic.DataAccess
             {
                 project = new Project();
                 project.Id = Convert.ToInt32(dbReader["id"].ToString());
+                project.Name = dbReader["name"].ToString();
                 project.Description = dbReader["description"].ToString();
                 //Convert.ToInt32(dbReader["custNo"].ToString()),dbReader["name"].ToString());
             }
