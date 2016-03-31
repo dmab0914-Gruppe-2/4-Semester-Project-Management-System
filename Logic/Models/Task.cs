@@ -19,6 +19,9 @@ namespace Logic.Models
         //description of task
         public string Description { get; set; }
 
+        //Prority of task
+        public Priority Priority { get; set; }
+
         //status of task
         public TaskStatus Status { get; set; }
 
