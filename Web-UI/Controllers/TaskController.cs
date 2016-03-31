@@ -33,22 +33,24 @@ namespace Web_UI.Controllers
         // GET: Task/Details/5
         public ActionResult Details(int? id)
         {
+            List<VMTask> tasks = new List<VMTask>();
+            VMTask task1 = new VMTask { Title = "We gotta do this", Description = "Shit", Id = 2, Project = new VMProject(405), Timestamp = DateTime.Now };
+            VMTask task2 = new VMTask { Title = "Shit", Description = "We gotta do", Id = 1, Project = new VMProject(405), Timestamp = DateTime.Now };
+            tasks.Add(task1);
+            tasks.Add(task2);
+            List<VMProject> projects = new List<VMProject>();
+            VMProject y = new VMProject { Description = "Awesome project", Id = 405, Name = "42", Tasks = tasks };
+            VMProject x = new VMProject { Description = "hest project", Id = 406, Name = "hest", Tasks = null };
+            projects.Add(y);
+            projects.Add(x);
 
-            VMTask taskk = new VMTask
-            {
-                Id = y++,
-                Description = "Do the following........",
-                Timestamp = DateTime.UtcNow,
-                //Status = TaskStatus.Assigned,
-                Title = "Alright people, wake up!"
-            };
-            Tasks.Add(taskk);
+           
 
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            VMTask task = Tasks.FirstOrDefault(x => x.Id == id);
+            VMTask task = tasks.FirstOrDefault(u => u.Id == id);
             if (task == null)
             {
                 return HttpNotFound();
@@ -106,7 +108,23 @@ namespace Web_UI.Controllers
         // GET: Task/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            List<VMTask> tasks = new List<VMTask>();
+            VMTask task1 = new VMTask { Title = "We gotta do this", Description = "Shit", Id = 2, Project = new VMProject(405), Timestamp = DateTime.Now };
+            VMTask task2 = new VMTask { Title = "Shit", Description = "We gotta do", Id = 1, Project = new VMProject(405), Timestamp = DateTime.Now };
+            tasks.Add(task1);
+            tasks.Add(task2);
+            List<VMProject> projects = new List<VMProject>();
+            VMProject y = new VMProject { Description = "Awesome project", Id = 405, Name = "42", Tasks = tasks };
+            VMProject x = new VMProject { Description = "hest project", Id = 406, Name = "hest", Tasks = null };
+            projects.Add(y);
+            projects.Add(x);
+
+            VMTask result = tasks.FirstOrDefault(u => u.Id == id);
+
+            if (result == null)
+                return HttpNotFound();
+
+            return View(result);
         }
 
         // POST: Task/Edit/5

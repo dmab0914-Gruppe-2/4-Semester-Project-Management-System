@@ -21,5 +21,16 @@ namespace Web_UI.Models
         public List<VMUser> Members { get; set; }
         //list of assigned tasks to the project
         public List<VMTask> Tasks { get; set; }
+
+        public VMProject()
+        {
+           
+        }
+        public VMProject(int id)
+        {
+            this.Id = id;
+            this.Name = "something?";
+        }
     }
+    
 }

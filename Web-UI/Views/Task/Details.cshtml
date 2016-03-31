@@ -1,5 +1,5 @@
 ﻿@using Web_UI.Controllers
-@model Web_UI.Models.Task
+@model Web_UI.Models.VMTask
 
 @{
     ViewBag.Title = "Details";
@@ -21,10 +21,11 @@
 
         <dt>
             <!--Assigned project name, so Project: Value instead of ProjectId: Value-->
-            Project
+            @Html.DisplayNameFor(model => model.Project.Name)
         </dt>
         <!--todo figure out how to link projectId to projects name-->
-        <dd></dd>
+            
+        <dd>@Html.DisplayFor(model => model.Project.Name)</dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.Description)
