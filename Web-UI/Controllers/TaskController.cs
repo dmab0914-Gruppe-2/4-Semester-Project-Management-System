@@ -13,12 +13,12 @@ namespace Web_UI.Controllers
     public class TaskController : Controller
     {
         //private Container container = Container.Instance;
-        private List<Task> Tasks = new List<Task>();
+        private List<VMTask> Tasks = new List<VMTask>();
         private int y;
         // GET: Task
         public ActionResult Index()
         {
-            Models.Task task = new Models.Task
+            Models.VMTask task = new Models.VMTask
             {
                 Id = y++,
                 Description = "Do the following........",
@@ -34,7 +34,7 @@ namespace Web_UI.Controllers
         public ActionResult Details(int? id)
         {
 
-            Task taskk = new Task
+            VMTask taskk = new VMTask
             {
                 Id = y++,
                 Description = "Do the following........",
@@ -48,7 +48,7 @@ namespace Web_UI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Task task = Tasks.FirstOrDefault(x => x.Id == id);
+            VMTask task = Tasks.FirstOrDefault(x => x.Id == id);
             if (task == null)
             {
                 return HttpNotFound();
@@ -78,7 +78,7 @@ namespace Web_UI.Controllers
 
                     if (title != null && description != null)
                     {
-                        Task task = new Task
+                        VMTask task = new VMTask
                         {
                             Title = title,
                             Description = description,
@@ -120,7 +120,7 @@ namespace Web_UI.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    Task task = new Task();
+                    VMTask task = new VMTask();
                     task.Title = Request.Form["Title"];
                     task.Description = Request.Form["Description"];
                     task.Timestamp = DateTime.UtcNow;
