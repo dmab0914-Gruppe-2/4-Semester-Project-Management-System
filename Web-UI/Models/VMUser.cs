@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Web_UI.Models
 {
-    public class User
+    public class VMUser
     {
         //users desired name/handle
         public string Username { get; set; }

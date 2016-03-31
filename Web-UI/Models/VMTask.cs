@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Web_UI.Models
 {
-    public class Task
+    public class VMTask
     {
         //id from db
         public int? Id { get; set; }
@@ -24,7 +24,7 @@ namespace Web_UI.Models
 
         //assigned user for the task
         //TODO Can be changed to array or list later for convience
-        public User AssignedUser { get; set; }
+        public VMUser AssignedUser { get; set; }
 
         //Timestamp of change / creation. TBD
         public DateTime Timestamp { get; set; }
