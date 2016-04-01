@@ -10,7 +10,7 @@ namespace Logic.DataAccess
     class DBConnection : IDisposable
     {
         private string serverUrl = "localhost";
-        private string database = "pms";
+        private string database = "PMS";
         private string username = "sa";
         private string password = "";
         private bool UseIntegratedSecurity = true;
@@ -19,12 +19,6 @@ namespace Logic.DataAccess
         private static DBConnection instance = null;
         //Integrated Security = true
 
-        SqlConnection myConnection = new SqlConnection("user id=username;" +
-                                       "password=password;server=serverurl;" +
-                                       "Trusted_Connection=yes;" +
-                                       "database=database; " +
-                                       "connection timeout=30");
-
         private DBConnection()
         {
             string connectionString;
@@ -32,7 +26,7 @@ namespace Logic.DataAccess
             {
                 connectionString = "server=" + serverUrl + ";" +
                                    "database=" + database + ";" +
-                                   "Trusted_Connection=yes;" +
+                                   //"Trusted_Connection=yes;" +
                                    "Integrated Security = true;" +
                                    "connection timeout=30";
             }
@@ -89,7 +83,7 @@ namespace Logic.DataAccess
         {
             try
             {
-                myConnection.Close();
+                con.Close();
             }
             catch (Exception e)
             {
