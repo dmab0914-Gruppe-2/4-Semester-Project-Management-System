@@ -12,33 +12,39 @@ namespace Logic.DataAccess
     {
         public static Project GetProject(int projectID)
         {
-            string sql = @"select * from Project where id = "
-                            + projectID;
+            
 
-            //dbCmd = AccessDbSQLClient.GetDbCommand(sql);
+            #region DBConnection related pure SQL
 
-            //IDataReader dbReader;
-            //dbReader = dbCmd.ExecuteReader();
+            //string sql = @"select * from Project where id = "
+            //                + projectID;
 
-            IDataReader dbReader = DBConnection.Singleton().ReadData(sql);
+            ////dbCmd = AccessDbSQLClient.GetDbCommand(sql);
 
-            Project project;
+            ////IDataReader dbReader;
+            ////dbReader = dbCmd.ExecuteReader();
 
-            if (dbReader.Read())
-            {
-                project = new Project();
-                project.Id = Convert.ToInt32(dbReader["id"].ToString());
-                project.Name = dbReader["name"].ToString();
-                project.Description = dbReader["description"].ToString();
-                //Convert.ToInt32(dbReader["custNo"].ToString()),dbReader["name"].ToString());
-            }
-            else
-            {
-                project = null;
-            }
-            dbReader.Close();
-            DBConnection.Singleton().CLoseConnection();
-            return project;
+            //IDataReader dbReader = DBConnection.Singleton().ReadData(sql);
+
+            //Project project;
+
+            //if (dbReader.Read())
+            //{
+            //    project = new Project();
+            //    project.Id = Convert.ToInt32(dbReader["id"].ToString());
+            //    project.Name = dbReader["name"].ToString();
+            //    project.Description = dbReader["description"].ToString();
+            //    //Convert.ToInt32(dbReader["custNo"].ToString()),dbReader["name"].ToString());
+            //}
+            //else
+            //{
+            //    project = null;
+            //}
+            //dbReader.Close();
+            //DBConnection.Singleton().CLoseConnection();
+            //return project;
+
+            #endregion
         }
     }
 }
