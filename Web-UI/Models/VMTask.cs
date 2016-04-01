@@ -10,7 +10,7 @@ namespace Web_UI.Models
         //id from db
         public int? Id { get; set; }
 
-        public int ProjectId { get; set; }
+        public VMProject Project { get; set; }
 
         //title of task
         public string Title { get; set; }

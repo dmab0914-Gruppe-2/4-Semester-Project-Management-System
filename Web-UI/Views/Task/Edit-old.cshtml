@@ -1,4 +1,7 @@
-﻿@model Web_UI.Models.VMTask
+﻿@using System.Collections
+@using Web_UI.Controllers
+@using Web_UI.Models
+@model Web_UI.Models.VMTask
 
 @{
     ViewBag.Title = "Edit";
@@ -12,16 +15,17 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>VMTask</h4>
+        <h4>Task</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Project, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ProjectId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Project, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Project, "", new { @class = "text-danger" })
+                <!--TODO: FIX!!-->
+                @*@Html.DropDownListFor(model => model.ProjectId, Container.Instance.GetAllProjects(), new {@class = "control-label col-md-2"})*@
+                @Html.ValidationMessageFor(model => model.ProjectId, "", new {@class = "text-danger"})
             </div>
         </div>
 
@@ -44,7 +48,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Timestamp, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Timestamp, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.Label(DateTime.UtcNow.ToLocalTime().ToString())
                 @Html.ValidationMessageFor(model => model.Timestamp, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -58,7 +62,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Details", new { Id = Model.Id })
+    @Html.ActionLink("Back to List", "Index")
 </div>
 
 @section Scripts {

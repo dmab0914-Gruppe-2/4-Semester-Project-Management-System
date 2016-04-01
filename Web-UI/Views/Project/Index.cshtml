@@ -1,68 +1,52 @@
-﻿@model Web_UI.Models.Project
+﻿@model IEnumerable<Web_UI.Models.VMProject>
 
 @{
     ViewBag.Title = "Project Page";
 }
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[name=name]:radio").change(function () {
+            var hund = $("input[name=name]:checked").val();
+            $.getJSON('/Project/getTasksForProject/', { projectid: hund }, function (data) {
 
+                var htmlStr = '';
+                $.each(data, function (k, v) {
+                    var id = v.Id;
+                    var btn = '@Html.ActionLink(linkText: "Open task",actionName: "Details",controllerName: "Task",routeValues: new { id = -1 }, htmlAttributes: new { @class = "btn btn-default" })';
+                    btn = btn.replace('-1', id);
+                    htmlStr += '<h3>' + v.Title + '</h3><div class="task-list"><p>' + v.Description + '</p><br />'+ btn + '</div>';
+                });
+                $("#tasks").html(htmlStr);
+            });
+        });
+
+
+    })
+</script>
 <div class="col-lg-12">
     <div class="jumbotron">
-        <h1 class="page-header">Projects.</h1>
+        <h1 class="page-header">Projects</h1>
     </div>
 </div>
 <!-- /.col-lg-12 -->
 <!-- /.row -->
 <div class="row">
     <div class="col-lg-5">
-        <h2>Your Projects</h2>
-        <p>
-            @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
-        </p>
-        <table class="table">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>Leader<br></th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th></th>
-            </tr>
-
-            @*@foreach (var item in Model.Tasks)
+        <h2>Your Projects @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })</h2>
+        <div class="col-lg-5">
+            @foreach (var p in Model)
             {
-                @Html.Partial("_VMTask", item)
-            }*@
-
-        </table>
+                <div id="projectList" class="col-lg-5">
+                    <label>@Html.RadioButton("name", p.Id.ToString(), false, new { @class = "RadioButtonItem" })<span>@p.Name</span></label>
+                </div>
+            }
+        </div>
+        
     </div>
     <!-- /.col-lg-5 Project list -->
     <div class="col-lg-7">
         <h2>Projects tasks</h2>
-        <div id="accordion-resizer" class="ui-widget-content">
-            <div id="accordion">
-                <h3>Section 1</h3>
-                <div>
-                    <p>Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.</p>
-                </div>
-                <h3>Section 2</h3>
-                <div>
-                    <p>Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In suscipit faucibus urna. </p>
-                </div>
-                <h3>Section 3</h3>
-                <div>
-                    <p>Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis. Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui. </p>
-                    <ul>
-                        <li>List item one</li>
-                        <li>List item two</li>
-                        <li>List item three</li>
-                    </ul>
-                </div>
-                <h3>Section 4</h3>
-                <div>
-                    <p>Cras dictum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia mauris vel est. </p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. </p>
-                </div>
-            </div>
+        <div id="tasks">
         </div>
     </div>
     <!-- /.col-lg-5 task info list -->

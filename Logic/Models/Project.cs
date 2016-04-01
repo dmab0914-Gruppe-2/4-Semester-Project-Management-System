@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 //using Web_UI.Models;
 
 namespace Logic.Models
@@ -9,7 +10,7 @@ namespace Logic.Models
         public int? Id { get; set; }
 
         //name of the project
-        public string Name { get; set; }
+        public string Title { get; set; }
 
         //description of the project
         public string Description { get; set; }
@@ -19,6 +20,8 @@ namespace Logic.Models
         public List<User> Members { get; set; }
         //list of assigned tasks to the project
         public List<Task> Tasks { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime LastChangeDateTime { get; set; }
 
     }
 }
