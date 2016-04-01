@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,11 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccess\DBConnection.cs" />
+    <Compile Include="DataAccess\DBContext.cs" />
     <Compile Include="DataAccess\DBProject.cs" />
-    <Compile Include="Controllers\IProjectController.cs" />
-    <Compile Include="Controllers\ITaskController.cs" />
-    <Compile Include="Controllers\ProjectController.cs" />
-    <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Models\Container.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\Project.cs" />
@@ -54,7 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controller\" />
-    <Folder Include="DataAccess\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

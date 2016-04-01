@@ -12,7 +12,7 @@ namespace Logic.DataAccess
     {
         public static Project GetProject(int projectID)
         {
-            
+            return null;
 
             #region DBConnection related pure SQL
 
