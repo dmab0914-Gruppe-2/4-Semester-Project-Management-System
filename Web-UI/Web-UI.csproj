@@ -119,6 +119,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\Navbar.cs" />
     <Compile Include="Models\VMProject.cs" />
     <Compile Include="Models\VMTask.cs" />
@@ -913,13 +914,13 @@
     <Content Include="Views\Project\Index.cshtml" />
     <Content Include="Views\Project\Details.cshtml" />
     <Content Include="Views\Task\Index.cshtml" />
-    <Content Include="Views\Task\Details.cshtml" />
+    <Content Include="Views\Task\Details-old.cshtml" />
     <Content Include="Views\Project\Create.cshtml" />
     <Content Include="Views\Task\Create.cshtml" />
-    <Content Include="Views\Task\Edit-old.cshtml" />
     <Content Include="Views\Project\Edit.cshtml" />
     <Content Include="Views\Shared\_VMTask.cshtml" />
     <Content Include="Views\Task\Edit.cshtml" />
+    <Content Include="Views\Task\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

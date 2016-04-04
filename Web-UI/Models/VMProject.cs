@@ -11,7 +11,7 @@ namespace Web_UI.Models
         public int? Id { get; set; }
 
         //name of the project
-        public string Name { get; set; }
+        public string Title { get; set; }
 
         //description of the project
         public string Description { get; set; }
@@ -21,6 +21,10 @@ namespace Web_UI.Models
         public List<VMUser> Members { get; set; }
         //list of assigned tasks to the project
         public List<VMTask> Tasks { get; set; }
+        //Date for project was created
+        public DateTime CreadtedDate { get; set; }
+        //Date for project was last changed
+        public DateTime LastChangedDate { get; set; }
 
         public VMProject()
         {
@@ -29,7 +33,7 @@ namespace Web_UI.Models
         public VMProject(int id)
         {
             this.Id = id;
-            this.Name = "something?";
+            this.Title = "something?";
         }
     }
     

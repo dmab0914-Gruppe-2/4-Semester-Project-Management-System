@@ -30,13 +30,13 @@ namespace Web_UI.Controllers
 
             //TODO Fix add methods
             List<Task> tasks = new List<Task>();
-            VMTask task1 = new VMTask { Title = "We gotta do this", Description = "Shit", Id = 2, Project = new VMProject(405), Timestamp = DateTime.Now };
-            VMTask task2 = new VMTask { Title = "Shit", Description = "We gotta do", Id = 1, Project = new VMProject(405), Timestamp = DateTime.Now };
+            VMTask task1 = new VMTask { Title = "We gotta do this", Description = "Shit", Id = 2, Project = new VMProject(405), CreatedDate = DateTime.Now };
+            VMTask task2 = new VMTask { Title = "Shit", Description = "We gotta do", Id = 1, Project = new VMProject(405), CreatedDate = DateTime.Now };
             tasks.Add(task1);
             tasks.Add(task2);
             List<VMProject> projects = new List<VMProject>();
-            VMProject y = new VMProject { Description = "Awesome project", Id = 405, Name = "42", Tasks = tasks };
-            VMProject x = new VMProject { Description = "hest project", Id = 406, Name = "hest", Tasks = null };
+            VMProject y = new VMProject { Description = "Awesome project", Id = 405, Title = "42", Tasks = tasks };
+            VMProject x = new VMProject { Description = "hest project", Id = 406, Title = "hest", Tasks = null };
             projects.Add(y);
             projects.Add(x);
 
@@ -123,7 +123,7 @@ namespace Web_UI.Controllers
                 if (ModelState.IsValid)
                 {
                     VMProject project = new Project();
-                    project.Name = Request.Form["name"];
+                    project.Title = Request.Form["name"];
                     project.Description = Request.Form["description"];
                 }
                 else
@@ -164,8 +164,8 @@ namespace Web_UI.Controllers
         public JsonResult getTasksForProject(int projectid)
         {
             List<VMTask> tasks = new List<VMTask>();
-            VMTask task1 = new VMTask { Title = "We gotta do this", Description = "Shit", Id = 2, Project = new VMProject(405), Timestamp = DateTime.Now };
-            VMTask task2 = new VMTask { Title = "Shit", Description = "We gotta do", Id = 1, Project = new VMProject(405), Timestamp = DateTime.Now };
+            VMTask task1 = new VMTask { Title = "We gotta do this", Description = "Shit", Id = 2, Project = new VMProject(405), CreatedDate = DateTime.Now };
+            VMTask task2 = new VMTask { Title = "Shit", Description = "We gotta do", Id = 1, Project = new VMProject(405), CreatedDate = DateTime.Now };
             tasks.Add(task1);
             tasks.Add(task2);
             List<VMTask> result = new List<Task>();

@@ -1,52 +1,69 @@
-﻿@using Web_UI.Controllers
-@model Web_UI.Models.VMTask
+﻿@model Web_UI.Models.VMTask
 
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>Task</h4>
+
+<div class="col-md-12 detailView">
+    <h2>@Html.DisplayFor(model => model.Title)</h2>
+    <p>@Html.DisplayFor(model => model.Id)</p>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.Description):
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Title)
+            @Html.TextArea("Description", Model.Description, new { @readonly = "readonly", @class="DetailDescTxt"})
         </dd>
 
         <dt>
-            <!--Assigned project name, so Project: Value instead of ProjectId: Value-->
-            @Html.DisplayNameFor(model => model.Project.Name)
+            @Html.DisplayNameFor(model => model.Status):
         </dt>
-        <!--todo figure out how to link projectId to projects name-->
+
+        <dd>
+            @Html.EnumDropDownListFor(model => model.Status, new { disabled = "true" })
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Priority):
+        </dt>
+
+        <dd>
+            @Html.EnumDropDownListFor(model => model.Priority, new { disabled = "true" })
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate):
+            <br />
             
-        <dd>@Html.DisplayFor(model => model.Project.Name)</dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.CreatedDate)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Timestamp)
+            @Html.DisplayNameFor(model => model.DueDate):
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Timestamp)
+            @Html.DisplayFor(model => model.DueDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastChangedDate):
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastChangedDate)
         </dd>
 
     </dl>
 </div>
 <p>
-    <!--todo Figure out how to change '{id = Model.Id}' to assigned project -->
-    @Html.ActionLink("Edit", "Edit", new {id = Model.Id}) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
