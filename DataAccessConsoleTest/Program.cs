@@ -19,7 +19,7 @@ namespace DataAccessConsoleTest
 
         private static void TestGetProject()
         {
-            Project project = DBProject.GetProject(1);
+            Project project = DbProject.GetProject(1);
             Console.WriteLine("##Project 1##");
             Console.WriteLine("Project ID: " + project.Id);
             Console.WriteLine("Project Title: " + project.Title);

@@ -8,12 +8,12 @@ using Logic.Models;
 
 namespace Logic.DataAccess
 {
-    public class DBProject
+    public class DbProject
     {
 
         public static Project GetProject(int projectId)
         {
-            DBContext dbContext = DBContext.Instance;
+            DbContext dbContext = DbContext.Instance;
             try
             {
                 Project project = dbContext.Projects.FirstOrDefault(i => i.Id == projectId);

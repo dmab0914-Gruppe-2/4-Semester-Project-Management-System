@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Logic.DataAccess
 {
-    class DBConnection : IDisposable
+    internal class DbConnection : IDisposable
     {
         private string serverUrl = "localhost";
         private string database = "PMS";
@@ -16,10 +16,10 @@ namespace Logic.DataAccess
         private bool UseIntegratedSecurity = true;
 
         private static SqlConnection con;
-        private static DBConnection instance = null;
+        private static DbConnection instance = null;
         //Integrated Security = true
 
-        private DBConnection()
+        private DbConnection()
         {
             string connectionString;
             if (UseIntegratedSecurity)
@@ -50,11 +50,11 @@ namespace Logic.DataAccess
             }
         }
 
-        public static DBConnection Singleton()
+        public static DbConnection Singleton()
         {
             if (instance == null)
             {
-                instance = new DBConnection();
+                instance = new DbConnection();
             }
             return instance;
         }
