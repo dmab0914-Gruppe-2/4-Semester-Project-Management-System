@@ -63,5 +63,11 @@ namespace Logic.DataAccess
 
             #endregion
         }
+
+        public static List<Project> GetAllProjects()
+        {
+            DbContext dbContext = DbContext.Instance;
+            return dbContext.Projects.ToList();
+        }
     }
 }
