@@ -10,8 +10,25 @@ namespace Logic.DataAccess
 {
     public class DBProject
     {
-        public static Project GetProject(int projectID)
+
+        public static Project GetProject(int projectId)
         {
+            DBContext dbContext = DBContext.Instance;
+            try
+            {
+                Project project = dbContext.Projects.FirstOrDefault(i => i.Id == projectId);
+                if (project != null)
+                {
+                    //project.ProjectMembers = GetProjectMembers(projectId);
+                    //project.ProjectFiles = dbFile.GetAllFilesForProject(project.Id);
+                    //project.ProjectAdministrators = GetProjectAdministrators(project.Id);
+                    return project;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Something went wrong, when looking for the given Project id: " + projectId + " Error Message: \n" + e);
+            }
             return null;
 
             #region DBConnection related pure SQL

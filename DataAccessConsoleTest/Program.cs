@@ -21,9 +21,9 @@ namespace DataAccessConsoleTest
         {
             Project project = DBProject.GetProject(1);
             Console.WriteLine("##Project 1##");
-            //Console.WriteLine("Project ID: " + project.Id);
-            //Console.WriteLine("Project Title: " + project.Name);
-            //Console.WriteLine("Project Description: " + project.Description);
+            Console.WriteLine("Project ID: " + project.Id);
+            Console.WriteLine("Project Title: " + project.Title);
+            Console.WriteLine("Project Description: " + project.Description);
         }
     }
 }
