@@ -56,6 +56,15 @@ namespace Logic.DataAccess
             return sqlConnectionString.ToString();
         }
 
+        /// <summary>
+        /// Gets the DbContext instance or creates it if it doesn't exist.
+        /// </summary>
+        /// <returns>
+        /// Returns the instance of DbContext if Database connection is sucessfull. Null if not.
+        /// </returns>
+        /// <remarks>
+        /// If there is something wrong with the database connection, it will save the error to the static field "Error", print it to console, and return null.
+        /// </remarks>
         public static DbContext Instance
         {
             get
@@ -84,29 +93,16 @@ namespace Logic.DataAccess
                                              `'''''''''`
                         ";
                     #endregion
-                    try
+                    _instance = new DbContext();
+                    //(instance.Connection.State & ConnectionState.Broken) != 0
+                    //Console.WriteLine("Connection string = " + instance.Connection.ConnectionString);
+                    //Console.WriteLine("Connection state = " + instance.DatabaseExists());
+                    if (!_instance.DatabaseExists())
                     {
-                        _instance = new DbContext();
-                        //(instance.Connection.State & ConnectionState.Broken) != 0
-                        //Console.WriteLine("Connection string = " + instance.Connection.ConnectionString);
-                        //Console.WriteLine("Connection state = " + instance.DatabaseExists());
-                        if (!_instance.DatabaseExists())
-                        {
-                            //Connection to database failed. Time to be a bitch.
-                            Error = "Can't access the database. The Connection string is:\n" + _instance.Connection.ConnectionString + bug;
-                            Console.WriteLine(Error);
-                            return null;
-                        }
-                    }
-                    catch (SqlException e)
-                    {
-                        Error = "Something is wrong with the conneciton string or sql command: \n " + e;
-                        return null;
-                    }
-                    catch (Exception e)
-                    {
-                        Error = "Something unexspected happened.. \n " + e;
-                        return null;
+                        //Connection to database failed. Time to be a bitch.
+                        Error = "Can't access the database. The Connection string is:\n" + _instance.Connection.ConnectionString + bug;
+                        Console.WriteLine(Error);
+                        _instance = null;
                     }
                     return _instance;
                 }
