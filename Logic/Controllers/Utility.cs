@@ -37,7 +37,7 @@ namespace Logic.Controllers
             return null;
         }
 
-        private string Sanitizer(string input)
+        public string Sanitizer(string input)
         {
             if (input.Contains("'"))
             {
