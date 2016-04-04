@@ -6,10 +6,12 @@ using System.Data.SqlClient;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Logic.Models;
+#pragma warning disable 162     //Disable unreachable code warning.
+#pragma warning disable 0169    //Disable never used warnings for fields that are being used by LINQ
 
 namespace Logic.DataAccess
 {
-#pragma warning disable 0169    // disable never used warnings for fields that are being used by LINQ
+
     internal sealed class DbContext : DataContext
     {
         private const string ServerAdress = "localhost"; //Host adress. example localhost or ip or domain name.
@@ -30,6 +32,7 @@ namespace Logic.DataAccess
         }
 
         [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
+        [SuppressMessage("ReSharper", "HeuristicUnreachableCode")]
         private static string ConnectionString()
         {
             SqlConnectionStringBuilder sqlConnectionString = new SqlConnectionStringBuilder();
