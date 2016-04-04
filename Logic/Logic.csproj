@@ -40,9 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAccess\DBConnection.cs" />
-    <Compile Include="DataAccess\DBContext.cs" />
-    <Compile Include="DataAccess\DBProject.cs" />
+    <Compile Include="DataAccess\DbConnection.cs" />
+    <Compile Include="DataAccess\DbContext.cs" />
+    <Compile Include="DataAccess\DbProject.cs" />
     <Compile Include="Models\Container.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\Project.cs" />
