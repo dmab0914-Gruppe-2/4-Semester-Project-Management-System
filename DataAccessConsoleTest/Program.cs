@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,8 @@ namespace DataAccessConsoleTest
             Console.WriteLine("##Project 1##");
             Console.WriteLine("Project ID: " + project.Id);
             Console.WriteLine("Project Title: " + project.Title);
-            Console.WriteLine("Project Description: " + project.Description);
+            Console.WriteLine("Project Description: " + project.Description); 
+            //sConsole.WriteLine(DateTime.UtcNow);
         }
     }
 }
