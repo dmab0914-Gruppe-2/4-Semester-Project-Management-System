@@ -22,13 +22,8 @@ namespace Logic.Models
         public string Description { get; set; }
         
         //project status
-        public bool Status { get; set; }
-        //Selected admin of the project
-        public User LeaderUser { get; set; }
-        //list of assigned users to the project
-        public List<User> Members { get; set; }
-        //list of assigned tasks to the project
-        public List<Task> Tasks { get; set; }
+        [Column]
+        public bool Done { get; set; }
         //We're using the ISO 8601 Standard for DateTime. 
         //YYYY-MM-DD hh:mm:ss.mss
         //2016-05-25 22:15:55.000
@@ -36,6 +31,13 @@ namespace Logic.Models
         public DateTime CreatedDate { get; set; }
         [Column]
         public DateTime LastChange { get; set; }
+        //Selected admin of the project
+        public User LeaderUser { get; set; }
+        //list of assigned users to the project
+        public List<User> Members { get; set; }
+        //list of assigned tasks to the project
+        public List<Task> Tasks { get; set; }
+        
 
     }
 }
