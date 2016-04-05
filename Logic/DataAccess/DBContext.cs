@@ -11,8 +11,7 @@ using Logic.Models;
 
 namespace Logic.DataAccess
 {
-
-    internal sealed class DbContext : DataContext
+    public sealed class DbContext : DataContext
     {
         private const string ServerAdress = "localhost"; //Host adress. example localhost or ip or domain name.
         private const string ServerSubUrlName = "SQLEXPRESS"; //Fill if rdbms is located by url name. Example MS Sql server is usually "SQLEXPRESS". Else let it be empty or null.
@@ -22,7 +21,7 @@ namespace Logic.DataAccess
         private const bool UseIntegratedSecurity = true; //use integrated security instead of username and password.
 
         private static DbContext _instance = null;
-        private static readonly object Threadlock = new Object();
+        private static readonly object Threadlock = new object();
         public static string Error { get; private set; }
         private DbContext()
             : base(ConnectionString())
@@ -97,19 +96,21 @@ namespace Logic.DataAccess
                         ";
                     #endregion
                     _instance = new DbContext();
-                    //(instance.Connection.State & ConnectionState.Broken) != 0
-                    //Console.WriteLine("Connection string = " + instance.Connection.ConnectionString);
-                    //Console.WriteLine("Connection state = " + instance.DatabaseExists());
-                    if (!_instance.DatabaseExists())
-                    {
-                        //Connection to database failed. Time to be a bitch.
-                        Error = "Can't access the database. The Connection string is:\n" + _instance.Connection.ConnectionString + bug;
-                        Console.WriteLine(Error);
-                        _instance = null;
-                    }
+                    if (IsDatabaseConnected()) return _instance;
+                    Console.WriteLine(Error);
+                    Console.WriteLine(bug);
                     return _instance;
                 }
             }
+        }
+
+        public static bool IsDatabaseConnected()
+        {
+            if (!_instance.DatabaseExists()) return false;
+            //Connection to database failed. The error can be retrived from the public static field Error.
+            Error = "Can't access the database. The Connection string is:\n" + _instance.Connection.ConnectionString;
+            _instance = null;
+            return true;
         }
 
 
