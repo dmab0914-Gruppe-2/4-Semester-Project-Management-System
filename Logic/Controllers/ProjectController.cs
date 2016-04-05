@@ -132,5 +132,11 @@ namespace Logic.Controllers
             return 0;
         }
 
+
+
+        public Project[] GetAllProjects()
+        {
+            return container.GetAllProjects().ToArray();
+        }
     }
 }

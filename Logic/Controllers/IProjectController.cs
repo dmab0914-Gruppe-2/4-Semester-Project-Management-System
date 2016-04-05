@@ -9,6 +9,7 @@ namespace Logic.Controllers
         int CreateProject(string name);
         Project[] GetProject(string name);
         Project GetProject(int id);
+        Project[] GetAllProjects();
         int AddTaskToProject(int taskId, int projectId);
         int RemoveTaskFromProject(int taskId, int projectId);
     }
