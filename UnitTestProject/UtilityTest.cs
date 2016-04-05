@@ -18,7 +18,7 @@ namespace UnitTestProject
                 Description = "'DROP DATABASE PMS", 
                 Id = null, 
                 CreatedDate = DateTime.UtcNow, 
-                LastChangeDateTime = DateTime.UtcNow,
+                LastChange = DateTime.UtcNow,
                 Title = title
             };
 
