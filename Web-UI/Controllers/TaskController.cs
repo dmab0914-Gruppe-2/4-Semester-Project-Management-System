@@ -109,7 +109,7 @@ namespace Web_UI.Controllers
         public ActionResult Edit(int id)
         {
             List<VMTask> tasks = new List<VMTask>();
-            VMTask task1 = new VMTask { Title = "We gotta do this", Description = "Shit", Id = 2, Project = new VMProject(405), CreatedDate = DateTime.Now };
+            VMTask task1 = new VMTask { Title = "We gotta do this", Description = "Shit", Id = 2, Project = new VMProject(405), CreatedDate = DateTime.Now, LastChangedDate = DateTime.Now };
             VMTask task2 = new VMTask { Title = "Shit", Description = "We gotta do", Id = 1, Project = new VMProject(405), CreatedDate = DateTime.Now };
             tasks.Add(task1);
             tasks.Add(task2);

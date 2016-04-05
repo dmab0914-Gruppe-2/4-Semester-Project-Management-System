@@ -30,9 +30,6 @@
             content: "\e006";
         }
 
-
-
-
             #projectList input[type=radio]:checked + label, input[type=checkbox]:checked + label {
                 background-image: none;
                 outline: 0;
@@ -75,11 +72,11 @@
             background-color: yellow;
         }
 
-#RadioButtonItem input[type=radio], input[type=checkbox] {
+#RadioButtonItem input[type=radio] {
     display: none;
 }
 
-    #RadioButtonItem input[type=radio]:checked, input[type=checkbox]:checked {
+    #RadioButtonItem input[type=radio]:checked {
     }
 
 #tasks h3 {

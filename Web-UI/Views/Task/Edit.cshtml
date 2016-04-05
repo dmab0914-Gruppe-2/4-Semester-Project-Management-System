@@ -5,8 +5,8 @@
 }
 
 
-    
-    <div class="form-horizontal col-md-12 detailView">
+
+<div class="form-horizontal col-md-12 detailView">
     <h2>@Html.DisplayFor(model => model.Title)</h2>
     <p>@Html.DisplayFor(model => model.Id)</p>
     <hr />
@@ -41,10 +41,18 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CreatedDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CreatedDate, new { htmlAttributes = new { @readonly = "readonly", @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CreatedDate, "", new { @class = "text-danger" })
+                @Html.EnumDropDownListFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Priority, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EnumDropDownListFor(model => model.Priority, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Priority, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -57,25 +65,27 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.LastChangedDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LastChangedDate, new { htmlAttributes = new { @readonly = "readonly", @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LastChangedDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 @*<input type="submit" value="Save" class="btn btn-default" />*@
             </div>
         </div>
-    <div>
-        @Html.ActionLink("Back", "Details", new { id = Model.Id }, new { @class = "btn btn-primary" }) | <input type="submit" value="Save" class="btn btn-default" />
-    </div>
+        <div>
+            @Html.ActionLink("Back", "Details", new { id = Model.Id }, new { @class = "btn btn-primary" }) | <input type="submit" value="Save" class="btn btn-default" />
+        </div>
     }
 </div>
 
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript">
+        var oldText = document.getElementById("Description").value;
+        var editor = CKEDITOR.instances['Description'];
+        if (editor) { editor.destroy(true); }
+        CKEDITOR.replace('Description', {
+            enterMode: CKEDITOR.ENTER_BR,
+        });
+        CKEDITOR.instances['Description'].setData(oldText);
+    </script>
 }

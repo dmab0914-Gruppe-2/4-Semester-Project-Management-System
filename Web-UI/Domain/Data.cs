@@ -11,9 +11,14 @@ namespace Web_UI.Domain
         public IEnumerable<Navbar> navbarItems()
         {
             var menu = new List<Navbar>();
-            menu.Add(new Navbar { Id = 1, nameOption = "Dashboard", controller = "Home", action = "Index", imageClass = "fa fa-dashboard fa-fw", status = true, isParent = false, parentId = 0 });
+            // Parents
+            menu.Add(new Navbar { Id = 1, nameOption = "Dashboard", controller = "Home", action = "Index", imageClass = "fa fa-dashboard fa-fw", status = true, isParent = true, parentId = 0 });
             menu.Add(new Navbar {Id = 2, nameOption = "Projects", controller = "Project", action = "Index", status = true, isParent = false, parentId = 0});
-           // menu.Add(new Navbar {Id = 3, nameOption = "Tasks", controller = "Task", action = "Index", status = true, isParent = false, parentId = 0});
+
+            // Subs
+            menu.Add(new Navbar { Id = 3, nameOption = "Go to Dashboard", controller = "Home", action = "Index", status = true, isParent = false, parentId = 1 });
+            menu.Add(new Navbar { Id = 4, nameOption = "Manage Projects", controller = "Project", action = "ProjectList", status = true, isParent = false, parentId = 1 });
+           
 
 
             //menu.Add(new Navbar { Id = 2, nameOption = "Charts", imageClass = "fa fa-bar-chart-o fa-fw", status = true, isParent = true, parentId = 0 });
