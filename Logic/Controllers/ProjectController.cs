@@ -12,7 +12,6 @@ namespace Logic.Controllers
     {
         private Container container = Container.Instance;
         private Utility utility = new Utility();
-        private DbProject dbProject = new DbProject();
         public int CreateProject(string name, string description, User leaderUser)
         {
             Project project = new Project
