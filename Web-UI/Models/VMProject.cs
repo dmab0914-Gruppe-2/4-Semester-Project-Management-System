@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -11,7 +13,7 @@ namespace Web_UI.Models
         public int? Id { get; set; }
 
         //name of the project
-        public string Name { get; set; }
+        public string Title { get; set; }
 
         //description of the project
         public string Description { get; set; }
@@ -21,6 +23,17 @@ namespace Web_UI.Models
         public List<VMUser> Members { get; set; }
         //list of assigned tasks to the project
         public List<VMTask> Tasks { get; set; }
+        //Date for project was created
+        [DataType(DataType.Date)]
+        [DisplayName("Created on")]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yy H:mm:ss}", ApplyFormatInEditMode = true)]
+        public DateTime CreadtedDate { get; set; }
+        //Date for project was last changed
+        [DataType(DataType.Date)]
+        [DisplayName("Last changed")]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yy H:mm:ss}", ApplyFormatInEditMode = true)]
+        public DateTime LastChangedDate { get; set; }
+        public bool Done { get; set; }
 
         public VMProject()
         {
@@ -29,7 +42,7 @@ namespace Web_UI.Models
         public VMProject(int id)
         {
             this.Id = id;
-            this.Name = "something?";
+            this.Title = "something?";
         }
     }
     

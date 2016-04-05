@@ -10,6 +10,7 @@ namespace Logic.Controllers
     public class ProjectController : IProjectController
     {
         private Container container = Container.Instance;
+        private Utility utility;
         public int CreateProject(string name, string description, User leaderUser)
         {
             if (name.Length == 0)
@@ -30,6 +31,8 @@ namespace Logic.Controllers
                 LeaderUser = leaderUser,
                 Title = name
             };
+            Project returnProject = (Project)utility.Sanitizer(project);
+
             container.AddProject(project);
             throw new NotImplementedException();
         }
@@ -50,7 +53,8 @@ namespace Logic.Controllers
                 Description = description
 
             };
-            switch (container.AddProject(project))
+            Project returnProject = (Project)utility.Sanitizer(project);
+            switch (container.AddProject(returnProject))
             {
                 //Success
                 case 0:
@@ -101,6 +105,13 @@ namespace Logic.Controllers
 
         public int AddTaskToProject(int taskId, int projectId)
         {
+            Project project = container.GetProject(projectId);
+            Models.Task task = container.GetTask(taskId);
+            if (project == null || task == null)
+            {
+                throw new KeyNotFoundException("Project or Task does not excist!");
+            }
+            project.Tasks.Add(task);
             throw new NotImplementedException();
         }
 
@@ -117,9 +128,15 @@ namespace Logic.Controllers
                 throw new KeyNotFoundException("Task with id: " + taskId + " does not excist!");
             }
             // TODO when DBaccess is done, rewrite this to use dbaccess
-            project.Tasks.Add(task);
+            project.Tasks.Remove(task);
             return 0;
         }
 
+
+
+        public Project[] GetAllProjects()
+        {
+            return container.GetAllProjects().ToArray();
+        }
     }
 }

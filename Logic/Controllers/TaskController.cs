@@ -10,6 +10,7 @@ namespace Logic.Controllers
     public class TaskController : ITaskController
     {
         private Container container = Container.Instance;
+        private Utility utility;
         public int CreateTask(string title, string description, Priority priority, User assignedUser)
         {
             Models.Task task = new Models.Task
@@ -18,10 +19,12 @@ namespace Logic.Controllers
                 Description = description,
                 Status = TaskStatus.Assigned,
                 AssignedUser = assignedUser,
-                CreateDateTime = DateTime.UtcNow
+                CreateDateTime = DateTime.UtcNow,
+                Priority = priority
 
             };
-            switch (container.AddTask(task))
+            Models.Task returnTask = (Models.Task)utility.Sanitizer(task);
+            switch (container.AddTask(returnTask))
             {
                 //Success add
                 case 0:
@@ -42,10 +45,12 @@ namespace Logic.Controllers
                 Title = title,
                 Description = description,
                 Status = TaskStatus.Unassigned,
-                CreateDateTime = DateTime.UtcNow
+                CreateDateTime = DateTime.UtcNow,
+                Priority = priority
 
             };
-            switch (container.AddTask(task))
+            Models.Task returnTask = (Models.Task)utility.Sanitizer(task);
+            switch (container.AddTask(returnTask))
             {
                 //Success add
                 case 0:
@@ -61,11 +66,42 @@ namespace Logic.Controllers
 
         public int CreateTask(string title, Priority priority)
         {
+            Models.Task task = new Models.Task
+            {
+                Title = title, 
+                Priority = priority
+            };
+            switch (container.AddTask(task))
+            {
+                //Success add
+                case 0:
+                    return 0;
+                //Unsuccess add 
+                case 1:
+                    return 1;
+                //Fail
+                default:
+                    return -1;
+            }
             throw new NotImplementedException();
         }
 
         public int CreateTask(string title)
         {
+            Models.Task task = new Models.Task {Title = title};
+            Models.Task returnTask = (Models.Task)utility.Sanitizer(task);
+            switch (container.AddTask(returnTask))
+            {
+                //Success add
+                case 0:
+                    return 0;
+                //Unsuccess add 
+                case 1:
+                    return 1;
+                //Fail
+                default:
+                    return -1;
+            }
             throw new NotImplementedException();
         }
 
@@ -74,7 +110,7 @@ namespace Logic.Controllers
             if (title.Length > 0)
                 return container.GetTask(title).ToArray();
             else
-                throw new KeyNotFoundException(title + "Does not excist!");
+                throw new KeyNotFoundException(title + " Does not excist!");
         }
 
         public Models.Task GetTask(int id)
@@ -94,21 +130,12 @@ namespace Logic.Controllers
         }
 
 
-        /// <summary>
-        /// Checks if theres an attempt for SQL injection
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns>false if no hazzards, true if test is positive for hazzards.</returns>
+
         public bool CheckInjection(string input)
         {
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// If a string contains hazzardous characters 
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns>string which is safe to input into a database</returns>
         public string CorrectInjection(string input)
         {
             throw new NotImplementedException();

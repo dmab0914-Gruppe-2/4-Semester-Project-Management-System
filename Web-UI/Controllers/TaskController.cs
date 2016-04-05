@@ -22,7 +22,7 @@ namespace Web_UI.Controllers
             {
                 Id = y++,
                 Description = "Do the following........",
-                Timestamp = DateTime.UtcNow,
+                CreatedDate = DateTime.UtcNow,
                 //Status = TaskStatus.Assigned,
                 Title = "Alright people, wake up!"
             };
@@ -34,13 +34,13 @@ namespace Web_UI.Controllers
         public ActionResult Details(int? id)
         {
             List<VMTask> tasks = new List<VMTask>();
-            VMTask task1 = new VMTask { Title = "We gotta do this", Description = "Shit", Id = 2, Project = new VMProject(405), Timestamp = DateTime.Now };
-            VMTask task2 = new VMTask { Title = "Shit", Description = "We gotta do", Id = 1, Project = new VMProject(405), Timestamp = DateTime.Now };
+            VMTask task1 = new VMTask { Title = "We gotta do this", Description = "Shit", Status = Models.Enums.Status.InProgress, Id = 2, Project = new VMProject(405), CreatedDate = DateTime.Now };
+            VMTask task2 = new VMTask { Title = "Shit", Description = "We gotta do",Status = Models.Enums.Status.Done, Id = 1, Project = new VMProject(405), CreatedDate = DateTime.Now };
             tasks.Add(task1);
             tasks.Add(task2);
             List<VMProject> projects = new List<VMProject>();
-            VMProject y = new VMProject { Description = "Awesome project", Id = 405, Name = "42", Tasks = tasks };
-            VMProject x = new VMProject { Description = "hest project", Id = 406, Name = "hest", Tasks = null };
+            VMProject y = new VMProject { Description = "Awesome project", Id = 405, Title = "42", Tasks = tasks };
+            VMProject x = new VMProject { Description = "hest project", Id = 406, Title = "hest", Tasks = null };
             projects.Add(y);
             projects.Add(x);
 
@@ -84,7 +84,7 @@ namespace Web_UI.Controllers
                         {
                             Title = title,
                             Description = description,
-                            Timestamp = DateTime.UtcNow,
+                            CreatedDate = DateTime.UtcNow,
 
                         };
                         //TODO insert dbinsert here....
@@ -109,13 +109,13 @@ namespace Web_UI.Controllers
         public ActionResult Edit(int id)
         {
             List<VMTask> tasks = new List<VMTask>();
-            VMTask task1 = new VMTask { Title = "We gotta do this", Description = "Shit", Id = 2, Project = new VMProject(405), Timestamp = DateTime.Now };
-            VMTask task2 = new VMTask { Title = "Shit", Description = "We gotta do", Id = 1, Project = new VMProject(405), Timestamp = DateTime.Now };
+            VMTask task1 = new VMTask { Title = "We gotta do this", Description = "Shit", Id = 2, Project = new VMProject(405), CreatedDate = DateTime.Now, LastChangedDate = DateTime.Now };
+            VMTask task2 = new VMTask { Title = "Shit", Description = "We gotta do", Id = 1, Project = new VMProject(405), CreatedDate = DateTime.Now };
             tasks.Add(task1);
             tasks.Add(task2);
             List<VMProject> projects = new List<VMProject>();
-            VMProject y = new VMProject { Description = "Awesome project", Id = 405, Name = "42", Tasks = tasks };
-            VMProject x = new VMProject { Description = "hest project", Id = 406, Name = "hest", Tasks = null };
+            VMProject y = new VMProject { Description = "Awesome project", Id = 405, Title = "42", Tasks = tasks };
+            VMProject x = new VMProject { Description = "hest project", Id = 406, Title = "hest", Tasks = null };
             projects.Add(y);
             projects.Add(x);
 
@@ -141,7 +141,7 @@ namespace Web_UI.Controllers
                     VMTask task = new VMTask();
                     task.Title = Request.Form["Title"];
                     task.Description = Request.Form["Description"];
-                    task.Timestamp = DateTime.UtcNow;
+                    task.CreatedDate = DateTime.UtcNow;
 
                     // TODO: Change from container to DB
                     //container.AddTask(task);

@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Web_UI.Models.VMProject>
+
+@{
+    ViewBag.Title = "ProjectList";
+}
+
+<div class="col-lg-12">
+    <h2>Project Management</h2>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <div id="tasks">
+        @foreach (var item in Model)
+        {
+            <h3>@Html.DisplayFor(modelItem => item.Title)</h3>
+            <div class="task-list">
+                <p>@Html.DisplayFor(modelItem => item.Description)</p>
+                <h1>//TODO make list of memebers aswell</h1>
+                <hr />
+                @Html.ActionLink("Open", "Edit", new { id = item.Id }, new { @class = "btn btn-primary"}) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-default" })
+                <h5>@Html.DisplayNameFor(model => model.CreadtedDate) : @Html.DisplayFor(modelItem => item.CreadtedDate) | @Html.DisplayNameFor(model => model.LastChangedDate) : @Html.DisplayFor(modelItem => item.LastChangedDate)</h5>
+            </div>
+        }
+    </div>
+</div>
