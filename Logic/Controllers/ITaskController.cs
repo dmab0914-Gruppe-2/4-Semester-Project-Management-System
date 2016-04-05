@@ -11,7 +11,5 @@ namespace Logic.Controllers
         Task[] GetTask(string title);
         Task GetTask(int id);
         int RemoveTask(int id);
-        bool CheckInjection(string input);
-        string CorrectInjection(string input);
     }
 }

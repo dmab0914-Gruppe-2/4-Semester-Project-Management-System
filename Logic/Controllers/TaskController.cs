@@ -126,18 +126,7 @@ namespace Logic.Controllers
 
         public int RemoveTask(int id)
         {
-            throw new NotImplementedException();
-        }
-
-
-
-        public bool CheckInjection(string input)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string CorrectInjection(string input)
-        {
+            //todo when db code is done, complete this..
             throw new NotImplementedException();
         }
     }

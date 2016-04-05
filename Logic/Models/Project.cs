@@ -14,6 +14,9 @@ namespace Logic.Models
 
         //description of the project
         public string Description { get; set; }
+        
+        //project status
+        public bool Status { get; set; }
         //Selected admin of the project
         public User LeaderUser { get; set; }
         //list of assigned users to the project
