@@ -1,19 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Logic.Models;
 
 namespace Logic.DataAccess
 {
     public class DbProject
     {
+        public bool AddProject(Project project)
+        {
+            DbContext dbContext = DbContext.Instance;
+            if (dbContext == null)
+            {
+                return false;
+            }
+            try
+            {
+                dbContext.Projects.InsertOnSubmit(project);
+                dbContext.SubmitChanges();
+                if (true) //TODO check if the data added to db were sucessfull / valid.
+                    return true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Project not added to db " + e);
+            }
+        }
 
         public static Project GetProject(int projectId)
         {
             DbContext dbContext = DbContext.Instance;
+            if (dbContext == null)
+            {
+                return null;
+            }
             try
             {
                 Project project = dbContext.Projects.FirstOrDefault(i => i.Id == projectId);
@@ -72,6 +92,10 @@ namespace Logic.DataAccess
         public List<Project> GetProject(string title)
         {
             DbContext dbContext = DbContext.Instance;
+            if (dbContext == null)
+            {
+                return null;
+            }
             var projects = from project in dbContext.Projects
                            where project.Title.Equals(title)
                            select project;
@@ -86,6 +110,10 @@ namespace Logic.DataAccess
         public static List<Project> GetAllProjects()
         {
             DbContext dbContext = DbContext.Instance;
+            if (dbContext == null)
+            {
+                return null;
+            }
             return dbContext.Projects.ToList();
         }
     }
