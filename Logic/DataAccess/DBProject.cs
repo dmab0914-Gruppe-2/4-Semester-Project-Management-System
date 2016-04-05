@@ -68,6 +68,7 @@ namespace Logic.DataAccess
         /// Get projects with given title.
         /// </summary>
         /// <param name="title">The title of othe project(s)</param>
+        /// <returns>A list with the project(s), where the title matches</returns>
         public List<Project> GetProject(string title)
         {
             DbContext dbContext = DbContext.Instance;
