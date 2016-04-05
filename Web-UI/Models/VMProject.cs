@@ -37,13 +37,21 @@ namespace Web_UI.Models
 
         public VMProject()
         {
-           
+
         }
         public VMProject(int id)
         {
             this.Id = id;
             this.Title = "something?";
         }
+        {
+            this.Id = id;
+            this.Title = title;
+            this.Description = desc;
+            this.CreadtedDate = cd;
+            this.LastChangedDate = lcd;
+            this.Done = done;
+        }
     }
-    
+
 }

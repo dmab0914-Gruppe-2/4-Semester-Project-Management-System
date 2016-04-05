@@ -96,7 +96,7 @@ namespace Logic.Controllers
 
         public Models.Project GetProject(int id)
         {
-            return container.GetProject(id);
+            return DbProject.GetProject(id);
         }
 
         public int AddTaskToProject(int taskId, int projectId)
