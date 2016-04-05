@@ -20,12 +20,24 @@ namespace DataAccessConsoleTest
 
         private static void TestGetProject()
         {
-            Project project = DbProject.GetProject(1);
-            Console.WriteLine("##Project 1##");
+            Console.WriteLine("##Testing retrieval of 1'st project: Project 1##");
+            PrintProjectInformation(DbProject.GetProject(1));
+            Console.WriteLine("##Testing retrieval of all projects..##");
+            List<Project> projects = DbProject.GetAllProjects();
+            foreach (var project in projects)
+            {
+                PrintProjectInformation(project);
+            }
+            //sConsole.WriteLine(DateTime.UtcNow);
+
+        }
+
+        private static void PrintProjectInformation(Project project)
+        {
+            Console.WriteLine("##Project Information##");
             Console.WriteLine("Project ID: " + project.Id);
             Console.WriteLine("Project Title: " + project.Title);
-            Console.WriteLine("Project Description: " + project.Description); 
-            //sConsole.WriteLine(DateTime.UtcNow);
+            Console.WriteLine("Project Description: " + project.Description);
         }
     }
 }
