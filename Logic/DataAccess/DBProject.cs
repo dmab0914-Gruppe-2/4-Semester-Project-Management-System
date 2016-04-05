@@ -64,6 +64,24 @@ namespace Logic.DataAccess
             #endregion
         }
 
+        /// <summary>
+        /// Get projects with given title.
+        /// </summary>
+        /// <param name="title">The title of othe project(s)</param>
+        public List<Project> GetProject(string title)
+        {
+            DbContext dbContext = DbContext.Instance;
+            var projects = from project in dbContext.Projects
+                           where project.Title.Equals(title)
+                           select project;
+            List<Project> projectsList = projects.ToList();
+            //for (int i = 0; i < projectsList.Count; i++)
+            //{
+            //    projectsList[i] = GetProject(projectsList[i].Id);
+            //}
+            return projectsList;
+        }
+
         public static List<Project> GetAllProjects()
         {
             DbContext dbContext = DbContext.Instance;
