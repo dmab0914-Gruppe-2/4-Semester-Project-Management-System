@@ -11,7 +11,7 @@ namespace Logic.Controllers
     {
         private Container container = Container.Instance;
         private Utility utility;
-        public int CreateTask(string title, string description, Priority priority, User assignedUser)
+        public ReturnValue CreateTask(string title, string description, Priority priority, User assignedUser)
         {
             Models.Task task = new Models.Task
             {
@@ -28,17 +28,17 @@ namespace Logic.Controllers
             {
                 //Success add
                 case 0:
-                    return 0;
+                    return ReturnValue.Success;
                 //Unsuccess add 
                 case 1:
-                    return 1;
+                    return ReturnValue.Fail;
                 //Fail
                 default:
-                    return -1;
+                    return ReturnValue.UnknownFail;
             }
         }
 
-        public int CreateTask(string title, string description, Priority priority)
+        public ReturnValue CreateTask(string title, string description, Priority priority)
         {
             Models.Task task = new Models.Task
             {
@@ -54,17 +54,17 @@ namespace Logic.Controllers
             {
                 //Success add
                 case 0:
-                    return 0;
+                    return ReturnValue.Success;
                 //Unsuccess add 
                 case 1:
-                    return 1;
+                    return ReturnValue.Fail;
                 //Fail
                 default:
-                    return -1;
+                    return ReturnValue.UnknownFail;
             }
         }
 
-        public int CreateTask(string title, Priority priority)
+        public ReturnValue CreateTask(string title, Priority priority)
         {
             Models.Task task = new Models.Task
             {
@@ -75,18 +75,18 @@ namespace Logic.Controllers
             {
                 //Success add
                 case 0:
-                    return 0;
+                    return ReturnValue.Success;
                 //Unsuccess add 
                 case 1:
-                    return 1;
+                    return ReturnValue.Fail;
                 //Fail
                 default:
-                    return -1;
+                    return ReturnValue.UnknownFail;
             }
             throw new NotImplementedException();
         }
 
-        public int CreateTask(string title)
+        public ReturnValue CreateTask(string title)
         {
             Models.Task task = new Models.Task {Title = title};
             Models.Task returnTask = (Models.Task)utility.Sanitizer(task);
@@ -94,13 +94,13 @@ namespace Logic.Controllers
             {
                 //Success add
                 case 0:
-                    return 0;
+                    return ReturnValue.Success;
                 //Unsuccess add 
                 case 1:
-                    return 1;
+                    return ReturnValue.Fail;
                 //Fail
                 default:
-                    return -1;
+                    return ReturnValue.UnknownFail;
             }
             throw new NotImplementedException();
         }
@@ -124,7 +124,7 @@ namespace Logic.Controllers
         }
 
 
-        public int RemoveTask(int id)
+        public ReturnValue RemoveTask(int id)
         {
             //todo when db code is done, complete this..
             throw new NotImplementedException();

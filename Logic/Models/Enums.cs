@@ -20,4 +20,13 @@
         High = 3,
         Urgent = 4
     }
+
+    public enum ReturnValue
+    {
+        Success = 0,
+        UnknownFail = -1,
+        Fail = 1,
+
+
+    }
 }

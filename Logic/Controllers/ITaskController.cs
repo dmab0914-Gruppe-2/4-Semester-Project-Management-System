@@ -4,12 +4,12 @@ namespace Logic.Controllers
 {
     public interface ITaskController
     {
-        int CreateTask(string title, string description, Priority priority, User leaderUser);
-        int CreateTask(string title, string description, Priority priority);
-        int CreateTask(string title, Priority priority);
-        int CreateTask(string title);
+        ReturnValue CreateTask(string title, string description, Priority priority, User leaderUser);
+        ReturnValue CreateTask(string title, string description, Priority priority);
+        ReturnValue CreateTask(string title, Priority priority);
+        ReturnValue CreateTask(string title);
         Task[] GetTask(string title);
         Task GetTask(int id);
-        int RemoveTask(int id);
+        ReturnValue RemoveTask(int id);
     }
 }

@@ -12,7 +12,7 @@ namespace Logic.Controllers
     {
         private Container container = Container.Instance;
         private Utility utility = new Utility();
-        public int CreateProject(string name, string description, User leaderUser)
+        public ReturnValue CreateProject(string name, string description, User leaderUser)
         {
             Project project = new Project
             {
@@ -28,19 +28,19 @@ namespace Logic.Controllers
             {
                 //Success
                 case 0:
-                    return 0;
+                    return ReturnValue.Success;
                 //Unsuccess
                 case 1:
                     //container.RemoveProject(project);
-                    return 1;
+                    return ReturnValue.Fail;
                 //Error
                 default:
                     container.RemoveProject(project);
-                    return -1;
+                    return ReturnValue.UnknownFail;
             }         
         }
 
-        public int CreateProject(string name, string description)
+        public ReturnValue CreateProject(string name, string description)
         {
             
             Project project = new Project
@@ -54,34 +54,34 @@ namespace Logic.Controllers
             {
                 //Success
                 case 0:
-                    return 0;
+                    return ReturnValue.Success;
                 //Unsuccess
                 case 1:
                     //container.RemoveProject(project);
-                    return 1;
+                    return ReturnValue.Fail;
                 //Error
                 default:
                     container.RemoveProject(project);
-                    return -1;
+                    return ReturnValue.UnknownFail;
             }
             throw new NotImplementedException();
         }
 
-        public int CreateProject(string name)
+        public ReturnValue CreateProject(string name)
         {
             Project project = new Project { Title = name };
             switch (container.AddProject(project))
             {
                 //Success
                 case 0:
-                    return 0;
+                    return ReturnValue.Success;
                 //Unsuccess
                 case 1:
-                    return 1;
+                    return ReturnValue.Fail;
                 //Fail
                 default:
                     container.RemoveProject(project);
-                    return -1;
+                    return ReturnValue.UnknownFail;
             }
             throw new NotImplementedException();
         }
@@ -99,7 +99,7 @@ namespace Logic.Controllers
             return DbProject.GetProject(id);
         }
 
-        public int AddTaskToProject(int taskId, int projectId)
+        public ReturnValue AddTaskToProject(int taskId, int projectId)
         {
             Project project = container.GetProject(projectId);
             Models.Task task = container.GetTask(taskId);
@@ -114,7 +114,7 @@ namespace Logic.Controllers
             throw new NotImplementedException();
         }
 
-        public int RemoveTaskFromProject(int taskId, int projectId)
+        public ReturnValue RemoveTaskFromProject(int taskId, int projectId)
         {
             Project project = container.GetProject(projectId);
             if (project == null)
@@ -128,7 +128,7 @@ namespace Logic.Controllers
             }
             // TODO when DBaccess is done, rewrite this to use dbaccess
             project.Tasks.Remove(task);
-            return 0;
+            return ReturnValue.Success;
         }
 
 

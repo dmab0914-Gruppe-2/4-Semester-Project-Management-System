@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Logic;
 using Logic.Controllers;
 using Logic.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,11 +15,11 @@ namespace UnitTestProject
         [TestMethod]
         public void CreateProject()
         {
-            int result = projectController.CreateProject("Something", "Worked");
-            if(result != 0)
+            ReturnValue result = projectController.CreateProject("Something", "Worked");
+            if (result != ReturnValue.Success)
                 Assert.Fail();
             result = projectController.CreateProject("Billy", "'); DROP TABLE Project");
-            if(result != 0)
+            if (result != ReturnValue.Success)
                 Assert.Fail();
             Project[] projects = projectController.GetProject("Billy");
             Project project = projects.First();
@@ -28,20 +29,20 @@ namespace UnitTestProject
         [TestMethod]
         public void GetProject()
         {
-            
+
         }
 
         [TestMethod]
         public void RemoveProject()
         {
-            
+
         }
 
         [TestMethod]
         public void AddTaskToMethod()
         {
-            
+
         }
-    
+
     }
 }
