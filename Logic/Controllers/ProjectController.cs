@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Logic.DataAccess;
 using Logic.Models;
 
 namespace Logic.Controllers
@@ -11,6 +12,7 @@ namespace Logic.Controllers
     {
         private Container container = Container.Instance;
         private Utility utility = new Utility();
+        private DbProject dbProject = new DbProject();
         public int CreateProject(string name, string description, User leaderUser)
         {
             Project project = new Project
@@ -135,7 +137,8 @@ namespace Logic.Controllers
         public Project[] GetAllProjects()
         {
             //TODO change to DBaccess code
-            return container.GetAllProjects().ToArray();
+            return DbProject.GetAllProjects().ToArray();
+            //return container.GetAllProjects().ToArray();
         }
     }
 }
