@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web-UI", "Web-UI\Web-UI.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "Logic\Logic.csproj", "{50E611CA-3E88-4D5B-BAD8-4657C8B42E8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject", "UnitTestProject\UnitTestProject.csproj", "{1FDE1954-DACC-4892-8030-45F80C8E09E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessConsoleTest", "DataAccessConsoleTest\DataAccessConsoleTest.csproj", "{B15E1D39-AD60-41B2-BF1C-F0627581AA3A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "Console\ConsoleApp.csproj", "{FC290314-E24C-4E60-92CB-240E361041FE}"
 EndProject
@@ -25,6 +25,10 @@ Global
 		{50E611CA-3E88-4D5B-BAD8-4657C8B42E8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50E611CA-3E88-4D5B-BAD8-4657C8B42E8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50E611CA-3E88-4D5B-BAD8-4657C8B42E8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B15E1D39-AD60-41B2-BF1C-F0627581AA3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B15E1D39-AD60-41B2-BF1C-F0627581AA3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B15E1D39-AD60-41B2-BF1C-F0627581AA3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B15E1D39-AD60-41B2-BF1C-F0627581AA3A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1FDE1954-DACC-4892-8030-45F80C8E09E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1FDE1954-DACC-4892-8030-45F80C8E09E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FDE1954-DACC-4892-8030-45F80C8E09E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
