@@ -6,53 +6,43 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using Logic.Models;
+using Logic.Controllers;
 using Web_UI.Models;
-using Project = Web_UI.Models.VMProject;
-using Task = Web_UI.Models.VMTask;
+
+
 
 namespace Web_UI.Controllers
 {
-    
-    
+
+
 
     public class ProjectController : Controller
     {
-        //TEMP DATA ACCESS
-        private Container container = Container.Instance;        
+        private IProjectController PC = new Logic.Controllers.ProjectController();
 
         // GET: Project
         public ActionResult Index()
         {
-            //TODO Fix add methods
-            List<Task> tasks = new List<Task>();
-            VMTask task1 = new VMTask { Title = "We gotta do this", Description = "Shit", Id = 2, Project = new VMProject(405), CreatedDate = DateTime.Now };
-            VMTask task2 = new VMTask { Title = "Shit", Description = "We gotta do", Id = 1, Project = new VMProject(405), CreatedDate = DateTime.Now };
-            tasks.Add(task1);
-            tasks.Add(task2);
+            List<Project> result = PC.GetAllProjects().ToList();
             List<VMProject> projects = new List<VMProject>();
-            VMProject y = new VMProject { Description = "Awesome project", Id = 405, Title = "42", Tasks = tasks };
-            VMProject x = new VMProject { Description = "hest project", Id = 406, Title = "hest", Tasks = null };
-            projects.Add(y);
-            projects.Add(x);
-
+            foreach (Project p in result)
+            {
+                VMProject vp = new VMProject(p.Id, p.Title, p.Description, p.CreatedDate, p.LastChange, p.Done);
+                projects.Add(vp);
+            }
             return View(projects);
         }
 
         // GET: Get project list
         public ActionResult ProjectList()
         {
-            //TODO Fix add methods
-            List<Task> tasks = new List<Task>();
-            VMTask task1 = new VMTask { Title = "We gotta do this", Description = "Shit", Id = 2, Project = new VMProject(405), CreatedDate = DateTime.Now };
-            VMTask task2 = new VMTask { Title = "Shit", Description = "We gotta do", Id = 1, Project = new VMProject(405), CreatedDate = DateTime.Now };
-            tasks.Add(task1);
-            tasks.Add(task2);
+            List<Project> result = PC.GetAllProjects().ToList();
             List<VMProject> projects = new List<VMProject>();
-            VMProject y = new VMProject { Description = "Awesome project", Id = 405, Title = "42", Tasks = tasks };
-            VMProject x = new VMProject { Description = "hest project", Id = 406, Title = "hest", Tasks = null };
-            projects.Add(y);
-            projects.Add(x);
-
+            foreach (Project p in result)
+            {
+                VMProject vp = new VMProject(p.Id, p.Title, p.Description, p.CreatedDate, p.LastChange, p.Done);
+                projects.Add(vp);
+            }
             return View(projects);
         }
 
@@ -87,7 +77,7 @@ namespace Web_UI.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    
+
                     string name = Request.Form["name"];
                     string description = Request.Form["description"];
                     if (name != null && description != null)
@@ -114,23 +104,13 @@ namespace Web_UI.Controllers
         // GET: Project/Edit/5
         public ActionResult Edit(int id)
         {
-           
-            List<VMProject> projects = new List<VMProject>();
-            VMProject y = new VMProject { Description = "Awesome project", Id = 405, Title = "42", Tasks = null, Done = true };
-            VMProject x = new VMProject { Description = "hest project", Id = 406, Title = "hest", Tasks = null };
-            projects.Add(y);
-            projects.Add(x);
-
-            VMProject result = projects.FirstOrDefault(u => u.Id == id);
-
-            if (result == null)
+            Project p = PC.GetProject(id);
+            VMProject vp = new VMProject(p.Id, p.Title, p.Description, p.CreatedDate, p.LastChange, p.Done);
+            if (p == null)
+            {
                 return HttpNotFound();
-
-            ////Project project = container.GetAllProjects().FirstOrDefault(x => x.Id == id);
-            //if (project == null)
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //// ViewBag.Title = new TextBox();
-            return View(result);
+            }
+            return View(vp);
         }
 
         // POST: Project/Edit/5
@@ -141,13 +121,13 @@ namespace Web_UI.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    VMProject project = new Project();
+                    VMProject project = new VMProject();
                     project.Title = Request.Form["name"];
                     project.Description = Request.Form["description"];
                 }
                 else
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                
+
                 // TODO: Add update logic here
 
                 return RedirectToAction("Index");
@@ -187,13 +167,13 @@ namespace Web_UI.Controllers
             VMTask task2 = new VMTask { Title = "Shit", Description = "We gotta do", Id = 1, Project = new VMProject(405), CreatedDate = DateTime.Now };
             tasks.Add(task1);
             tasks.Add(task2);
-            List<VMTask> result = new List<Task>();
-            foreach(VMTask t in tasks)
+            List<VMTask> result = new List<VMTask>();
+            foreach (VMTask t in tasks)
             {
                 if (projectid == t.Project.Id)
                     result.Add(t);
             }
-            
+
             return Json(result, JsonRequestBehavior.AllowGet);
 
 

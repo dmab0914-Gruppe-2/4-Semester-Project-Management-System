@@ -44,6 +44,7 @@ namespace Web_UI.Models
             this.Id = id;
             this.Title = "something?";
         }
+        public VMProject(int? id, string title, string desc, DateTime cd, DateTime lcd, bool done)
         {
             this.Id = id;
             this.Title = title;
