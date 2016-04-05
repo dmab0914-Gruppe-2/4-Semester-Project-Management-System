@@ -28,9 +28,9 @@ namespace Logic.Models
         //YYYY-MM-DD hh:mm:ss.mss
         //2016-05-25 22:15:55.000
         [Column]
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
         [Column]
-        public DateTime LastChange { get; set; }
+        public DateTime? LastChange { get; set; }
         //Selected admin of the project
         public User LeaderUser { get; set; }
         //list of assigned users to the project
