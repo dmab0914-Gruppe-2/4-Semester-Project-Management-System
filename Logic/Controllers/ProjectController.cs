@@ -11,7 +11,13 @@ namespace Logic.Controllers
     public class ProjectController : IProjectController
     {
         private Container container = Container.Instance;
+        private DbProject DbProject { get; set; }
         private Utility utility = new Utility();
+
+        public ProjectController()
+        {
+            DbProject = new DbProject();
+        }
         public ReturnValue CreateProject(string name, string description, User leaderUser)
         {
             Project project = new Project

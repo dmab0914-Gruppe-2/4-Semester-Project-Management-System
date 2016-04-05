@@ -20,10 +20,11 @@ namespace DataAccessConsoleTest
 
         private static void TestGetProject()
         {
+            DbProject dbProject = new DbProject();
             Console.WriteLine("##Testing retrieval of 1'st project: Project 1##");
-            PrintProjectInformation(DbProject.GetProject(1));
+            PrintProjectInformation(dbProject.GetProject(1));
             Console.WriteLine("##Testing retrieval of all projects..##");
-            List<Project> projects = DbProject.GetAllProjects();
+            List<Project> projects = dbProject.GetAllProjects();
             foreach (var project in projects)
             {
                 PrintProjectInformation(project);

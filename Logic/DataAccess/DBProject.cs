@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using Logic.Models;
 
@@ -7,17 +8,26 @@ namespace Logic.DataAccess
 {
     public class DbProject
     {
+        private DbContext DbContext { get; set; }
+        public DbProject()
+        {
+            DbContext = DbContext.Instance;
+            if (DbContext == null)
+            {
+                throw new NullReferenceException("Database connection failed!");
+            }
+        }
+
         public bool AddProject(Project project)
         {
-            DbContext dbContext = DbContext.Instance;
-            if (dbContext == null)
+            if (DbContext == null)
             {
                 return false;
             }
             try
             {
-                dbContext.Projects.InsertOnSubmit(project);
-                dbContext.SubmitChanges();
+                DbContext.Projects.InsertOnSubmit(project);
+                DbContext.SubmitChanges();
                 if (true) //TODO check if the data added to db were sucessfull / valid.
                     return true;
             }
@@ -27,16 +37,15 @@ namespace Logic.DataAccess
             }
         }
 
-        public static Project GetProject(int projectId)
+        public Project GetProject(int projectId)
         {
-            DbContext dbContext = DbContext.Instance;
-            if (dbContext == null)
+            if (DbContext == null)
             {
                 return null;
             }
             try
             {
-                Project project = dbContext.Projects.FirstOrDefault(i => i.Id == projectId);
+                Project project = DbContext.Projects.FirstOrDefault(i => i.Id == projectId);
                 if (project != null)
                 {
                     //project.ProjectMembers = GetProjectMembers(projectId);
@@ -91,12 +100,11 @@ namespace Logic.DataAccess
         /// <returns>A list with the project(s), where the title matches</returns>
         public List<Project> GetProject(string title)
         {
-            DbContext dbContext = DbContext.Instance;
-            if (dbContext == null)
+            if (DbContext == null)
             {
                 return null;
             }
-            var projects = from project in dbContext.Projects
+            var projects = from project in DbContext.Projects
                            where project.Title.Equals(title)
                            select project;
             List<Project> projectsList = projects.ToList();
@@ -107,14 +115,13 @@ namespace Logic.DataAccess
             return projectsList;
         }
 
-        public static List<Project> GetAllProjects()
+        public List<Project> GetAllProjects()
         {
-            DbContext dbContext = DbContext.Instance;
-            if (dbContext == null)
+            if (DbContext == null)
             {
                 return null;
             }
-            return dbContext.Projects.ToList();
+            return DbContext.Projects.ToList();
         }
     }
 }
