@@ -10,21 +10,9 @@ namespace Logic.Controllers
     public class ProjectController : IProjectController
     {
         private Container container = Container.Instance;
-        private Utility utility;
+        private Utility utility = new Utility();
         public int CreateProject(string name, string description, User leaderUser)
         {
-            if (name.Length == 0)
-            {
-                throw new NotImplementedException();
-            }
-            if (description.Length == 0)
-            {
-                throw new NotImplementedException();
-            }
-            if (leaderUser == null)
-            {
-                throw new NullReferenceException("No Leader user defined!");
-            }
             Project project = new Project
             {
                 Description = description,
@@ -34,19 +22,26 @@ namespace Logic.Controllers
             Project returnProject = (Project)utility.Sanitizer(project);
 
             container.AddProject(project);
-            throw new NotImplementedException();
+            //TODO when dbaccess is done, make sure that the db is checked if the data has been added
+            switch (container.AddProject(returnProject))
+            {
+                //Success
+                case 0:
+                    return 0;
+                //Unsuccess
+                case 1:
+                    //container.RemoveProject(project);
+                    return 1;
+                //Error
+                default:
+                    container.RemoveProject(project);
+                    return -1;
+            }         
         }
 
         public int CreateProject(string name, string description)
         {
-            if (name.Length == 0)
-            {
-                throw new NotImplementedException("No name defined!");
-            }
-            if (description.Length == 0)
-            {
-                throw new NotImplementedException("No description defined");
-            }
+            
             Project project = new Project
             {
                 Title = name,
@@ -112,6 +107,9 @@ namespace Logic.Controllers
                 throw new KeyNotFoundException("Project or Task does not excist!");
             }
             project.Tasks.Add(task);
+            
+            //todo change to dbaccess code...
+            project.Tasks.Add(task);
             throw new NotImplementedException();
         }
 
@@ -136,6 +134,7 @@ namespace Logic.Controllers
 
         public Project[] GetAllProjects()
         {
+            //TODO change to DBaccess code
             return container.GetAllProjects().ToArray();
         }
     }
