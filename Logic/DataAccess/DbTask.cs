@@ -39,7 +39,7 @@ namespace Logic.DataAccess
                 }
 
             }
-            catch
+            catch(Exception e)
             {
                 Console.WriteLine("Something went wrong, when looking for the given task id: " + taskId + " Error Message: \n" + e);
             }
