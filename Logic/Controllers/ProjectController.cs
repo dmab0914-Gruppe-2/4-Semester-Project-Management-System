@@ -11,20 +11,22 @@ namespace Logic.Controllers
     public class ProjectController : IProjectController
     {
         private Container container = Container.Instance;
-        private DbProject DbProject { get; set; }
+        private DbProject dbProject { get; set; }
         private Utility utility = new Utility();
 
         public ProjectController()
         {
-            DbProject = new DbProject();
+            dbProject = new DbProject();
         }
         public ReturnValue CreateProject(string name, string description, User leaderUser)
         {
             Project project = new Project
             {
+                Done = false,
                 Description = description,
                 LeaderUser = leaderUser,
-                Title = name
+                Title = name,
+                CreatedDate = DateTime.UtcNow
             };
             Project returnProject = (Project)utility.Sanitizer(project);
 
@@ -38,9 +40,10 @@ namespace Logic.Controllers
             
             Project project = new Project
             {
+                Done = false,
                 Title = name,
-                Description = description
-
+                Description = description,
+                CreatedDate = DateTime.UtcNow
             };
             Project returnProject = (Project)utility.Sanitizer(project);
             return AddProject(returnProject);
@@ -55,7 +58,7 @@ namespace Logic.Controllers
             throw new NotImplementedException();
         }
 
-        public Models.Project[] GetProject(string name)
+        public Project[] GetProject(string name)
         {
             if (name.Length > 0)
                 return container.GetProject(name);
@@ -63,9 +66,9 @@ namespace Logic.Controllers
                 throw new Exception("No name defined");
         }
 
-        public Models.Project GetProject(int id)
+        public Project GetProject(int id)
         {
-            return DbProject.GetProject(id);
+            return dbProject.GetProject(id);
         }
 
         public ReturnValue AddTaskToProject(int taskId, int projectId)
@@ -105,26 +108,40 @@ namespace Logic.Controllers
         public Project[] GetAllProjects()
         {
             //TODO change to DBaccess code
-            return DbProject.GetAllProjects().ToArray();
+            return dbProject.GetAllProjects().ToArray();
             //return container.GetAllProjects().ToArray();
         }
 
         private ReturnValue AddProject(Project project)
         {
-            switch (container.AddProject(project))
+            try
             {
-                //Success
-                case 0:
+                if (dbProject.AddProject(project))
                     return ReturnValue.Success;
-                //Unsuccess
-                case 1:
-                    //container.RemoveProject(project);
-                    return ReturnValue.Fail;
-                //Error
-                default:
-                    container.RemoveProject(project);
-                    return ReturnValue.UnknownFail;
             }
+            catch (Exception)
+            {
+                //todo when Jacob defines more errors... Do more work here...
+                //todo remove project when Jacob fixes thingy..
+                return ReturnValue.UnknownFail;
+            }
+            return ReturnValue.UnknownFail;
+
+
+            //switch (container.AddProject(project))
+            //{
+            //    //Success
+            //    case 0:
+            //        return ReturnValue.Success;
+            //    //Unsuccess
+            //    case 1:
+            //        //container.RemoveProject(project);
+            //        return ReturnValue.Fail;
+            //    //Error
+            //    default:
+            //        container.RemoveProject(project);
+            //        return ReturnValue.UnknownFail;
+            //}
         }
     }
 }
