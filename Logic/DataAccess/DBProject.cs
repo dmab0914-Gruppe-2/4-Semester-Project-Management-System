@@ -14,7 +14,7 @@ namespace Logic.DataAccess
             DbContext = DbContext.Instance;
             if (DbContext == null)
             {
-                throw new NullReferenceException("Database connection failed!");
+                //throw new SqlConnectionException("Database connection failed!");
             }
         }
 
