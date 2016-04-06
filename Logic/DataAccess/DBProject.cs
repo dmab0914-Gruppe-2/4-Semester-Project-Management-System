@@ -33,7 +33,8 @@ namespace Logic.DataAccess
             }
             catch (Exception e)
             {
-                throw new Exception("Project not added to db " + e);
+                Console.WriteLine("Couldn't add project to database. Project title: " + project.Title);
+                return false;
             }
         }
 
