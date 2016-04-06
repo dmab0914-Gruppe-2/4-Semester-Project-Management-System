@@ -9,8 +9,14 @@ namespace Logic.Controllers
 {
     public class TaskController : ITaskController
     {
-        private Container container = Container.Instance;
+        private Container container;
         private Utility utility;
+
+        public TaskController()
+        {
+            container = Container.Instance;
+            utility = new Utility();
+        }
         public ReturnValue CreateTask(string title, string description, Priority priority, User assignedUser)
         {
             Models.Task task = new Models.Task

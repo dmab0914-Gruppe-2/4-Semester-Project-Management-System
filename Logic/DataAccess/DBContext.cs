@@ -13,6 +13,7 @@ namespace Logic.DataAccess
 {
     public sealed class DbContext : DataContext
     {
+       // private const string ServerAdress = @"(localdb)\V11.0"; //Host adress. example localhost or ip or domain name.
         private const string ServerAdress = "localhost"; //Host adress. example localhost or ip or domain name.
         private const string ServerSubUrlName = "SQLEXPRESS"; //Fill if rdbms is located by url name. Example MS Sql server is usually "SQLEXPRESS". Else let it be empty or null.
         private const string Database = "PMS"; //The database name.
@@ -116,6 +117,7 @@ namespace Logic.DataAccess
 
         //public Table<User> Users;
         public Table<Project> Projects;
+        public Table<Task> Tasks;
         //public Table<ProjectUsers> ProjectUsers;
         //public Table<ProjectFiles> ProjectFiles;
         //public Table<ChatMessage> ChatMessages;

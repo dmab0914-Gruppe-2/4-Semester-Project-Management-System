@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using Logic.Models;
 using Logic.Controllers;
 using Web_UI.Models;
+using Logic;
 
 
 
@@ -46,23 +47,6 @@ namespace Web_UI.Controllers
             return View(projects);
         }
 
-        // GET: Project/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                //Console.WriteLine("Id is equal to null");
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            //todo Change to impliment data access
-            //Project project = container.GetAllProjects().FirstOrDefault(x => x.Id == id);
-            //if (project == null)
-            //{
-            //    return HttpNotFound();
-            //}
-            return View();
-        }
-
         // GET: Project/Create
         public ActionResult Create()
         {
@@ -82,13 +66,15 @@ namespace Web_UI.Controllers
                     string description = Request.Form["description"];
                     if (name != null && description != null)
                     {
-                        //todo insert dbinsert here....
-                        //container.AddProject(new Project
-                        //{
-                        //    Name = name,
-                        //    Description = description
-                        //});
-                        return RedirectToAction("Index");
+                        ReturnValue result = PC.CreateProject(name, description);
+                        if (result == ReturnValue.Success)
+                        {
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                        }
                     }
                 }
                 // TODO: Add insert logic here
