@@ -106,11 +106,11 @@ namespace Logic.DataAccess
 
         public static bool IsDatabaseConnected()
         {
-            if (!_instance.DatabaseExists()) return false;
+            if (_instance.DatabaseExists()) return true;
             //Connection to database failed. The error can be retrived from the public static field Error.
             Error = "Can't access the database. The Connection string is:\n" + _instance.Connection.ConnectionString;
             _instance = null;
-            return true;
+            return false;
         }
 
 
