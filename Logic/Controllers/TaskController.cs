@@ -24,18 +24,7 @@ namespace Logic.Controllers
 
             };
             Models.Task returnTask = (Models.Task)utility.Sanitizer(task);
-            switch (container.AddTask(returnTask))
-            {
-                //Success add
-                case 0:
-                    return ReturnValue.Success;
-                //Unsuccess add 
-                case 1:
-                    return ReturnValue.Fail;
-                //Fail
-                default:
-                    return ReturnValue.UnknownFail;
-            }
+            return AddTask(returnTask);
         }
 
         public ReturnValue CreateTask(string title, string description, Priority priority)
@@ -50,18 +39,7 @@ namespace Logic.Controllers
 
             };
             Models.Task returnTask = (Models.Task)utility.Sanitizer(task);
-            switch (container.AddTask(returnTask))
-            {
-                //Success add
-                case 0:
-                    return ReturnValue.Success;
-                //Unsuccess add 
-                case 1:
-                    return ReturnValue.Fail;
-                //Fail
-                default:
-                    return ReturnValue.UnknownFail;
-            }
+            return AddTask(returnTask);
         }
 
         public ReturnValue CreateTask(string title, Priority priority)
@@ -71,18 +49,8 @@ namespace Logic.Controllers
                 Title = title, 
                 Priority = priority
             };
-            switch (container.AddTask(task))
-            {
-                //Success add
-                case 0:
-                    return ReturnValue.Success;
-                //Unsuccess add 
-                case 1:
-                    return ReturnValue.Fail;
-                //Fail
-                default:
-                    return ReturnValue.UnknownFail;
-            }
+            Models.Task returnTask = (Models.Task) utility.Sanitizer(task);
+            return AddTask(returnTask);
             throw new NotImplementedException();
         }
 
@@ -90,18 +58,7 @@ namespace Logic.Controllers
         {
             Models.Task task = new Models.Task {Title = title};
             Models.Task returnTask = (Models.Task)utility.Sanitizer(task);
-            switch (container.AddTask(returnTask))
-            {
-                //Success add
-                case 0:
-                    return ReturnValue.Success;
-                //Unsuccess add 
-                case 1:
-                    return ReturnValue.Fail;
-                //Fail
-                default:
-                    return ReturnValue.UnknownFail;
-            }
+            return AddTask(returnTask);
             throw new NotImplementedException();
         }
 
@@ -128,6 +85,22 @@ namespace Logic.Controllers
         {
             //todo when db code is done, complete this..
             throw new NotImplementedException();
+        }
+
+        private ReturnValue AddTask(Models.Task task)
+        {
+            switch (container.AddTask(task))
+            {
+                //Success add
+                case 0:
+                    return ReturnValue.Success;
+                //Unsuccess add 
+                case 1:
+                    return ReturnValue.Fail;
+                //Fail
+                default:
+                    return ReturnValue.UnknownFail;
+            }
         }
     }
 }
