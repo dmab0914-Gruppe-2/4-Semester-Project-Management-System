@@ -28,22 +28,9 @@ namespace Logic.Controllers
             };
             Project returnProject = (Project)utility.Sanitizer(project);
 
-            container.AddProject(project);
+            //container.AddProject(project);
             //TODO when dbaccess is done, make sure that the db is checked if the data has been added
-            switch (container.AddProject(returnProject))
-            {
-                //Success
-                case 0:
-                    return ReturnValue.Success;
-                //Unsuccess
-                case 1:
-                    //container.RemoveProject(project);
-                    return ReturnValue.Fail;
-                //Error
-                default:
-                    container.RemoveProject(project);
-                    return ReturnValue.UnknownFail;
-            }         
+            return AddProject(returnProject);        
         }
 
         public ReturnValue CreateProject(string name, string description)
@@ -56,39 +43,15 @@ namespace Logic.Controllers
 
             };
             Project returnProject = (Project)utility.Sanitizer(project);
-            switch (container.AddProject(returnProject))
-            {
-                //Success
-                case 0:
-                    return ReturnValue.Success;
-                //Unsuccess
-                case 1:
-                    //container.RemoveProject(project);
-                    return ReturnValue.Fail;
-                //Error
-                default:
-                    container.RemoveProject(project);
-                    return ReturnValue.UnknownFail;
-            }
+            return AddProject(returnProject);
             throw new NotImplementedException();
         }
 
         public ReturnValue CreateProject(string name)
         {
             Project project = new Project { Title = name };
-            switch (container.AddProject(project))
-            {
-                //Success
-                case 0:
-                    return ReturnValue.Success;
-                //Unsuccess
-                case 1:
-                    return ReturnValue.Fail;
-                //Fail
-                default:
-                    container.RemoveProject(project);
-                    return ReturnValue.UnknownFail;
-            }
+            Project returnProject = (Project) utility.Sanitizer(project);
+            return AddProject(returnProject);
             throw new NotImplementedException();
         }
 
@@ -144,6 +107,24 @@ namespace Logic.Controllers
             //TODO change to DBaccess code
             return DbProject.GetAllProjects().ToArray();
             //return container.GetAllProjects().ToArray();
+        }
+
+        private ReturnValue AddProject(Project project)
+        {
+            switch (container.AddProject(project))
+            {
+                //Success
+                case 0:
+                    return ReturnValue.Success;
+                //Unsuccess
+                case 1:
+                    //container.RemoveProject(project);
+                    return ReturnValue.Fail;
+                //Error
+                default:
+                    container.RemoveProject(project);
+                    return ReturnValue.UnknownFail;
+            }
         }
     }
 }
