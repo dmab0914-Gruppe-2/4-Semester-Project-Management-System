@@ -62,9 +62,9 @@ namespace Logic.Controllers
         public Project[] GetProject(string name)
         {
             if (name.Length > 0)
-                return container.GetProject(name);
+                return dbProject.GetProject(name).ToArray();
             else
-                throw new Exception("No name defined");
+                throw new Exception("Title defined not found");
         }
 
         public Project GetProject(int id)
@@ -121,8 +121,6 @@ namespace Logic.Controllers
                 throw new KeyNotFoundException("Project does not excist!");
             }
             return dbTask.GetAllTasks().Where(x => x.ProjectId == projectId).ToArray();
-            //return project.Tasks.ToArray();
-            throw new NotImplementedException("Didn't impliment this yet..");
         }
 
         private ReturnValue AddProject(Project project)
