@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
+using System.Transactions;
 using Logic.Models;
+using IsolationLevel = System.Data.IsolationLevel;
 
 namespace Logic.DataAccess
 {
@@ -33,7 +34,7 @@ namespace Logic.DataAccess
             }
             catch (Exception e)
             {
-                Console.WriteLine("Couldn't add project to database. Project title: " + project.Title);
+                Console.WriteLine("Couldn't add project to database. Project title: " + project.Title + "\nException is:\n" + e);
                 return false;
             }
         }
@@ -123,6 +124,53 @@ namespace Logic.DataAccess
                 return null;
             }
             return DbContext.Projects.ToList();
+        }
+
+        public bool RemoveProject(int projectId)
+        {
+            throw new NotImplementedException(); //haven't tested it yet.. //TODO Test removal of project.
+            Project project = GetProject(projectId);
+            if (project != null) //Incase the given project actually doesn't exist.. Then there's no reason to run thru the removal procedure.
+            {
+                bool error = false;
+                try
+                {
+                    var option = new TransactionOptions();
+                    option.IsolationLevel = (System.Transactions.IsolationLevel) IsolationLevel.ReadCommitted;
+
+                    using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, option))
+                    {
+                        project = GetProject(projectId); //The project can have changed between last request and start of transactionscope.
+                        List<bool> success = new List<bool>();
+                        foreach (Task task in project.Tasks)
+                        {
+                            //success.Add(RemoveTaskFromProject(project, task)); //TODO remove tasks from project
+                            success.Add(true); //Temp solution.
+                        }
+                        DbContext.Projects.DeleteOnSubmit(project);
+                        if (success.TrueForAll(x => x.Equals(true))) //Checks if all values in the List matches true, and returns true if so.
+                        {
+                            DbContext.SubmitChanges();
+                            scope.Complete();
+                        }
+                        else
+                        {
+                            scope.Dispose();
+                            error = true;
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Project could not be removed. Project id: " + projectId + "Error: \n" + e);
+                    return false;
+                }
+                if (error != true)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
