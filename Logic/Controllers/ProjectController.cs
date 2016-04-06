@@ -12,6 +12,7 @@ namespace Logic.Controllers
     {
         private Container container = Container.Instance;
         private DbProject dbProject { get; set; }
+        private DbTask dbTask { get; set; }
         private Utility utility = new Utility();
 
         public ProjectController()
@@ -110,6 +111,18 @@ namespace Logic.Controllers
             //TODO change to DBaccess code
             return dbProject.GetAllProjects().ToArray();
             //return container.GetAllProjects().ToArray();
+        }
+
+        public Models.Task[] GetTasksFromProject(int projectId)
+        {
+            Project project = dbProject.GetProject(projectId);
+            if (project == null)
+            {
+                throw new KeyNotFoundException("Project does not excist!");
+            }
+            return dbTask.GetAllTasks().Where(x => x.ProjectId == projectId).ToArray();
+            //return project.Tasks.ToArray();
+            throw new NotImplementedException("Didn't impliment this yet..");
         }
 
         private ReturnValue AddProject(Project project)

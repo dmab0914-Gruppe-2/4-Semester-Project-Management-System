@@ -12,5 +12,6 @@ namespace Logic.Controllers
         Project[] GetAllProjects();
         ReturnValue AddTaskToProject(int taskId, int projectId);
         ReturnValue RemoveTaskFromProject(int taskId, int projectId);
+        Models.Task[] GetTasksFromProject(int projectId);
     }
 }
