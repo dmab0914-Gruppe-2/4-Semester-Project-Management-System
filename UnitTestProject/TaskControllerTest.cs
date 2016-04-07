@@ -17,7 +17,7 @@ namespace UnitTestProject
             Task task = new Task
             {
                 Priority = Priority.Normal,
-                CreateDateTime = DateTime.UtcNow,
+                Created = DateTime.UtcNow,
                 Description = "Something",
                 Title = "Worked",
                 Status = TaskStatus.Unassigned,

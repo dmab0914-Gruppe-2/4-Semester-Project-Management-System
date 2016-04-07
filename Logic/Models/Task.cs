@@ -13,19 +13,23 @@ namespace Logic.Models
         //id from db
         [Column(Name = "Id", IsPrimaryKey = true, IsDbGenerated = true)]
         public int? Id { get; set; }
-
+        [Column]
         public int ProjectId { get; set; }
 
         //title of task
+        [Column]
         public string Title { get; set; }
 
         //description of task
+        [Column]
         public string Description { get; set; }
 
         //Prority of task
+        [Column]
         public Priority Priority { get; set; }
 
         //status of task
+        [Column]
         public TaskStatus Status { get; set; }
 
         //assigned user for the task
@@ -33,13 +37,16 @@ namespace Logic.Models
         public User AssignedUser { get; set; }
 
         //Timestamp of creation
-        public DateTime CreateDateTime { get; set; }
+        [Column]
+        public DateTime Created { get; set; }
 
         //Timestamp of last edit
-        public DateTime LastEditedDateTime { get; set; }
+        [Column]
+        public DateTime LastEdited { get; set; }
 
         //Timestamp of duedate
-        public DateTime DueDateTime { get; set; }
+        [Column]
+        public DateTime DueDate { get; set; }
 
     }
 }

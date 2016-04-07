@@ -25,7 +25,7 @@ namespace Logic.Controllers
                 Description = description,
                 Status = TaskStatus.Assigned,
                 AssignedUser = assignedUser,
-                CreateDateTime = DateTime.UtcNow,
+                Created = DateTime.UtcNow,
                 Priority = priority
 
             };
@@ -40,7 +40,7 @@ namespace Logic.Controllers
                 Title = title,
                 Description = description,
                 Status = TaskStatus.Unassigned,
-                CreateDateTime = DateTime.UtcNow,
+                Created = DateTime.UtcNow,
                 Priority = priority
 
             };
