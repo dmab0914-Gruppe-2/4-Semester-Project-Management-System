@@ -18,6 +18,7 @@ namespace ConsoleApp
             Console.WriteLine("Please enter a number to enter a test:");
             Console.WriteLine("1. String Sanitizer");
             Console.WriteLine("2. Object Sanitizer");
+            Console.WriteLine("3. Get Projects from Task");
             
             string input = Console.ReadLine().ToLower();
             if (input.Equals("1"))
@@ -28,7 +29,17 @@ namespace ConsoleApp
             {
                 ObjectSanitizerTest();
             }
+            if (input.Equals("3"))
+            {
+                GetProjectsFromTaskTest();
+            }
             goto a;
+        }
+
+        private static void GetProjectsFromTaskTest()
+        {
+
+            throw new NotImplementedException();
         }
 
         static void  StringSanitizerTest()

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Logic.DataAccess;
 using Logic.Models;
+using Task = Logic.Models.Task;
 
 namespace Logic.Controllers
 {
@@ -17,6 +19,7 @@ namespace Logic.Controllers
 
         public ProjectController()
         {
+            DbTask = new DbTask();
             DbProject = new DbProject();
         }
         public ReturnValue CreateProject(string name, string description, User leaderUser)
@@ -33,12 +36,12 @@ namespace Logic.Controllers
 
             //container.AddProject(project);
             //TODO when dbaccess is done, make sure that the db is checked if the data has been added
-            return AddProject(returnProject);        
+            return AddProject(returnProject);
         }
 
         public ReturnValue CreateProject(string name, string description)
         {
-            
+
             Project project = new Project
             {
                 Done = false,
@@ -54,7 +57,7 @@ namespace Logic.Controllers
         public ReturnValue CreateProject(string name)
         {
             Project project = new Project { Title = name };
-            Project returnProject = (Project) utility.Sanitizer(project);
+            Project returnProject = (Project)utility.Sanitizer(project);
             return AddProject(returnProject);
             throw new NotImplementedException();
         }
@@ -81,7 +84,7 @@ namespace Logic.Controllers
                 throw new KeyNotFoundException("Project or Task does not excist!");
             }
             project.Tasks.Add(task);
-            
+
             //todo change to dbaccess code...
             project.Tasks.Add(task);
             throw new NotImplementedException();
@@ -115,14 +118,28 @@ namespace Logic.Controllers
 
         public Models.Task[] GetTasksFromProject(int projectId)
         {
-            Project project = DbProject.GetProject(projectId);
-            if (project == null)
+            try
             {
-                throw new KeyNotFoundException("Project does not excist!");
-            }
-            return DbTask.GetAllTasks().Where(x => x.ProjectId == projectId).ToArray();
-        }
+                Project project = DbProject.GetProject(projectId);
+                if (project == null)
+                {
+                    throw new KeyNotFoundException("Project does not excist!");
+                }
+                //List<Models.Task> tasks = new List<Task>();
+                //foreach (Models.Task task in project.Tasks)
+                //{
+                //    tasks.Add(task);
+                //}
+                return DbTask.GetAllTasks().Where(x => x.ProjectId == projectId).ToArray();
 
+            }
+            catch (SqlException)
+            {
+
+                throw new Exception("Something Went wrong in the DB...");
+            }
+
+        }
         private ReturnValue AddProject(Project project)
         {
             try

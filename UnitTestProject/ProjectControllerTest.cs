@@ -40,6 +40,12 @@ namespace UnitTestProject
         }
 
         [TestMethod]
+        public void GetTaskFromProject()
+        {
+            Task[] tasks = projectController.GetTasksFromProject(1);
+        }
+
+        [TestMethod]
         public void AddTaskToMethod()
         {
 
