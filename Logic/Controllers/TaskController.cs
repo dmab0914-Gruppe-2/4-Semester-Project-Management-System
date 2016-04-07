@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Logic.DataAccess;
 
 namespace Logic.Controllers
 {
@@ -11,10 +12,12 @@ namespace Logic.Controllers
     {
         private Container container;
         private Utility utility;
+        private DbTask DbTask { get; set; }
 
         public TaskController()
         {
             container = Container.Instance;
+            DbTask = new DbTask();
             utility = new Utility();
         }
         public ReturnValue CreateTask(string title, string description, Priority priority, User assignedUser)
