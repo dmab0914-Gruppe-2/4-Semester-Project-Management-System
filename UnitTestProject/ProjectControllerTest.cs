@@ -17,10 +17,10 @@ namespace UnitTestProject
         {
             ReturnValue result = projectController.CreateProject("Something", "Worked");
             if (result != ReturnValue.Success)
-                Assert.Fail();
+                Assert.Fail("ReturnValue is not success");
             result = projectController.CreateProject("Billy", "'); DROP TABLE Project");
             if (result != ReturnValue.Success)
-                Assert.Fail();
+                Assert.Fail("ReturnValue is not success");
             Project[] projects = projectController.GetProject("Billy");
             Project project = projects.First();
             project.Description.Equals("''); DROP TABLE Project");
@@ -29,7 +29,8 @@ namespace UnitTestProject
         [TestMethod]
         public void GetProject()
         {
-
+            Project[] projects = projectController.GetProject("Something");
+            //if()
         }
 
         [TestMethod]

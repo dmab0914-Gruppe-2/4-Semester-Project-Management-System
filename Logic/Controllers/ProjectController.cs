@@ -11,13 +11,13 @@ namespace Logic.Controllers
     public class ProjectController : IProjectController
     {
         private Container container = Container.Instance;
-        private DbProject dbProject { get; set; }
-        private DbTask dbTask { get; set; }
+        private DbProject DbProject { get; set; }
+        private DbTask DbTask { get; set; }
         private Utility utility = new Utility();
 
         public ProjectController()
         {
-            dbProject = new DbProject();
+            DbProject = new DbProject();
         }
         public ReturnValue CreateProject(string name, string description, User leaderUser)
         {
@@ -62,14 +62,14 @@ namespace Logic.Controllers
         public Project[] GetProject(string name)
         {
             if (name.Length > 0)
-                return dbProject.GetProject(name).ToArray();
+                return DbProject.GetProject(name).ToArray();
             else
                 throw new Exception("Title defined not found");
         }
 
         public Project GetProject(int id)
         {
-            return dbProject.GetProject(id);
+            return DbProject.GetProject(id);
         }
 
         public ReturnValue AddTaskToProject(int taskId, int projectId)
@@ -109,25 +109,25 @@ namespace Logic.Controllers
         public Project[] GetAllProjects()
         {
             //TODO change to DBaccess code
-            return dbProject.GetAllProjects().ToArray();
+            return DbProject.GetAllProjects().ToArray();
             //return container.GetAllProjects().ToArray();
         }
 
         public Models.Task[] GetTasksFromProject(int projectId)
         {
-            Project project = dbProject.GetProject(projectId);
+            Project project = DbProject.GetProject(projectId);
             if (project == null)
             {
                 throw new KeyNotFoundException("Project does not excist!");
             }
-            return dbTask.GetAllTasks().Where(x => x.ProjectId == projectId).ToArray();
+            return DbTask.GetAllTasks().Where(x => x.ProjectId == projectId).ToArray();
         }
 
         private ReturnValue AddProject(Project project)
         {
             try
             {
-                if (dbProject.AddProject(project))
+                if (DbProject.AddProject(project))
                     return ReturnValue.Success;
             }
             catch (Exception)
