@@ -126,9 +126,17 @@ namespace Logic.DataAccess
             return DbContext.Projects.ToList();
         }
 
+        /// <summary>
+        /// Removes a given project and all dependencies in the form of tasks.
+        /// </summary>
+        /// <param name="projectId">THe id of the project to remove</param>
+        /// <returns>True if sucessfull. False if not.</returns>
         public bool RemoveProject(int projectId)
         {
-            //throw new NotImplementedException(); //haven't tested it yet.. //TODO Test removal of project.
+            if (DbContext == null)
+            {
+                return false;
+            }
             Project project = GetProject(projectId);
             if (project != null) //Incase the given project actually doesn't exist.. Then there's no reason to run thru the removal procedure.
             {
