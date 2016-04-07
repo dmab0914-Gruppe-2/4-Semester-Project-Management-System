@@ -128,24 +128,33 @@ namespace Logic.DataAccess
 
         public bool RemoveProject(int projectId)
         {
-            throw new NotImplementedException(); //haven't tested it yet.. //TODO Test removal of project.
+            //throw new NotImplementedException(); //haven't tested it yet.. //TODO Test removal of project.
             Project project = GetProject(projectId);
             if (project != null) //Incase the given project actually doesn't exist.. Then there's no reason to run thru the removal procedure.
             {
                 bool error = false;
                 try
                 {
-                    var option = new TransactionOptions();
-                    option.IsolationLevel = (System.Transactions.IsolationLevel) IsolationLevel.ReadCommitted;
+                    var option = new TransactionOptions
+                    {
+                        IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
+                    };
 
                     using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, option))
                     {
                         project = GetProject(projectId); //The project can have changed between last request and start of transactionscope.
                         List<bool> success = new List<bool>();
-                        foreach (Task task in project.Tasks)
+                        if (project.Tasks != null)
                         {
-                            //success.Add(RemoveTaskFromProject(project, task)); //TODO remove tasks from project
-                            success.Add(true); //Temp solution.
+                            foreach (Task task in project.Tasks)
+                            {
+                                //success.Add(RemoveTaskFromProject(project, task)); //TODO remove tasks from project
+                            }
+                            success.Add(true);
+                        }
+                        else
+                        {
+                            success.Add(true);
                         }
                         DbContext.Projects.DeleteOnSubmit(project);
                         if (success.TrueForAll(x => x.Equals(true))) //Checks if all values in the List matches true, and returns true if so.
