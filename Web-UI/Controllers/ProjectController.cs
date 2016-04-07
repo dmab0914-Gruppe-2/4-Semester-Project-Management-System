@@ -126,7 +126,7 @@ namespace Web_UI.Controllers
         public ActionResult Delete(int id)
         {
             Project p = PC.GetProject(id);
-            VMProject vp = new VMProject { Id = p.Id };
+            VMProject vp = new VMProject { Id = p.Id, Title = p.Title, Description = p.Description, Done = p.Done };
             return View(vp);
         }
 
@@ -138,13 +138,16 @@ namespace Web_UI.Controllers
             try
             {
                 Project p = PC.GetProject(id);
-               //TO DO
+                //TO DO
 
                 // remove tasks from project 
 
-                // then remove project
+                ReturnValue rv = PC.RemoveProject(id);
 
-                return RedirectToAction("Index");
+                if (rv == ReturnValue.Success)
+                    return RedirectToAction("Index");
+                else
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             catch
             {
@@ -157,7 +160,7 @@ namespace Web_UI.Controllers
             List<Task> result = PC.GetTasksFromProject(projectid).ToList();
             List<VMTask> tasks = new List<VMTask>();
 
-            foreach(Task t in result)
+            foreach (Task t in result)
             {
                 VMTask vt = new VMTask();
                 vt.Id = t.Id;
