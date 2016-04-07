@@ -11,6 +11,7 @@ namespace UnitTestProject
     public class TaskControllerTest
     {
         TaskController taskController = new TaskController();
+        private int taskId;
         [TestMethod]
         public void CreateTask()
         {
@@ -34,16 +35,18 @@ namespace UnitTestProject
         {
             Task[] tasks = taskController.GetTask("Worked");
             if (!tasks.Contains(tasks.FirstOrDefault(
-                x => x.Title.Equals("Worked") && 
+                x => x.Title.Equals("Worked") &&
                      x.Description.Equals("Something") &&
                      x.Status.Equals(TaskStatus.Unassigned))))
                 Assert.Fail("Does not match the task created in CreateTask test");
+            Task task = tasks.First(x => x.Title.Equals("Worked"));
+            taskId = (int)task.Id;
         }
 
         [TestCleanup]
         public void CleanupCrew()
         {
-            
+            taskController.RemoveTask(taskId);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,12 +17,18 @@ namespace Logic.Controllers
         private DbProject DbProject { get; set; }
         private DbTask DbTask { get; set; }
         private Utility utility = new Utility();
+        private string DATETIME_FORMAT = "YYYY-MM-DD hh:mm:ss.fff";
+        //We're using the ISO 8601 Standard for DateTime. 
+        //YYYY-MM-DD hh:mm:ss.mss
+        //2016-05-25 22:15:55.000
+        
 
         public ProjectController()
         {
             DbTask = new DbTask();
             DbProject = new DbProject();
         }
+
         public ReturnValue CreateProject(string name, string description, User leaderUser)
         {
             Project project = new Project
@@ -30,7 +37,7 @@ namespace Logic.Controllers
                 Description = description,
                 LeaderUser = leaderUser,
                 Title = name,
-                CreatedDate = DateTime.UtcNow
+                CreatedDate = DateTime.UtcNow.ToUniversalTime()
             };
             Project returnProject = (Project)utility.Sanitizer(project);
 
@@ -47,7 +54,7 @@ namespace Logic.Controllers
                 Done = false,
                 Title = name,
                 Description = description,
-                CreatedDate = DateTime.UtcNow
+                CreatedDate = DateTime.UtcNow.ToUniversalTime()
             };
             Project returnProject = (Project)utility.Sanitizer(project);
             return AddProject(returnProject);
@@ -91,7 +98,7 @@ namespace Logic.Controllers
         public ReturnValue AddTaskToProject(int taskId, int projectId)
         {
             Project project = container.GetProject(projectId);
-            Models.Task task = container.GetTask(taskId);
+            Task task = container.GetTask(taskId);
             if (project == null || task == null)
             {
                 throw new KeyNotFoundException("Project or Task does not excist!");
@@ -110,7 +117,7 @@ namespace Logic.Controllers
             {
                 throw new KeyNotFoundException("Project with id: " + projectId + " does not excist!");
             }
-            Models.Task task = container.GetTask(taskId);
+            Task task = container.GetTask(taskId);
             if (task == null)
             {
                 throw new KeyNotFoundException("Task with id: " + taskId + " does not excist!");
@@ -168,7 +175,6 @@ namespace Logic.Controllers
             }
             return ReturnValue.UnknownFail;
 
-
             //switch (container.AddProject(project))
             //{
             //    //Success
@@ -184,5 +190,13 @@ namespace Logic.Controllers
             //        return ReturnValue.UnknownFail;
             //}
         }
+
+        
+        //private DateTime ParseDateTime(DateTime dt)
+        //{
+        //    //DateTime parsedDateTime = DateTime.UtcNow;
+        //    bool success = DateTime.TryParse(dt.ToString(), DATETIME_FORMAT, null, DateTimeStyles.None, out parsedDateTime);
+        //    return new DateTime();
+        //}
     }
-}
+}   
