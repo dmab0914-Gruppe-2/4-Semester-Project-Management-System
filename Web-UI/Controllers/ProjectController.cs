@@ -165,6 +165,9 @@ namespace Web_UI.Controllers
                 vt.Description = t.Description;
                 vt.Priority = TheirEnumExtensions.ToWebEnumPriority(t.Priority);
                 vt.Status = TheirEnumExtensions.ToWebEnumTaskStatus(t.Status);
+                vt.CreatedDate = t.Created;
+                vt.LastChangedDate = t.LastEdited;
+                vt.DueDate = t.DueDate;
 
                 tasks.Add(vt);
             }
