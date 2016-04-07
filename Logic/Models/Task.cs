@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Linq.Mapping;
 using System.Linq;
 using System.Security.AccessControl;
 using System.Web;
 
 namespace Logic.Models
 {
+    [Table]
     public class Task
     {
         //id from db
+        [Column(Name = "Id", IsPrimaryKey = true, IsDbGenerated = true)]
         public int? Id { get; set; }
 
         public int ProjectId { get; set; }
