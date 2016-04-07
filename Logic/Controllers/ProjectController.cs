@@ -54,7 +54,9 @@ namespace Logic.Controllers
                 Done = false,
                 Title = name,
                 Description = description,
-                CreatedDate = DateTime.UtcNow.ToUniversalTime()
+                CreatedDate = DateTime.UtcNow.ToUniversalTime(),
+                LastChange = DateTime.UtcNow.ToUniversalTime(),
+                
             };
             Project returnProject = (Project)utility.Sanitizer(project);
             return AddProject(returnProject);
