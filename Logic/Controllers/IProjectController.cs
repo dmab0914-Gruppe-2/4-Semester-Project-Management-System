@@ -7,6 +7,7 @@ namespace Logic.Controllers
         ReturnValue CreateProject(string name, string description, User leaderUser);
         ReturnValue CreateProject(string name, string description);
         ReturnValue CreateProject(string name);
+        ReturnValue RemoveProject(int id);
         Project[] GetProject(string name);
         Project GetProject(int id);
         Project[] GetAllProjects();

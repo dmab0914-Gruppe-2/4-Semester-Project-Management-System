@@ -62,6 +62,19 @@ namespace Logic.Controllers
             throw new NotImplementedException();
         }
 
+        public ReturnValue RemoveProject(int projectId)
+        {
+            Project project = DbProject.GetProject(projectId);
+            if(project == null)
+                return ReturnValue.Fail;
+            DbProject.RemoveProject(projectId);
+            project = DbProject.GetProject(projectId);
+            if(project == null)
+                return ReturnValue.Success;
+            return ReturnValue.UnknownFail;
+            //throw new NotImplementedException("Didnt finish");
+        }
+
         public Project[] GetProject(string name)
         {
             if (name.Length > 0)
