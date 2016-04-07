@@ -37,8 +37,8 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $("input[name=name]:radio").change(function () {
-                var hund = $("input[name=name]:checked").val();
-                $.getJSON('/Project/getTasksForProject/', { projectid: hund }, function (data) {
+                var pId = $("input[name=name]:checked").val();
+                $.getJSON('/Project/getTasksForProject/', { projectid: pId }, function (data) {
                     var htmlStr = '';
                     $.each(data, function (k, v) {
                         var id = v.Id;
@@ -48,7 +48,8 @@
                     });
                     $("#tasks").html(htmlStr);
                 });
-                var btn = '@Html.ActionLink(linkText: "Create new task",actionName: "Create",controllerName: "Task", routeValues:null, htmlAttributes: new { @class = "btn btn-default" })';
+                var btn = '@Html.ActionLink(linkText: "Create new task", actionName: "Create", controllerName: "Task", routeValues: new { projectId = -1 }, htmlAttributes: new { @class = "btn btn-default" })';
+                btn = btn.replace('-1', pId);
                 $("#addTask").html(btn);
             });
         })
