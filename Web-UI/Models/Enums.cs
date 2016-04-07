@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Web_UI.Models.Enums;
 
 namespace Web_UI.Models.Enums
 {
@@ -23,5 +24,33 @@ namespace Web_UI.Models.Enums
         Normal = 2,
         High = 3,
         Urgent = 4
+    }
+}
+
+public static class TheirEnumExtensions
+{
+    public static Priority ToWebEnumPriority(Logic.Priority value)
+    {
+        Priority result = (Priority)value;
+        return result;
+    }
+    public static Status ToWebEnumTaskStatus(Logic.TaskStatus value)
+    {
+        Status result = (Status)value;
+        return result;
+    }
+}
+
+public static class MyEnumExtensions
+{
+    public static Logic.Priority ToLogicEnumPriority(Priority value)
+    {
+        Logic.Priority result = (Logic.Priority)value;
+        return result;
+    }
+    public static Logic.TaskStatus ToLogicEnumStatus(Status value)
+    {
+        Logic.TaskStatus result = (Logic.TaskStatus)value;
+        return result;
     }
 }

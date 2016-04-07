@@ -4,30 +4,21 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-//using Logic.Models;
+using Logic.Models;
+using Logic.Controllers;
 using Web_UI.Models;
-//using Web_UI.Models;
+using Logic;
 
 namespace Web_UI.Controllers
 {
     public class TaskController : Controller
     {
-        //private Container container = Container.Instance;
-        private List<VMTask> Tasks = new List<VMTask>();
-        private int y;
+        private ITaskController TC = new Logic.Controllers.TaskController();
         // GET: Task
         public ActionResult Index()
         {
-            Models.VMTask task = new Models.VMTask
-            {
-                Id = y++,
-                Description = "Do the following........",
-                CreatedDate = DateTime.UtcNow,
-                //Status = TaskStatus.Assigned,
-                Title = "Alright people, wake up!"
-            };
-            Tasks.Add(task);
-            return View(Tasks.ToList());
+            
+            return View();
         }
 
         // GET: Task/Details/5

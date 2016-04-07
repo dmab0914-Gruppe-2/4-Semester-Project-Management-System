@@ -9,14 +9,12 @@ using Logic.Models;
 using Logic.Controllers;
 using Web_UI.Models;
 using Logic;
+using Logic.DataAccess;
 
 
 
 namespace Web_UI.Controllers
 {
-
-
-
     public class ProjectController : Controller
     {
         private IProjectController PC = new Logic.Controllers.ProjectController();
@@ -62,11 +60,11 @@ namespace Web_UI.Controllers
                 if (ModelState.IsValid)
                 {
 
-                    string name = Request.Form["name"];
-                    string description = Request.Form["description"];
-                    if (name != null && description != null)
+                    string Title = Request.Form["Title"];
+                    string Description = Request.Form["Description"];
+                    if (Title != null && Description != null)
                     {
-                        ReturnValue result = PC.CreateProject(name, description);
+                        ReturnValue result = PC.CreateProject(Title, Description);
                         if (result == ReturnValue.Success)
                         {
                             return RedirectToAction("Index");
@@ -127,42 +125,50 @@ namespace Web_UI.Controllers
         // GET: Project/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            Project p = PC.GetProject(id);
+            VMProject vp = new VMProject { Id = p.Id };
+            return View(vp);
         }
 
         // POST: Project/Delete/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, FormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
+                Project p = PC.GetProject(id);
+               //TO DO
+
+                // remove tasks from project 
+
+                // then remove project
 
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
         }
         // GET: Task to project
         public JsonResult getTasksForProject(int projectid)
         {
+            List<Task> result = PC.GetTasksFromProject(projectid).ToList();
             List<VMTask> tasks = new List<VMTask>();
-            VMTask task1 = new VMTask { Title = "We gotta do this", Description = "Shit", Id = 2, Project = new VMProject(405), CreatedDate = DateTime.Now };
-            VMTask task2 = new VMTask { Title = "Shit", Description = "We gotta do", Id = 1, Project = new VMProject(405), CreatedDate = DateTime.Now };
-            tasks.Add(task1);
-            tasks.Add(task2);
-            List<VMTask> result = new List<VMTask>();
-            foreach (VMTask t in tasks)
+
+            foreach(Task t in result)
             {
-                if (projectid == t.Project.Id)
-                    result.Add(t);
+                VMTask vt = new VMTask();
+                vt.Id = t.Id;
+                vt.Title = t.Title;
+                vt.Description = t.Description;
+                vt.Priority = TheirEnumExtensions.ToWebEnumPriority(t.Priority);
+                vt.Status = TheirEnumExtensions.ToWebEnumTaskStatus(t.Status);
+
+                tasks.Add(vt);
             }
-
-            return Json(result, JsonRequestBehavior.AllowGet);
-
-
+            return Json(tasks, JsonRequestBehavior.AllowGet);
         }
     }
 }
