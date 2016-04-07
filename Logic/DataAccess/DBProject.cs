@@ -21,16 +21,13 @@ namespace Logic.DataAccess
 
         public bool AddProject(Project project)
         {
-            if (DbContext == null)
-            {
-                return false;
-            }
+            if (DbContext == null) return false;
+
             try
             {
                 DbContext.Projects.InsertOnSubmit(project);
                 DbContext.SubmitChanges();
-                if (true) //TODO check if the data added to db were sucessfull / valid.
-                    return true;
+                return true;
             }
             catch (Exception e)
             {
@@ -41,10 +38,7 @@ namespace Logic.DataAccess
 
         public Project GetProject(int projectId)
         {
-            if (DbContext == null)
-            {
-                return null;
-            }
+            if (DbContext == null) return null;
             try
             {
                 Project project = DbContext.Projects.FirstOrDefault(i => i.Id == projectId);
@@ -102,10 +96,7 @@ namespace Logic.DataAccess
         /// <returns>A list with the project(s), where the title matches</returns>
         public List<Project> GetProject(string title)
         {
-            if (DbContext == null)
-            {
-                return null;
-            }
+            if (DbContext == null) return null;
             var projects = from project in DbContext.Projects
                            where project.Title.Equals(title)
                            select project;
@@ -119,11 +110,16 @@ namespace Logic.DataAccess
 
         public List<Project> GetAllProjects()
         {
-            if (DbContext == null)
-            {
-                return null;
-            }
+            if (DbContext == null) return null;
             return DbContext.Projects.ToList();
+        }
+
+        public bool UpdateProject(Project project)
+        {
+            throw new NotImplementedException();
+            if (DbContext == null) return false;
+
+            return false;
         }
 
         /// <summary>
