@@ -51,7 +51,7 @@ namespace Web_UI.Controllers
         }
 
         // GET: Task/Create
-        public ActionResult Create()
+        public ActionResult Create(int projectId)
         {
             return View();
         }

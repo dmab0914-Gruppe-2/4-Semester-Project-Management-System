@@ -105,16 +105,33 @@ namespace Web_UI.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    VMProject project = new VMProject();
-                    project.Title = Request.Form["name"];
-                    project.Description = Request.Form["description"];
+                    VMProject p = new VMProject();
+                    p.Id = id;
+                    p.Title = Request.Form["name"];
+                    p.Description = Request.Form["description"];
+                    p.Done = Convert.ToBoolean(Request.Form.GetValues("Done")[0]);
+
+                    Project update = new Project
+                    {
+                        Id = p.Id,
+                        Title = p.Title,
+                        Description = p.Description,
+                        Done = p.Done,
+                        LastChange = DateTime.UtcNow.ToUniversalTime(),
+                    };
+
+                    ReturnValue result = PC.EditProject(update);
+                    if (result == ReturnValue.Success)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
                 }
                 else
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
             }
             catch
             {
