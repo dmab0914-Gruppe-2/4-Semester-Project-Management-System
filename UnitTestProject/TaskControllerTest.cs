@@ -17,13 +17,16 @@ namespace UnitTestProject
         {
             Task task = new Task
             {
+                //Id
+                Title = "Worked",
+                //Assigned to
+                Description = "Something",
                 Priority = Priority.Normal,
                 Created = DateTime.UtcNow,
-                Description = "Something",
-                Title = "Worked",
+                ProjectId = 1,
                 Status = TaskStatus.Unassigned,
             };
-            ReturnValue result = taskController.CreateTask(task.Title, task.Description, task.Priority);
+            ReturnValue result = taskController.CreateTask(task.Title, task.Description, task.Priority, task.ProjectId);
             if(result != ReturnValue.Success)
                 Assert.Fail("Failed at something when creating");
 
