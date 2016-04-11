@@ -91,6 +91,11 @@ namespace Logic.Controllers
             //throw new NotImplementedException("Didnt finish");
         }
 
+        /// <summary>
+        /// Takes a project as parameter, then updates the given projects and assures the changes were successful. 
+        /// </summary>
+        /// <param name="project">The updated project, which MUST have the same id as the project which is to be edited.</param>
+        /// <returns>Returnvalue according if the changes to project were successful</returns>
         public ReturnValue EditProject(Project project)
         {
             Project returnProject = (Project)utility.Sanitizer(project);
