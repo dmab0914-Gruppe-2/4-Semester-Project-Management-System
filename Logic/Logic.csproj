@@ -41,7 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAccess\DbConnection.cs" />
     <Compile Include="DataAccess\DbContext.cs" />
     <Compile Include="DataAccess\DbProject.cs" />
     <Compile Include="Controllers\IProjectController.cs" />
