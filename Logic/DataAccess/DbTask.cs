@@ -19,18 +19,27 @@ namespace Logic.DataAccess
                 //throw new SqlConnectionException("Database connection failed!");
             }
         }
-        public bool AddTask()
+        public bool AddTask(Task task)
         {
-            throw new NotImplementedException();
-            //TODO
-            return false;
+            if (DbContext == null) return false;
+            try
+            {
+                DbContext.Tasks.InsertOnSubmit(task);
+                DbContext.SubmitChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Couldn't add task to database. Task title: " + task.Title + "\nException is:\n" + e);
+                return false;
+            }
         }
-        public Logic.Models.Task GetTask(int taskId)
+        public Task GetTask(int taskId)
         {
             if (DbContext == null) return null;
             try
             {
-                Logic.Models.Task task = DbContext.Tasks.FirstOrDefault(i => i.Id == taskId);
+                Task task = DbContext.Tasks.FirstOrDefault(i => i.Id == taskId);
                 if (task != null)
                 {
                     return task;
@@ -43,17 +52,17 @@ namespace Logic.DataAccess
             }
             return null;
         }
-        public List<Logic.Models.Task> GetTask(string title)
+        public List<Task> GetTask(string title)
         {
             if (DbContext == null) return null;
             var tasks = from task in DbContext.Tasks
                         where task.Title.Equals(title)
                         select task;
-            List<Logic.Models.Task> taskList = tasks.ToList();
+            List<Task> taskList = tasks.ToList();
 
             return taskList;
         }
-        public List<Logic.Models.Task> GetAllTasks()
+        public List<Task> GetAllTasks()
         {
             if (DbContext == null) return null;
             return DbContext.Tasks.ToList();
@@ -68,7 +77,7 @@ namespace Logic.DataAccess
             {
                 var option = new TransactionOptions
                 {
-                    IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
+                    IsolationLevel = IsolationLevel.ReadCommitted
                 };
 
                 using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, option))
@@ -124,7 +133,7 @@ namespace Logic.DataAccess
                 {
                     var option = new TransactionOptions
                     {
-                        IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
+                        IsolationLevel = IsolationLevel.ReadCommitted
                     };
 
                     using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, option))
