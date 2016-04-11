@@ -20,7 +20,7 @@ namespace Logic.Controllers
             DbTask = new DbTask();
             utility = new Utility();
         }
-        public ReturnValue CreateTask(string title, string description, Priority priority, User assignedUser)
+        public ReturnValue CreateTask(string title, string description, Priority priority, User assignedUser, int projectId)
         {
             Models.Task task = new Models.Task
             {
@@ -29,46 +29,28 @@ namespace Logic.Controllers
                 Status = TaskStatus.Assigned,
                 AssignedUser = assignedUser,
                 Created = DateTime.UtcNow,
-                Priority = priority
+                Priority = priority,
+                ProjectId = projectId
 
             };
             Models.Task returnTask = (Models.Task)utility.Sanitizer(task);
             return AddTask(returnTask);
         }
 
-        public ReturnValue CreateTask(string title, string description, Priority priority)
+        public ReturnValue CreateTask(string title, string description, Priority priority, int projectId)
         {
             Models.Task task = new Models.Task
             {
                 Title = title,
                 Description = description,
-                Status = TaskStatus.Unassigned,
+                Status = TaskStatus.Assigned,
                 Created = DateTime.UtcNow,
-                Priority = priority
+                Priority = priority,
+                ProjectId = projectId
 
             };
             Models.Task returnTask = (Models.Task)utility.Sanitizer(task);
             return AddTask(returnTask);
-        }
-
-        public ReturnValue CreateTask(string title, Priority priority)
-        {
-            Models.Task task = new Models.Task
-            {
-                Title = title, 
-                Priority = priority
-            };
-            Models.Task returnTask = (Models.Task) utility.Sanitizer(task);
-            return AddTask(returnTask);
-            throw new NotImplementedException();
-        }
-
-        public ReturnValue CreateTask(string title)
-        {
-            Models.Task task = new Models.Task {Title = title};
-            Models.Task returnTask = (Models.Task)utility.Sanitizer(task);
-            return AddTask(returnTask);
-            throw new NotImplementedException();
         }
 
         public Models.Task[] GetTask(string title)
@@ -92,24 +74,36 @@ namespace Logic.Controllers
 
         public ReturnValue RemoveTask(int id)
         {
-            //todo when db code is done, complete this..
-            throw new NotImplementedException();
+            DbTask.RemoveTask(id);
+            if(DbTask.GetTask(id) == null)
+                return ReturnValue.Success;
+            return ReturnValue.Fail;
         }
 
         private ReturnValue AddTask(Models.Task task)
         {
-            switch (container.AddTask(task))
+            switch (DbTask.AddTask(task))
             {
-                //Success add
-                case 0:
+                case true:
                     return ReturnValue.Success;
-                //Unsuccess add 
-                case 1:
+                case false:
                     return ReturnValue.Fail;
-                //Fail
                 default:
                     return ReturnValue.UnknownFail;
             }
+            
+            //switch (container.AddTask(task))
+            //{
+            //    //Success add
+            //    case 0:
+            //        return ReturnValue.Success;
+            //    //Unsuccess add 
+            //    case 1:
+            //        return ReturnValue.Fail;
+            //    //Fail
+            //    default:
+            //        return ReturnValue.UnknownFail;
+            //}
         }
     }
 }
