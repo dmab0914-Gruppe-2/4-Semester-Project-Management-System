@@ -15,9 +15,16 @@ namespace DataAccessConsoleTest
         static void Main(string[] args)
         {
             Console.WriteLine("Here we go!");
-            TestProject();
+            //TestProject();
             //TestTask();
+            TestGetTastsByProject();
             Console.ReadLine();
+        }
+
+        private static void TestGetTastsByProject()
+        {
+            DbTask dbTask = new DbTask();
+            Console.WriteLine("1 Task id = " + dbTask.GetTasksByProject(1)[0].Id);
         }
 
         private static void TestTask()
