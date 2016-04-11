@@ -168,10 +168,7 @@ namespace Logic.DataAccess
         /// <returns>True if sucessfull. False if not.</returns>
         public bool RemoveProject(int projectId)
         {
-            if (DbContext == null)
-            {
-                return false;
-            }
+            if (DbContext == null) return false;
             Project project = GetProject(projectId);
             if (project != null) //Incase the given project actually doesn't exist.. Then there's no reason to run thru the removal procedure.
             {
