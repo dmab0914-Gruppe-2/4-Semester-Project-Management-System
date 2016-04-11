@@ -13,11 +13,12 @@ namespace Logic.Controllers
 {
     public class ProjectController : IProjectController
     {
-        private Container container = Container.Instance;
+        //private Container container = Container.Instance;
         private DbProject DbProject { get; set; }
         private DbTask DbTask { get; set; }
         private Utility utility = new Utility();
-        private string DATETIME_FORMAT = "YYYY-MM-DD hh:mm:ss.fff";
+
+        //private string DATETIME_FORMAT = "YYYY-MM-DD hh:mm:ss.fff";
         //We're using the ISO 8601 Standard for DateTime. 
         //YYYY-MM-DD hh:mm:ss.mss
         //2016-05-25 22:15:55.000
@@ -37,7 +38,8 @@ namespace Logic.Controllers
                 Description = description,
                 LeaderUser = leaderUser,
                 Title = name,
-                CreatedDate = DateTime.UtcNow.ToUniversalTime()
+                CreatedDate = DateTime.UtcNow.ToUniversalTime(),
+                LastChange = DateTime.UtcNow.ToUniversalTime()
             };
             Project returnProject = (Project)utility.Sanitizer(project);
 
@@ -55,8 +57,7 @@ namespace Logic.Controllers
                 Title = name,
                 Description = description,
                 CreatedDate = DateTime.UtcNow.ToUniversalTime(),
-                LastChange = DateTime.UtcNow.ToUniversalTime(),
-                
+                LastChange = DateTime.UtcNow.ToUniversalTime()
             };
             Project returnProject = (Project)utility.Sanitizer(project);
             return AddProject(returnProject);
@@ -65,7 +66,13 @@ namespace Logic.Controllers
 
         public ReturnValue CreateProject(string name)
         {
-            Project project = new Project { Title = name };
+            Project project = new Project
+            {
+                Title = name,
+                CreatedDate = DateTime.UtcNow.ToUniversalTime(),
+                LastChange = DateTime.UtcNow.ToUniversalTime()
+            
+            };
             Project returnProject = (Project)utility.Sanitizer(project);
             return AddProject(returnProject);
             throw new NotImplementedException();
@@ -84,6 +91,20 @@ namespace Logic.Controllers
             //throw new NotImplementedException("Didnt finish");
         }
 
+        public ReturnValue EditProject(Project project)
+        {
+            Project returnProject = (Project)utility.Sanitizer(project);
+            DbProject.UpdateProject(returnProject);
+            project = DbProject.GetProject((int) project.Id);
+            if(project.Title.Equals(returnProject.Title) && 
+                project.Description.Equals(returnProject.Description) &&
+                project.Done.Equals(returnProject.Done) &&
+                project.LastChange.Equals(returnProject.LastChange))
+                return ReturnValue.Success;
+            return ReturnValue.Fail;
+            throw new NotImplementedException("TODO uncomment when function excists...");
+        }
+
         public Project[] GetProject(string name)
         {
             if (name.Length > 0)
@@ -99,8 +120,8 @@ namespace Logic.Controllers
 
         public ReturnValue AddTaskToProject(int taskId, int projectId)
         {
-            Project project = container.GetProject(projectId);
-            Task task = container.GetTask(taskId);
+            Project project = DbProject.GetProject(projectId);
+            Task task = DbTask.GetTask(taskId);
             if (project == null || task == null)
             {
                 throw new KeyNotFoundException("Project or Task does not excist!");
@@ -109,17 +130,17 @@ namespace Logic.Controllers
 
             //todo change to dbaccess code...
             project.Tasks.Add(task);
-            throw new NotImplementedException();
+            throw new NotImplementedException("Not done yet..");
         }
 
         public ReturnValue RemoveTaskFromProject(int taskId, int projectId)
         {
-            Project project = container.GetProject(projectId);
+            Project project = DbProject.GetProject(projectId);
             if (project == null)
             {
                 throw new KeyNotFoundException("Project with id: " + projectId + " does not excist!");
             }
-            Task task = container.GetTask(taskId);
+            Task task = DbTask.GetTask(taskId);
             if (task == null)
             {
                 throw new KeyNotFoundException("Task with id: " + taskId + " does not excist!");
