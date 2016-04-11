@@ -42,11 +42,11 @@ namespace Logic.Models
 
         //Timestamp of last edit
         [Column]
-        public DateTime LastEdited { get; set; }
+        public DateTime? LastEdited { get; set; }
 
         //Timestamp of duedate
         [Column]
-        public DateTime DueDate { get; set; }
+        public DateTime? DueDate { get; set; }
 
     }
 }
