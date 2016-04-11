@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Transactions;
 using Logic.Models;
@@ -114,11 +115,49 @@ namespace Logic.DataAccess
             return DbContext.Projects.ToList();
         }
 
-        public bool UpdateProject(Project project)
+        public bool UpdateProject(Project project) //TODO test
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
             if (DbContext == null) return false;
+            bool error = false;
+            try
+            {
+                var option = new TransactionOptions
+                {
+                    IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
+                };
 
+                using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, option))
+                {
+                    Debug.Assert(project.Id != null, "project.Id != null");
+                    Project projectNew = GetProject(project.Id.Value);
+                    List<bool> success = new List<bool>();
+                    if (projectNew != null)
+                    {
+                        projectNew.Title = project.Title;
+                        projectNew.Description = project.Description;
+                        projectNew.Done = project.Done;
+                        projectNew.CreatedDate = project.CreatedDate;
+                        projectNew.LastChange = project.LastChange;
+                        DbContext.SubmitChanges();
+                        scope.Complete();
+                    }
+                    else
+                    {
+                        scope.Dispose();
+                        error = true;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Project could not be removed. Project id: " + project.Id + " Error: \n" + e);
+                error = true;
+            }
+            if (error != true)
+            {
+                return true;
+            }
             return false;
         }
 
@@ -175,8 +214,8 @@ namespace Logic.DataAccess
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Project could not be removed. Project id: " + projectId + "Error: \n" + e);
-                    return false;
+                    Console.WriteLine("Project could not be removed. Project id: " + projectId + " Error: \n" + e);
+                    error = true;
                 }
                 if (error != true)
                 {
