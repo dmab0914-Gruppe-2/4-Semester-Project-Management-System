@@ -36,7 +36,19 @@ namespace UnitTestProject
         [TestMethod]
         public void RemoveProject()
         {
-
+            Project[] projectCandidates = projectController.GetProject("Something");
+            foreach (Project project in projectCandidates)
+            {
+                int? id = project.Id;
+                if (id == null)
+                    Assert.Fail("Id is null after get method!");
+                int Id = (int) id;
+                projectController.RemoveProject(Id);
+            }
+            projectCandidates = projectController.GetProject("Something");
+            if (projectCandidates.Length != 0)
+                Assert.Fail("Still contains projects after removal!");
+            //projectController.RemoveProject();
         }
 
         [TestMethod]
