@@ -178,7 +178,7 @@ namespace Logic.Controllers
                 //{
                 //    tasks.Add(task);
                 //}
-                return DbTask.GetAllTasks().Where(x => x.ProjectId == projectId).ToArray();
+                return DbTask.GetTasksByProject(projectId).ToArray();
 
             }
             catch (SqlException)
