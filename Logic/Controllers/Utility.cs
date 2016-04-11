@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Logic.Models;
@@ -17,6 +18,13 @@ namespace Logic.Controllers
         /// <returns>Project or Task which is safe to execute variables against sql server</returns>
         public object Sanitizer(object input)
         {
+            //foreach (FieldInfo property in input.GetType().GetFields())
+            //{
+            //    if (property.GetType() is String)
+            //    {
+                    
+            //    }
+            //}
 
             if (input is Project)
             {
