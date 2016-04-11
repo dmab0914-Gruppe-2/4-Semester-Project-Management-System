@@ -60,6 +60,18 @@ namespace Logic.DataAccess
             List<Task> taskList = tasks.ToList();
             return taskList;
         }
+
+        public List<Task> GetTasksByProject(int projectId)
+        {
+            if (DbContext == null) return null;
+            var dbTasks = from task in DbContext.Tasks
+                        where task.ProjectId.Equals(projectId)
+                        select task;
+            List<Task> tasks = dbTasks.ToList();
+            if (tasks.Count == 0) return null;
+            return tasks;
+        }
+
         public List<Task> GetAllTasks()
         {
             if (DbContext == null) return null;
