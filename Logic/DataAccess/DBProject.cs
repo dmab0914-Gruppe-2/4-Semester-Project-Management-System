@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Dynamic;
 using System.Linq;
 using System.Transactions;
 using Logic.Models;
@@ -11,12 +12,17 @@ namespace Logic.DataAccess
     public class DbProject
     {
         private DbContext DbContext { get; set; }
+        private DbTask DbTask { get; set; }
         public DbProject()
         {
             DbContext = DbContext.Instance;
             if (DbContext == null)
             {
                 //throw new SqlConnectionException("Database connection failed!");
+            }
+            else
+            {
+                DbTask = new DbTask();
             }
         }
 
@@ -188,9 +194,9 @@ namespace Logic.DataAccess
                         {
                             foreach (Task task in project.Tasks)
                             {
-                                //success.Add(RemoveTaskFromProject(project, task)); //TODO remove tasks from project
+                                if (task.Id != null) success.Add(DbTask.RemoveTask(task.Id.Value)); //TODO remove tasks from project
+                                else success.Add(false);
                             }
-                            success.Add(true);
                         }
                         else
                         {
