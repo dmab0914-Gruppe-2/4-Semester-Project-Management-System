@@ -151,7 +151,7 @@ namespace Logic.DataAccess
             }
             catch (Exception e)
             {
-                Console.WriteLine("Project could not be removed. Project id: " + project.Id + " Error: \n" + e);
+                Console.WriteLine("Project could not be updated. Project id: " + project.Id + " Error: \n" + e);
                 error = true;
             }
             if (error != true)

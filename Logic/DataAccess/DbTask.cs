@@ -44,7 +44,6 @@ namespace Logic.DataAccess
                 {
                     return task;
                 }
-
             }
             catch (Exception e)
             {
@@ -59,7 +58,6 @@ namespace Logic.DataAccess
                         where task.Title.Equals(title)
                         select task;
             List<Task> taskList = tasks.ToList();
-
             return taskList;
         }
         public List<Task> GetAllTasks()
@@ -107,7 +105,7 @@ namespace Logic.DataAccess
             }
             catch (Exception e)
             {
-                Console.WriteLine("Task could not be removed. Task id: " + task.Id + " Error: \n" + e);
+                Console.WriteLine("Task could not be updated. Task id: " + task.Id + " Error: \n" + e);
                 error = true;
             }
             if (error != true)
