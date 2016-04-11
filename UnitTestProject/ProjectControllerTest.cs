@@ -89,44 +89,44 @@ namespace UnitTestProject
 
         }
 
-        [TestCleanup]
-        public void Cleanup()
-        {
-            //Something projects removal
-            Project[] projectCandidates = projectController.GetProject("Something");
-            foreach (Project project in projectCandidates)
-            {
-                int? id = project.Id;
-                if (id == null)
-                    Assert.Fail("Id is null after get method!");
-                int Id = (int)id;
-                projectController.RemoveProject(Id);
-            }
+        //[TestCleanup]
+        //public void Cleanup()
+        //{
+        //    //Something projects removal
+        //    Project[] projectCandidates = projectController.GetProject("Something");
+        //    foreach (Project project in projectCandidates)
+        //    {
+        //        int? id = project.Id;
+        //        if (id == null)
+        //            Assert.Fail("Id is null after get method!");
+        //        int Id = (int)id;
+        //        projectController.RemoveProject(Id);
+        //    }
 
-            //Billy projects removal
-            projectCandidates = projectController.GetProject("Billy");
-            foreach (Project project in projectCandidates)
-            {
-                int? id = project.Id;
-                if (id == null)
-                    Assert.Fail("Id is null after get method!");
-                int Id = (int)id;
-                projectController.RemoveProject(Id);
-            }
+        //    //Billy projects removal
+        //    projectCandidates = projectController.GetProject("Billy");
+        //    foreach (Project project in projectCandidates)
+        //    {
+        //        int? id = project.Id;
+        //        if (id == null)
+        //            Assert.Fail("Id is null after get method!");
+        //        int Id = (int)id;
+        //        projectController.RemoveProject(Id);
+        //    }
 
-            //Edited random projects removal
-            projectCandidates = projectController.GetAllProjects();
-            List<Project> projects = new List<Project>();   
-            foreach (Project project in projectCandidates)
-            {
-                if(project.Description.Equals("Worked"))
-                    projects.Add(project);
-            }
-            foreach (Project project in projects)
-            {
-                projectController.RemoveProject((int) project.Id);
-            }
-        }
+        //    //Edited random projects removal
+        //    projectCandidates = projectController.GetAllProjects();
+        //    List<Project> projects = new List<Project>();   
+        //    foreach (Project project in projectCandidates)
+        //    {
+        //        if(project.Description.Equals("Worked"))
+        //            projects.Add(project);
+        //    }
+        //    foreach (Project project in projects)
+        //    {
+        //        projectController.RemoveProject((int) project.Id);
+        //    }
+        //}
 
     }
 }
