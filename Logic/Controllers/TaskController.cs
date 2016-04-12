@@ -43,14 +43,13 @@ namespace Logic.Controllers
 
         }
 
-        public ReturnValue CreateTask(string title, string description, Priority priority, User assignedUser, int projectId)
+        public ReturnValue CreateTask(string title, string description, Priority priority, TaskStatus ts, int projectId)
         {
             Models.Task task = new Models.Task
             {
                 Title = title,
                 Description = description,
-                Status = TaskStatus.Assigned,
-                AssignedUser = assignedUser,
+                Status = ts,
                 Created = DateTime.UtcNow,
                 Priority = priority,
                 ProjectId = projectId,
@@ -68,12 +67,12 @@ namespace Logic.Controllers
             {
                 Title = title,
                 Description = description,
-                Status = TaskStatus.Assigned,
+                Status = TaskStatus.Unassigned,
                 Created = DateTime.UtcNow,
                 DueDate = DateTime.MaxValue,
                 LastEdited = DateTime.UtcNow,
                 Priority = priority,
-                ProjectId = projectId
+                ProjectId = projectId,
 
             };
             Models.Task returnTask = (Models.Task)utility.Sanitizer(task);
@@ -82,7 +81,19 @@ namespace Logic.Controllers
 
         public ReturnValue CreateTask(string title, string description, Priority priority, int projectId, DateTime duedate)
         {
-            throw new NotImplementedException();
+            Models.Task task = new Task
+            {
+                Title = title,
+                Description = description,
+                Priority = priority,
+                ProjectId = projectId,
+                DueDate = duedate,
+                LastEdited = DateTime.UtcNow,
+                Created = DateTime.UtcNow,
+                Status = TaskStatus.Unassigned
+            };
+            Models.Task returnTask = (Models.Task) utility.Sanitizer(task);
+            return AddTask(returnTask);
         }
 
         public Models.Task[] GetTask(string title)
