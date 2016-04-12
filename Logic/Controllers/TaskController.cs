@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Logic.DataAccess;
+using Task = Logic.Models.Task;
 
 namespace Logic.Controllers
 {
@@ -24,8 +25,24 @@ namespace Logic.Controllers
         public ReturnValue CreateTask(string title, string description, Priority priority, User assignedUser,
             int projectId, DateTime duedate)
         {
-            Models.Task task = new Models.Task();
+            Models.Task task = new Models.Task
+            {
+                Title = title,
+                Description = description,
+                Priority = priority,
+                AssignedUser = assignedUser,
+                ProjectId = projectId,
+                DueDate = duedate,
+                Created = DateTime.UtcNow,
+                LastEdited = DateTime.UtcNow,
+                Status = TaskStatus.Assigned
+            };
+
+            return ReturnValue.UnknownFail;
+
+
         }
+
         public ReturnValue CreateTask(string title, string description, Priority priority, User assignedUser, int projectId)
         {
             Models.Task task = new Models.Task
@@ -63,17 +80,22 @@ namespace Logic.Controllers
             return AddTask(returnTask);
         }
 
+        public ReturnValue CreateTask(string title, string description, Priority priority, int projectId, DateTime duedate)
+        {
+            throw new NotImplementedException();
+        }
+
         public Models.Task[] GetTask(string title)
         {
             if (title.Length > 0)
-                return container.GetTask(title).ToArray();
+                return DbTask.GetTask(title).ToArray();
             else
                 throw new KeyNotFoundException(title + " Does not excist!");
         }
 
         public Models.Task GetTask(int id)
         {
-            Models.Task task = container.GetTask(id);
+            Models.Task task = DbTask.GetTask(id);
             if (task == null)
             {
                 throw new KeyNotFoundException(id.ToString() + " Does not excist!");
@@ -115,5 +137,6 @@ namespace Logic.Controllers
             //        return ReturnValue.UnknownFail;
             //}
         }
+
     }
 }
