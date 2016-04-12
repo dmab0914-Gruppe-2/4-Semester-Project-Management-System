@@ -8,6 +8,8 @@ using Logic.Models;
 using Logic.Controllers;
 using Web_UI.Models;
 using Logic;
+using Web_UI.Models.Enums;
+using Priority = Web_UI.Models.Enums.Priority;
 
 namespace Web_UI.Controllers
 {
@@ -17,7 +19,7 @@ namespace Web_UI.Controllers
         // GET: Task
         public ActionResult Index()
         {
-            
+
             return View();
         }
 
@@ -26,7 +28,7 @@ namespace Web_UI.Controllers
         {
             List<VMTask> tasks = new List<VMTask>();
             VMTask task1 = new VMTask { Title = "We gotta do this", Description = "Shit", Status = Models.Enums.Status.InProgress, Id = 2, Project = new VMProject(405), CreatedDate = DateTime.Now };
-            VMTask task2 = new VMTask { Title = "Shit", Description = "We gotta do",Status = Models.Enums.Status.Done, Id = 1, Project = new VMProject(405), CreatedDate = DateTime.Now };
+            VMTask task2 = new VMTask { Title = "Shit", Description = "We gotta do", Status = Models.Enums.Status.Done, Id = 1, Project = new VMProject(405), CreatedDate = DateTime.Now };
             tasks.Add(task1);
             tasks.Add(task2);
             List<VMProject> projects = new List<VMProject>();
@@ -35,7 +37,7 @@ namespace Web_UI.Controllers
             projects.Add(y);
             projects.Add(x);
 
-           
+
 
             if (id == null)
             {
@@ -66,29 +68,27 @@ namespace Web_UI.Controllers
                 {
                     string title = Request.Form["title"];
                     string description = Request.Form["description"];
-                    //DateTime timestamp = DateTime.UtcNow;
-
-
-                    if (title != null && description != null)
+                    Status status = (Status)Enum.Parse(typeof(Status), Request.Form["Status"]);
+                    Priority priority = (Priority)Enum.Parse(typeof(Priority), Request.Form["Priority"]);
+                    DateTime dueDate = DateTime.ParseExact(Request.Form["DueDate"], "yyyy-MM-dd", null);
+                    int id = Convert.ToInt32(RouteData.Values["projectId"] + Request.Url.Query.Split('=')[1]);
+                    if (title != null && title.Length > 0)
                     {
-                        VMTask task = new VMTask
+                        var theirStatus = MyEnumExtensions.ToLogicEnumStatus(status);
+                        var theirPriority = MyEnumExtensions.ToLogicEnumPriority(priority);
+                        ReturnValue result = TC.CreateTask(title, description, theirPriority, theirStatus, id, dueDate);
+
+                        if (result == ReturnValue.Success)
                         {
-                            Title = title,
-                            Description = description,
-                            CreatedDate = DateTime.UtcNow,
-
-                        };
-                        //TODO insert dbinsert here....
-                        //if (container.AddTask(task) == 0)
-                        //{
-                        //    return RedirectToAction("Index");
-                        //}
-                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
+                            return RedirectToAction("Index", "Project");
+                        }
+                        else
+                        {
+                            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                        }
                     }
                 }
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                //return RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
             catch
             {
