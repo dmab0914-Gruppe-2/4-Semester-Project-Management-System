@@ -11,7 +11,7 @@ namespace UnitTestProject
     public class TaskControllerTest
     {
         TaskController taskController = new TaskController();
-        private int taskId;
+        private int _taskId;
         [TestMethod]
         public void CreateTask()
         {
@@ -43,13 +43,15 @@ namespace UnitTestProject
                      x.Status.Equals(TaskStatus.Unassigned))))
                 Assert.Fail("Does not match the task created in CreateTask test");
             Task task = tasks.First(x => x.Title.Equals("Worked"));
-            taskId = (int)task.Id;
+            if(task.Id == null)
+                Assert.Fail("Returned task id is null!");
+            _taskId = (int)task.Id;
         }
 
         [TestCleanup]
         public void CleanupCrew()
         {
-            taskController.RemoveTask(taskId);
+            taskController.RemoveTask(_taskId);
         }
     }
 }

@@ -20,6 +20,12 @@ namespace Logic.Controllers
             DbTask = new DbTask();
             utility = new Utility();
         }
+
+        public ReturnValue CreateTask(string title, string description, Priority priority, User assignedUser,
+            int projectId, DateTime duedate)
+        {
+            Models.Task task = new Models.Task();
+        }
         public ReturnValue CreateTask(string title, string description, Priority priority, User assignedUser, int projectId)
         {
             Models.Task task = new Models.Task
@@ -30,7 +36,9 @@ namespace Logic.Controllers
                 AssignedUser = assignedUser,
                 Created = DateTime.UtcNow,
                 Priority = priority,
-                ProjectId = projectId
+                ProjectId = projectId,
+                DueDate = DateTime.MaxValue,
+                LastEdited = DateTime.UtcNow
 
             };
             Models.Task returnTask = (Models.Task)utility.Sanitizer(task);
@@ -45,6 +53,8 @@ namespace Logic.Controllers
                 Description = description,
                 Status = TaskStatus.Assigned,
                 Created = DateTime.UtcNow,
+                DueDate = DateTime.MaxValue,
+                LastEdited = DateTime.UtcNow,
                 Priority = priority,
                 ProjectId = projectId
 
