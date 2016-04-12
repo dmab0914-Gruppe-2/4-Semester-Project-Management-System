@@ -25,18 +25,26 @@ namespace Web_UI.Models
         //TODO Can be changed to array or list later for convience
         public VMUser AssignedUser { get; set; }
         //Timestamp of change / creation. TBD
+        
+        
         [DataType(DataType.Date)]
         [DisplayName("Created on")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yy H:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime CreatedDate { get; set; }
-        [DataType(DataType.Date)]
+       
+        
+        [DataType(DataType.DateTime)]
         [DisplayName("Due date")]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yy H:mm:ss}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yy H:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime? DueDate { get; set; }
+       
+        
         [DataType(DataType.Date)]
         [DisplayName("Last changed")]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yy H:mm:ss}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy H:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime? LastChangedDate { get; set; }
+       
+        
         public VMTask()
         {
 
