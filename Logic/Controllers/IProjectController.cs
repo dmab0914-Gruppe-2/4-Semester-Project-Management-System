@@ -4,12 +4,12 @@ namespace Logic.Controllers
 {
     public interface IProjectController
     {
-        ReturnValue CreateProject(string name, string description, User leaderUser);
-        ReturnValue CreateProject(string name, string description);
-        ReturnValue CreateProject(string name);
+        ReturnValue CreateProject(string title, string description, User leaderUser);
+        ReturnValue CreateProject(string title, string description);
+        ReturnValue CreateProject(string title);
         ReturnValue RemoveProject(int id);
         ReturnValue EditProject(Project project);
-        Project[] GetProject(string name);
+        Project[] GetProject(string title);
         Project GetProject(int id);
         Project[] GetAllProjects();
         ReturnValue AddTaskToProject(int taskId, int projectId);

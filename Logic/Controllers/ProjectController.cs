@@ -30,14 +30,14 @@ namespace Logic.Controllers
             DbProject = new DbProject();
         }
 
-        public ReturnValue CreateProject(string name, string description, User leaderUser)
+        public ReturnValue CreateProject(string title, string description, User leaderUser)
         {
             Project project = new Project
             {
                 Done = false,
                 Description = description,
                 LeaderUser = leaderUser,
-                Title = name,
+                Title = title,
                 CreatedDate = DateTime.UtcNow.ToUniversalTime(),
                 LastChange = DateTime.UtcNow.ToUniversalTime()
             };
@@ -48,13 +48,13 @@ namespace Logic.Controllers
             return AddProject(returnProject);
         }
 
-        public ReturnValue CreateProject(string name, string description)
+        public ReturnValue CreateProject(string title, string description)
         {
 
             Project project = new Project
             {
                 Done = false,
-                Title = name,
+                Title = title,
                 Description = description,
                 CreatedDate = DateTime.UtcNow.ToUniversalTime(),
                 LastChange = DateTime.UtcNow.ToUniversalTime()
@@ -64,11 +64,11 @@ namespace Logic.Controllers
             throw new NotImplementedException();
         }
 
-        public ReturnValue CreateProject(string name)
+        public ReturnValue CreateProject(string title)
         {
             Project project = new Project
             {
-                Title = name,
+                Title = title,
                 CreatedDate = DateTime.UtcNow.ToUniversalTime(),
                 LastChange = DateTime.UtcNow.ToUniversalTime()
             
@@ -110,10 +110,10 @@ namespace Logic.Controllers
             throw new NotImplementedException("TODO uncomment when function excists...");
         }
 
-        public Project[] GetProject(string name)
+        public Project[] GetProject(string title)
         {
-            if (name.Length > 0)
-                return DbProject.GetProject(name).ToArray();
+            if (title.Length > 0)
+                return DbProject.GetProject(title).ToArray();
             else
                 throw new Exception("Title defined not found");
         }
