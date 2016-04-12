@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Logic;
 using Logic.Controllers;
+using Logic.DataAccess;
 using Logic.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -11,32 +13,75 @@ namespace UnitTestProject
     [TestClass]
     public class ProjectControllerTest
     {
-        private Logic.Controllers.IProjectController projectController = new ProjectController();
-        private Project _project;
+        private static Logic.Controllers.IProjectController _projectController;
+        private static Project _project;
+        private static bool _projectRemoved = false;
+
+        #region Class Initialize and Cleanup
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext context)
+        {
+            _projectController = new ProjectController();
+            _project = new Project
+            {
+                Title = "UnitTestProject",
+                Description = "Et fint lille unit test project",
+                CreatedDate = DateTime.UtcNow,
+                LastChange = DateTime.UtcNow,
+                Done = false
+            };
+        }
+
+        [ClassCleanup]
+        public static void ClassCleanup()
+        {
+
+        }
+        #endregion
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            //Assert.IsTrue(new DbProject().AddProject(_project));
+            //Assert.IsNotNull(_project.Id);
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            if (!_projectRemoved)
+            {
+                //Debug.Assert(_project.Id != null, "_project.Id != null");
+                //Assert.IsTrue(new DbProject().RemoveProject(_project.Id.Value));
+            }
+        }
 
         [TestMethod]
         public void CreateProject()
         {
-            ReturnValue result = projectController.CreateProject("Something", "Worked");
+            //_projectController.CreateProject()
+            #region old shit
+            ReturnValue result = _projectController.CreateProject("Something", "Worked");
             if (result != ReturnValue.Success)
                 Assert.Fail("ReturnValue is not success");
-            _project = new Project {Title = "Something", Description = "Worked"};
-            result = projectController.CreateProject("Billy", "'); DROP TABLE Project");
+            _project = new Project { Title = "Something", Description = "Worked" };
+            result = _projectController.CreateProject("Billy", "'); DROP TABLE Project");
             if (result != ReturnValue.Success)
                 Assert.Fail("ReturnValue is not success");
-            Project[] projects = projectController.GetProject("Billy");
+            Project[] projects = _projectController.GetProject("Billy");
             Project project = projects.First();
             project.Description.Equals("''); DROP TABLE Project");
+            #endregion
         }
 
         [TestMethod]
         public void GetProject()
         {
-            Project[] projects = projectController.GetProject("Something");
+            Project[] projects = _projectController.GetProject("Something");
             _project = projects.FirstOrDefault();
             if (!_project.Description.Equals("Worked"))
                 Assert.Fail("Description mismatch");
-            if(!_project.Title.Equals("Something"))
+            if (!_project.Title.Equals("Something"))
                 Assert.Fail("Title Mismatch");
         }
 
@@ -48,11 +93,11 @@ namespace UnitTestProject
             int rndNumber = rnd.Next();
 
             //Update the project with something hopefully random
-            Project[] projects = projectController.GetProject("Something");
+            Project[] projects = _projectController.GetProject("Something");
             _project = projects.FirstOrDefault();
             _project.Title = rndNumber.ToString();
-            ReturnValue rt = projectController.EditProject(_project);
-            if(!rt.Equals(ReturnValue.Success))
+            ReturnValue rt = _projectController.EditProject(_project);
+            if (!rt.Equals(ReturnValue.Success))
                 Assert.Fail("Project controller did not return success");
 
         }
@@ -60,16 +105,16 @@ namespace UnitTestProject
         [TestMethod]
         public void RemoveProject()
         {
-            Project[] projectCandidates = projectController.GetProject("Something");
+            Project[] projectCandidates = _projectController.GetProject("Something");
             foreach (Project project in projectCandidates)
             {
                 int? id = project.Id;
                 if (id == null)
                     Assert.Fail("Id is null after get method!");
                 int Id = (int)id;
-                projectController.RemoveProject(Id);
+                _projectController.RemoveProject(Id);
             }
-            projectCandidates = projectController.GetProject("Something");
+            projectCandidates = _projectController.GetProject("Something");
             if (projectCandidates.Length != 0)
                 Assert.Fail("Still contains projects after removal!");
 
@@ -80,7 +125,7 @@ namespace UnitTestProject
         [TestMethod]
         public void GetTaskFromProject()
         {
-            Task[] tasks = projectController.GetTasksFromProject(1);
+            Task[] tasks = _projectController.GetTasksFromProject(1);
         }
 
         [TestMethod]
@@ -89,6 +134,10 @@ namespace UnitTestProject
 
         }
 
+        #region Private test related operations methods
+
+        #endregion
+        #region Old stuff
         //[TestCleanup]
         //public void Cleanup()
         //{
@@ -127,6 +176,6 @@ namespace UnitTestProject
         //        projectController.RemoveProject((int) project.Id);
         //    }
         //}
-
+        #endregion
     }
 }

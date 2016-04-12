@@ -17,7 +17,8 @@ namespace DataAccessConsoleTest
             Console.WriteLine("Here we go!");
             //TestProject();
             //TestTask();
-            TestGetTastsByProject();
+            //TestGetTastsByProject();
+            TestProjectIdWhenAddingToDB();
             Console.ReadLine();
         }
 
@@ -33,6 +34,22 @@ namespace DataAccessConsoleTest
             Console.WriteLine("##Testing retrieval of getting a Task.");
             PrintTaskInformation(dbTask.GetTask(1));
             Console.WriteLine("##DONE");
+        }
+
+        private static void TestProjectIdWhenAddingToDB()
+        {
+            DbProject dbProject = new DbProject();
+            Project project = new Project
+            {
+                Title = "Quick Test",
+                Description = "Fancy description",
+                Done = true,
+                CreatedDate = DateTime.UtcNow,
+                LastChange = DateTime.UtcNow
+            };
+            dbProject.AddProject(project);
+            
+            Console.WriteLine("Project id is: " + project.Id);
         }
 
         private static void TestProject()
