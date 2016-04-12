@@ -106,10 +106,7 @@ namespace Logic.Controllers
         public Models.Task GetTask(int id)
         {
             Models.Task task = DbTask.GetTask(id);
-            if (task == null)
-            {
-                throw new KeyNotFoundException(id.ToString() + " Does not excist!");
-            }
+           
             return task;
         }
 

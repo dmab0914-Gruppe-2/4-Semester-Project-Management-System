@@ -12,7 +12,7 @@ namespace Web_UI.Models
         //id from db
         public int? Id { get; set; }
         // Project
-        public VMProject Project { get; set; }
+        public int ProjectId { get; set; }
         //title of task
         public string Title { get; set; }
         //description of task
@@ -32,10 +32,27 @@ namespace Web_UI.Models
         [DataType(DataType.Date)]
         [DisplayName("Due date")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yy H:mm:ss}", ApplyFormatInEditMode = true)]
-        public DateTime DueDate { get; set; }
+        public DateTime? DueDate { get; set; }
         [DataType(DataType.Date)]
         [DisplayName("Last changed")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yy H:mm:ss}", ApplyFormatInEditMode = true)]
-        public DateTime LastChangedDate { get; set; }
+        public DateTime? LastChangedDate { get; set; }
+        public VMTask()
+        {
+
+        }
+        public VMTask(int? id, string title, string desc, Enums.Status status, Enums.Priority priority, DateTime created, DateTime? duedate, DateTime? lastedited, int projectId)
+        {
+            this.Id = id;
+            this.Title = title;
+            this.Description = desc;
+            this.Status = status;
+            this.Priority = priority;
+            this.CreatedDate = created;
+            this.DueDate = duedate;
+            this.LastChangedDate = lastedited;
+            this.ProjectId = projectId;
+        }
+
     }
 }

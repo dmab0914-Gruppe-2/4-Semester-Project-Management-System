@@ -42,7 +42,7 @@
                     var htmlStr = '';
                     $.each(data, function (k, v) {
                         var id = v.Id;
-                        var btn = '@Html.ActionLink(linkText: "Open task",actionName: "Details",controllerName: "Task",routeValues: new { id = -1 }, htmlAttributes: new { @class = "btn btn-default" })';
+                        var btn = '@Html.ActionLink(linkText: "Open task",actionName: "Edit",controllerName: "Task",routeValues: new { id = -1 }, htmlAttributes: new { @class = "btn btn-default" })';
                         btn = btn.replace('-1', id);
                         htmlStr += '<h3>' + v.Title + '</h3><div class="task-list"><p>' + v.Description + '</p><br />' + btn + '</div>';
                     });
