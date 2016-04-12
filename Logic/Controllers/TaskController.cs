@@ -22,7 +22,7 @@ namespace Logic.Controllers
             utility = new Utility();
         }
 
-        public ReturnValue CreateTask(string title, string description, Priority priority, User assignedUser,
+        public ReturnValue CreateTask(string title, string description, Priority priority, TaskStatus ts,
             int projectId, DateTime duedate)
         {
             Models.Task task = new Models.Task
@@ -30,15 +30,14 @@ namespace Logic.Controllers
                 Title = title,
                 Description = description,
                 Priority = priority,
-                AssignedUser = assignedUser,
                 ProjectId = projectId,
                 DueDate = duedate,
                 Created = DateTime.UtcNow,
                 LastEdited = DateTime.UtcNow,
-                Status = TaskStatus.Assigned
+                Status = ts
             };
-
-            return ReturnValue.UnknownFail;
+            Models.Task returnTask  = (Models.Task) utility.Sanitizer(task);
+            return AddTask(returnTask);
 
 
         }
