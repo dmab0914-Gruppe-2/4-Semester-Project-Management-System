@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -33,50 +34,57 @@ namespace Logic.Controllers
 
         public ReturnValue CreateProject(string title, string description, User leaderUser)
         {
-            Project project = new Project
+            if (utility.StringLength50(title))
             {
-                Done = false,
-                Description = description,
-                LeaderUser = leaderUser,
-                Title = title,
-                CreatedDate = DateTime.UtcNow.ToUniversalTime(),
-                LastChange = DateTime.UtcNow.ToUniversalTime()
-            };
-            Project returnProject = (Project)utility.Sanitizer(project);
-
-            //container.AddProject(project);
-            //TODO when dbaccess is done, make sure that the db is checked if the data has been added
-            return AddProject(returnProject);
+                Project project = new Project
+                {
+                    Done = false,
+                    Description = description,
+                    LeaderUser = leaderUser,
+                    Title = title,
+                    CreatedDate = DateTime.UtcNow.ToUniversalTime(),
+                    LastChange = DateTime.UtcNow.ToUniversalTime()
+                };
+                Project returnProject = (Project)utility.Sanitizer(project);
+                return AddProject(returnProject);
+            }
+            return ReturnValue.Fail;
         }
 
         public ReturnValue CreateProject(string title, string description)
         {
-
-            Project project = new Project
+            if (utility.StringLength50(title))
             {
-                Done = false,
-                Title = title,
-                Description = description,
-                CreatedDate = DateTime.UtcNow.ToUniversalTime(),
-                LastChange = DateTime.UtcNow.ToUniversalTime()
-            };
-            Project returnProject = (Project)utility.Sanitizer(project);
-            return AddProject(returnProject);
-            throw new NotImplementedException();
+                Project project = new Project
+                {
+                    Done = false,
+                    Title = title,
+                    Description = description,
+                    CreatedDate = DateTime.UtcNow.ToUniversalTime(),
+                    LastChange = DateTime.UtcNow.ToUniversalTime()
+                };
+                Project returnProject = (Project)utility.Sanitizer(project);
+                return AddProject(returnProject);
+            }
+            return ReturnValue.Fail;
         }
 
         public ReturnValue CreateProject(string title)
         {
-            Project project = new Project
+            if (utility.StringLength50(title))
             {
-                Title = title,
-                CreatedDate = DateTime.UtcNow.ToUniversalTime(),
-                LastChange = DateTime.UtcNow.ToUniversalTime()
+                Project project = new Project
+                {
+                    Title = title,
+                    CreatedDate = DateTime.UtcNow.ToUniversalTime(),
+                    LastChange = DateTime.UtcNow.ToUniversalTime()
 
-            };
-            Project returnProject = (Project)utility.Sanitizer(project);
-            return AddProject(returnProject);
-            throw new NotImplementedException();
+                };
+                Project returnProject = (Project)utility.Sanitizer(project);
+                return AddProject(returnProject);
+            }
+            return ReturnValue.Fail;
+
         }
 
         public ReturnValue RemoveProject(int projectId)
@@ -89,7 +97,7 @@ namespace Logic.Controllers
             {
                 ReturnValue rt = taskController.RemoveTask(task.Id.Value);
                 if (rt == ReturnValue.Success) { continue; }
-                if(rt == ReturnValue.Fail || rt == ReturnValue.UnknownFail)
+                if (rt == ReturnValue.Fail || rt == ReturnValue.UnknownFail)
                     return ReturnValue.Fail;
             }
             DbProject.RemoveProject(projectId);
@@ -97,7 +105,6 @@ namespace Logic.Controllers
             if (project == null)
                 return ReturnValue.Success;
             return ReturnValue.UnknownFail;
-            //throw new NotImplementedException("Didnt finish");
         }
 
         /// <summary>
@@ -107,16 +114,19 @@ namespace Logic.Controllers
         /// <returns>Returnvalue according if the changes to project were successful</returns>
         public ReturnValue EditProject(Project project)
         {
-            Project returnProject = (Project)utility.Sanitizer(project);
-            DbProject.UpdateProject(returnProject);
-            project = DbProject.GetProject((int)project.Id);
-            if (project.Title.Equals(returnProject.Title) &&
-                project.Description.Equals(returnProject.Description) &&
-                project.Done.Equals(returnProject.Done) &&
-                project.LastChange.Equals(returnProject.LastChange))
-                return ReturnValue.Success;
-            return ReturnValue.Fail;
-            throw new NotImplementedException("TODO uncomment when function excists...");
+            if (utility.StringLength50(project.Title))
+            {
+                Project returnProject = (Project)utility.Sanitizer(project);
+                DbProject.UpdateProject(returnProject);
+                Debug.Assert(project.Id != null, "project.Id != null");
+                project = DbProject.GetProject((int)project.Id);
+                if (project.Title.Equals(returnProject.Title) &&
+                    project.Description.Equals(returnProject.Description) &&
+                    project.Done.Equals(returnProject.Done) &&
+                    project.LastChange.Equals(returnProject.LastChange))
+                    return ReturnValue.Success;
+                return ReturnValue.Fail;
+            }
         }
 
         public Project[] GetProject(string title)
@@ -168,7 +178,6 @@ namespace Logic.Controllers
 
         public Project[] GetAllProjects()
         {
-            //TODO change to DBaccess code
             return DbProject.GetAllProjects().ToArray();
             //return container.GetAllProjects().ToArray();
         }
@@ -206,8 +215,6 @@ namespace Logic.Controllers
             }
             catch (Exception)
             {
-                //todo when Jacob defines more errors... Do more work here...
-                //todo remove project when Jacob fixes thingy..
                 return ReturnValue.UnknownFail;
             }
             return ReturnValue.UnknownFail;
