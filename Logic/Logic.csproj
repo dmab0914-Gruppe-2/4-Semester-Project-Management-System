@@ -49,7 +49,6 @@
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\Utility.cs" />
     <Compile Include="DataAccess\DbTask.cs" />
-    <Compile Include="Models\Container.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Task.cs" />

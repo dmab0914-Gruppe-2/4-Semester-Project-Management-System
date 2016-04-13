@@ -12,13 +12,11 @@ namespace Logic.Controllers
 {
     public class TaskController : ITaskController
     {
-        private Container container;
         private Utility utility;
         private DbTask DbTask { get; set; }
 
         public TaskController()
         {
-            container = Container.Instance;
             DbTask = new DbTask();
             utility = new Utility();
         }
