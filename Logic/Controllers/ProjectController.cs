@@ -17,12 +17,13 @@ namespace Logic.Controllers
         private DbProject DbProject { get; set; }
         private DbTask DbTask { get; set; }
         private Utility utility = new Utility();
+        TaskController taskController = new TaskController();
 
         //private string DATETIME_FORMAT = "YYYY-MM-DD hh:mm:ss.fff";
         //We're using the ISO 8601 Standard for DateTime. 
         //YYYY-MM-DD hh:mm:ss.mss
         //2016-05-25 22:15:55.000
-        
+
 
         public ProjectController()
         {
@@ -71,7 +72,7 @@ namespace Logic.Controllers
                 Title = title,
                 CreatedDate = DateTime.UtcNow.ToUniversalTime(),
                 LastChange = DateTime.UtcNow.ToUniversalTime()
-            
+
             };
             Project returnProject = (Project)utility.Sanitizer(project);
             return AddProject(returnProject);
@@ -81,11 +82,19 @@ namespace Logic.Controllers
         public ReturnValue RemoveProject(int projectId)
         {
             Project project = DbProject.GetProject(projectId);
-            if(project == null)
+            if (project == null)
                 return ReturnValue.Fail;
+            Task[] tasks = GetTasksFromProject(projectId);
+            foreach (Task task in tasks)
+            {
+                ReturnValue rt = taskController.RemoveTask(task.Id.Value);
+                if (rt == ReturnValue.Success) { continue; }
+                if(rt == ReturnValue.Fail || rt == ReturnValue.UnknownFail)
+                    return ReturnValue.Fail;
+            }
             DbProject.RemoveProject(projectId);
             project = DbProject.GetProject(projectId);
-            if(project == null)
+            if (project == null)
                 return ReturnValue.Success;
             return ReturnValue.UnknownFail;
             //throw new NotImplementedException("Didnt finish");
@@ -100,8 +109,8 @@ namespace Logic.Controllers
         {
             Project returnProject = (Project)utility.Sanitizer(project);
             DbProject.UpdateProject(returnProject);
-            project = DbProject.GetProject((int) project.Id);
-            if(project.Title.Equals(returnProject.Title) && 
+            project = DbProject.GetProject((int)project.Id);
+            if (project.Title.Equals(returnProject.Title) &&
                 project.Description.Equals(returnProject.Description) &&
                 project.Done.Equals(returnProject.Done) &&
                 project.LastChange.Equals(returnProject.LastChange))
@@ -219,7 +228,7 @@ namespace Logic.Controllers
             //}
         }
 
-        
+
         //private DateTime ParseDateTime(DateTime dt)
         //{
         //    //DateTime parsedDateTime = DateTime.UtcNow;
@@ -227,4 +236,4 @@ namespace Logic.Controllers
         //    return new DateTime();
         //}
     }
-}   
+}
