@@ -67,7 +67,7 @@ namespace Logic.DataAccess
                         where task.ProjectId.Equals(projectId)
                         select task;
             List<Task> tasks = dbTasks.ToList();
-            if (tasks.Count == 0) return null;
+            //if (tasks.Count == 0) return null;
             //for (int i = 0; i < tasks.Count; i++) //Rebuilds all tasks with leftover information from other places in database.
             //{
             //    Debug.Assert(tasks[i].Id != null, "tasks[i].Id != null");
