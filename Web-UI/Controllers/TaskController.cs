@@ -23,35 +23,6 @@ namespace Web_UI.Controllers
             return View();
         }
 
-        // GET: Task/Details/5
-        public ActionResult Details(int? id)
-        {
-            List<VMTask> tasks = new List<VMTask>();
-            VMTask task1 = new VMTask { Title = "We gotta do this", Description = "Shit", Status = Models.Enums.Status.InProgress, Id = 2, Project = new VMProject(405), CreatedDate = DateTime.Now };
-            VMTask task2 = new VMTask { Title = "Shit", Description = "We gotta do", Status = Models.Enums.Status.Done, Id = 1, Project = new VMProject(405), CreatedDate = DateTime.Now };
-            tasks.Add(task1);
-            tasks.Add(task2);
-            List<VMProject> projects = new List<VMProject>();
-            VMProject y = new VMProject { Description = "Awesome project", Id = 405, Title = "42", Tasks = tasks };
-            VMProject x = new VMProject { Description = "hest project", Id = 406, Title = "hest", Tasks = null };
-            projects.Add(y);
-            projects.Add(x);
-
-
-
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            VMTask task = tasks.FirstOrDefault(u => u.Id == id);
-            if (task == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View(task);
-        }
-
         // GET: Task/Create
         public ActionResult Create(int projectId)
         {
@@ -99,23 +70,15 @@ namespace Web_UI.Controllers
         // GET: Task/Edit/5
         public ActionResult Edit(int id)
         {
-            List<VMTask> tasks = new List<VMTask>();
-            VMTask task1 = new VMTask { Title = "We gotta do this", Description = "Shit", Id = 2, Project = new VMProject(405), CreatedDate = DateTime.Now, LastChangedDate = DateTime.Now };
-            VMTask task2 = new VMTask { Title = "Shit", Description = "We gotta do", Id = 1, Project = new VMProject(405), CreatedDate = DateTime.Now };
-            tasks.Add(task1);
-            tasks.Add(task2);
-            List<VMProject> projects = new List<VMProject>();
-            VMProject y = new VMProject { Description = "Awesome project", Id = 405, Title = "42", Tasks = tasks };
-            VMProject x = new VMProject { Description = "hest project", Id = 406, Title = "hest", Tasks = null };
-            projects.Add(y);
-            projects.Add(x);
+            Task t = TC.GetTask(id);
 
-            VMTask result = tasks.FirstOrDefault(u => u.Id == id);
-
-            if (result == null)
+            VMTask vt = new VMTask(t.Id, t.Title, t.Description, TheirEnumExtensions.ToWebEnumTaskStatus(t.Status), TheirEnumExtensions.ToWebEnumPriority(t.Priority), t.Created, t.DueDate, t.LastEdited, t.ProjectId);
+            if(t == null)
+            {
                 return HttpNotFound();
+            }
 
-            return View(result);
+            return View(vt);
         }
 
         // POST: Task/Edit/5

@@ -12,7 +12,7 @@ namespace Web_UI.Models
         //id from db
         public int? Id { get; set; }
         // Project
-        public VMProject Project { get; set; }
+        public int ProjectId { get; set; }
         //title of task
         public string Title { get; set; }
         //description of task
@@ -25,17 +25,42 @@ namespace Web_UI.Models
         //TODO Can be changed to array or list later for convience
         public VMUser AssignedUser { get; set; }
         //Timestamp of change / creation. TBD
+        
+        
         [DataType(DataType.Date)]
         [DisplayName("Created on")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yy H:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime CreatedDate { get; set; }
-        [DataType(DataType.Date)]
+       
+        
+        [DataType(DataType.DateTime)]
         [DisplayName("Due date")]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yy H:mm:ss}", ApplyFormatInEditMode = true)]
-        public DateTime DueDate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yy H:mm:ss}", ApplyFormatInEditMode = true)]
+        public DateTime? DueDate { get; set; }
+       
+        
         [DataType(DataType.Date)]
         [DisplayName("Last changed")]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yy H:mm:ss}", ApplyFormatInEditMode = true)]
-        public DateTime LastChangedDate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy H:mm:ss}", ApplyFormatInEditMode = true)]
+        public DateTime? LastChangedDate { get; set; }
+       
+        
+        public VMTask()
+        {
+
+        }
+        public VMTask(int? id, string title, string desc, Enums.Status status, Enums.Priority priority, DateTime created, DateTime? duedate, DateTime? lastedited, int projectId)
+        {
+            this.Id = id;
+            this.Title = title;
+            this.Description = desc;
+            this.Status = status;
+            this.Priority = priority;
+            this.CreatedDate = created;
+            this.DueDate = duedate;
+            this.LastChangedDate = lastedited;
+            this.ProjectId = projectId;
+        }
+
     }
 }
