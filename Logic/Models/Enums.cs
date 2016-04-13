@@ -25,7 +25,8 @@
     {
         Success = 0,
         UnknownFail = -1,
-        Fail = 1
+        Fail = 1,
+        StringLengthFail = 2
 
 
     }

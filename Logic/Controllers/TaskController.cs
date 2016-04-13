@@ -42,7 +42,7 @@ namespace Logic.Controllers
                 Models.Task returnTask = (Models.Task)utility.Sanitizer(task);
                 return AddTask(returnTask);
             }
-            return ReturnValue.Fail;
+            return ReturnValue.StringLengthFail;
 
         }
 
@@ -65,7 +65,7 @@ namespace Logic.Controllers
                 Models.Task returnTask = (Models.Task)utility.Sanitizer(task);
                 return AddTask(returnTask);
             }
-            return ReturnValue.Fail;
+            return ReturnValue.StringLengthFail;
         }
 
         public ReturnValue CreateTask(string title, string description, Priority priority, int projectId)
@@ -87,7 +87,7 @@ namespace Logic.Controllers
                 Models.Task returnTask = (Models.Task)utility.Sanitizer(task);
                 return AddTask(returnTask);
             }
-            return ReturnValue.Fail;
+            return ReturnValue.StringLengthFail;
         }
 
         public ReturnValue CreateTask(string title, string description, Priority priority, int projectId, DateTime duedate)
@@ -108,7 +108,7 @@ namespace Logic.Controllers
                 Models.Task returnTask = (Models.Task)utility.Sanitizer(task);
                 return AddTask(returnTask);
             }
-            return ReturnValue.Fail;
+            return ReturnValue.StringLengthFail;
         }
 
         public Models.Task[] GetTask(string title)
@@ -178,7 +178,7 @@ namespace Logic.Controllers
                     return ReturnValue.Success;
                 return ReturnValue.Fail;
             }
-            return ReturnValue.Fail;
+            return ReturnValue.StringLengthFail;
         }
 
     }

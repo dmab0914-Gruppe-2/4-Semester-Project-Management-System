@@ -48,7 +48,7 @@ namespace Logic.Controllers
                 Project returnProject = (Project)utility.Sanitizer(project);
                 return AddProject(returnProject);
             }
-            return ReturnValue.Fail;
+            return ReturnValue.StringLengthFail;
         }
 
         public ReturnValue CreateProject(string title, string description)
@@ -66,7 +66,7 @@ namespace Logic.Controllers
                 Project returnProject = (Project)utility.Sanitizer(project);
                 return AddProject(returnProject);
             }
-            return ReturnValue.Fail;
+            return ReturnValue.StringLengthFail;
         }
 
         public ReturnValue CreateProject(string title)
@@ -83,7 +83,7 @@ namespace Logic.Controllers
                 Project returnProject = (Project)utility.Sanitizer(project);
                 return AddProject(returnProject);
             }
-            return ReturnValue.Fail;
+            return ReturnValue.StringLengthFail;
 
         }
 
@@ -127,7 +127,7 @@ namespace Logic.Controllers
                     return ReturnValue.Success;
                 return ReturnValue.Fail;
             }
-            return ReturnValue.Fail;
+            return ReturnValue.StringLengthFail;
         }
 
         public Project[] GetProject(string title)
