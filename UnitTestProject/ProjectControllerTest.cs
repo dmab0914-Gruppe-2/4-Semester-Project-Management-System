@@ -14,23 +14,18 @@ namespace UnitTestProject
     [TestClass]
     public class ProjectControllerTest
     {
-        private static Logic.Controllers.IProjectController _projectController;
+        private static IProjectController _projectController;
+        private static ITaskController _taskController;
         private static Project _project;
 
         #region Class Initialize and Cleanup
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            
+
             _projectController = new ProjectController();
-            _project = new Project
-            {
-                Title = "UnitTestProject",
-                Description = "Et fint lille unit test project",
-                CreatedDate = DateTime.UtcNow,
-                LastChange = DateTime.UtcNow,
-                Done = false
-            };
+            _taskController = new TaskController();
+            
         }
 
         [ClassCleanup]
@@ -43,6 +38,14 @@ namespace UnitTestProject
         [TestInitialize]
         public void Initialize()
         {
+            _project = new Project
+            {
+                Title = "UnitTestProject",
+                Description = "Et fint lille unit test project",
+                CreatedDate = DateTime.UtcNow,
+                LastChange = DateTime.UtcNow,
+                Done = false
+            };
             Assert.IsTrue(new DbProject().AddProject(_project));
             Assert.IsNotNull(_project.Id);
         }
@@ -61,38 +64,27 @@ namespace UnitTestProject
             const string title1 = "Et virkeligt obskurt #navn!!!?! yea12389";
             const string title2 = "Mega fancy title13379! '); DROP TABLE Project";
             Assert.AreEqual(ReturnValue.Success, _projectController.CreateProject(title1));
-            Assert.AreEqual(ReturnValue.Success, _projectController.CreateProject(title2));
+            //Assert.AreEqual(ReturnValue.Success, _projectController.CreateProject(title2));
             Assert.AreEqual(true, _projectController.GetAllProjects().Length > 0);
             //Time To remove them again.. DUH DUH DUUUHHHHH!!!...
             Project project1 = _projectController.GetProject(title1).FirstOrDefault();
             //Project project2 = _projectController.GetProject(title2).FirstOrDefault(); //TODO Awaiting changes from @SplintDK to unsanitize a sanitized string
             Assert.IsNotNull(project1);
+            Assert.IsNotNull(project1.Id);
+            Assert.AreEqual(ReturnValue.Success, _taskController.CreateTask("Fancy unit test task", "Det er en rimelig fancy task", Priority.Normal, project1.Id.Value));
             //Assert.IsNotNull(project2);
+            //Assert.IsNotNull(project2.Id);
             Debug.Assert(project1.Id != null, "project1.Id != null");
             Assert.AreEqual(ReturnValue.Success, _projectController.RemoveProject(project1.Id.Value));
             //Debug.Assert(project2.Id != null, "project2.Id != null");
             //Assert.AreEqual(ReturnValue.Success, _projectController.RemoveProject(project2.Id.Value)); 
 
-
-            #region old shit
-
-            return;
-            ReturnValue result = _projectController.CreateProject("Something", "Worked");
-            if (result != ReturnValue.Success)
-                Assert.Fail("ReturnValue is not success");
-            _project = new Project { Title = "Something", Description = "Worked" };
-            result = _projectController.CreateProject("Billy", "'); DROP TABLE Project");
-            if (result != ReturnValue.Success)
-                Assert.Fail("ReturnValue is not success");
-            Project[] projects = _projectController.GetProject("Billy");
-            Project project = projects.First();
-            project.Description.Equals("''); DROP TABLE Project");
-            #endregion
         }
 
         [TestMethod]
         public void CreateAndRemoveProjectFail()
         {
+
             //TODO test for too long title and such
         }
 
