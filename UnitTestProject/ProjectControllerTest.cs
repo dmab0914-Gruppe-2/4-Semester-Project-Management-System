@@ -109,10 +109,11 @@ namespace UnitTestProject
         }
 
         [TestMethod]
-        public void CreateAndRemoveProjectFail()
+        public void TitleLengthTest()
         {
-
-            //TODO test for too long title and such
+            Random rnd = new Random();
+            string title1 = "UnitTest TitleLenght this title is far far far too long for me.." + rnd.Next(999);
+            Assert.AreEqual(ReturnValue.StringLengthFail, _projectController.CreateProject(title1));
         }
 
         [TestMethod]
