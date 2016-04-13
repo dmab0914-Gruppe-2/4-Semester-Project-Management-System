@@ -114,6 +114,14 @@ namespace UnitTestProject
             Random rnd = new Random();
             string title1 = "UnitTest TitleLenght this title is far far far too long for me.." + rnd.Next(999);
             Assert.AreEqual(ReturnValue.StringLengthFail, _projectController.CreateProject(title1));
+
+            string title2 = "UnitTest TitleLenght this is the max ok lenght " + rnd.Next(999);
+            Assert.AreEqual(ReturnValue.Success, _projectController.CreateProject(title2));
+            Project project2 = _projectController.GetProject(title2).FirstOrDefault();
+            Assert.IsNotNull(project2);
+            Assert.IsNotNull(project2.Id);
+            Debug.Assert(project2.Id != null, "project2.Id != null");
+            Assert.AreEqual(ReturnValue.Success, _projectController.RemoveProject(project2.Id.Value));
         }
 
         [TestMethod]
