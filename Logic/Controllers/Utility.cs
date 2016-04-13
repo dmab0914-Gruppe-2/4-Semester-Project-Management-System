@@ -22,14 +22,14 @@ namespace Logic.Controllers
             //{
             //    if (property.GetType() is String)
             //    {
-                    
+
             //    }
             //}
 
             if (input is Project)
             {
                 Project project = new Project();
-                project = (Project)input;
+                project = (Project) input;
                 if (project.Description != null)
                     project.Description = Sanitizer(project.Description);
                 if (project.Title != null)
@@ -48,7 +48,7 @@ namespace Logic.Controllers
             if (input is Models.Task)
             {
                 Models.Task task = new Models.Task();
-                task = (Models.Task)input;
+                task = (Models.Task) input;
                 if (task.Description != null)
                     task.Description = Sanitizer(task.Description);
                 if (task.Title != null)
@@ -67,10 +67,17 @@ namespace Logic.Controllers
 
 
             //throw new NotImplementedException("Didn't finish this function yet.");
-            
+
         }
 
-        public string Sanitizer(string input)
+        public bool StringLength50(string s)
+        {
+            if(s.Length <= 50)
+                return true;
+            return false;
+        }
+
+    public string Sanitizer(string input)
         {
             if (input.Contains("'"))
             {
