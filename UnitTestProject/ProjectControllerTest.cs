@@ -25,7 +25,7 @@ namespace UnitTestProject
 
             _projectController = new ProjectController();
             _taskController = new TaskController();
-            
+
         }
 
         [ClassCleanup]
@@ -55,37 +55,65 @@ namespace UnitTestProject
         {
             Debug.Assert(_project.Id != null, "_project.Id != null");
             Assert.IsTrue(new DbProject().RemoveProject(_project.Id.Value));
-
         }
 
         [TestMethod]
         public void CreateAndRemoveProjectSuccess()
         {
-            const string title1 = "Et virkeligt obskurt #navn!!!?! yea12389";
-            const string title2 = "Mega fancy title13379! '); DROP TABLE Project";
+            Random rnd = new Random();
+            string title1 = "UnitTest Creat remove 1 " + rnd.Next(999);
+            string title2 = "UnitTest Creat remove 2 " + rnd.Next(999);
+            string description2 = "UniTest Creat remove 2 desc" + rnd.Next(999);
             Assert.AreEqual(ReturnValue.Success, _projectController.CreateProject(title1));
-            //Assert.AreEqual(ReturnValue.Success, _projectController.CreateProject(title2));
+            Assert.AreEqual(ReturnValue.Success, _projectController.CreateProject(title2, description2));
             Assert.AreEqual(true, _projectController.GetAllProjects().Length > 0);
             //Time To remove them again.. DUH DUH DUUUHHHHH!!!...
             Project project1 = _projectController.GetProject(title1).FirstOrDefault();
-            //Project project2 = _projectController.GetProject(title2).FirstOrDefault(); //TODO Awaiting changes from @SplintDK to unsanitize a sanitized string
+            Project project2 = _projectController.GetProject(title2).FirstOrDefault();
             Assert.IsNotNull(project1);
             Assert.IsNotNull(project1.Id);
+            Assert.AreEqual(title1, project1.Title);
             Assert.AreEqual(ReturnValue.Success, _taskController.CreateTask("Fancy unit test task", "Det er en rimelig fancy task", Priority.Normal, project1.Id.Value));
-            //Assert.IsNotNull(project2);
-            //Assert.IsNotNull(project2.Id);
+            Assert.AreEqual(ReturnValue.Success, _taskController.CreateTask("Fancy unit test task2", "Det er en rimelig fancy ekstra task", Priority.Normal, project1.Id.Value));
+            Assert.IsNotNull(project2);
+            Assert.IsNotNull(project2.Id);
+            Assert.AreEqual(title2, project2.Title);
+            Assert.AreEqual(description2, project2.Description);
             Debug.Assert(project1.Id != null, "project1.Id != null");
             Assert.AreEqual(ReturnValue.Success, _projectController.RemoveProject(project1.Id.Value));
-            //Debug.Assert(project2.Id != null, "project2.Id != null");
-            //Assert.AreEqual(ReturnValue.Success, _projectController.RemoveProject(project2.Id.Value)); 
-
+            Debug.Assert(project2.Id != null, "project2.Id != null");
+            Assert.AreEqual(ReturnValue.Success, _projectController.RemoveProject(project2.Id.Value)); 
         }
 
         [TestMethod]
-        public void CreateAndRemoveProjectFail()
+        public void SanitizerProjectTest() //TODO Awaiting changes from @SplintDK to unsanitize a sanitized string
         {
+            Random rnd = new Random();
+            string title = "UnitTest sanitize " + rnd.Next(999) + "'); DROP TABLE Project";
+            string description = "UnitTest sanitize " + rnd.Next(999) + "'); DROP TABLE Project";
+            Assert.AreEqual(ReturnValue.Success, _projectController.CreateProject(title, description));
+            Project project1 = _projectController.GetProject(title).FirstOrDefault();
+            Assert.IsNotNull(project1);
+            Assert.IsNotNull(project1.Id);
+            Assert.AreEqual(description, project1.Description);
+            Debug.Assert(project1.Id != null, "project1.Id != null");
+            Assert.AreEqual(ReturnValue.Success, _projectController.RemoveProject(project1.Id.Value));
 
-            //TODO test for too long title and such
+            string title2 = "UnitTest sanitize " + rnd.Next(999) + "'); DROP TABLE Project";
+            Assert.AreEqual(ReturnValue.Success, _projectController.CreateProject(title2));
+            Project project2 = _projectController.GetProject(title2).FirstOrDefault();
+            Assert.IsNotNull(project2);
+            Assert.IsNotNull(project2.Id);
+            Debug.Assert(project2.Id != null, "project2.Id != null");
+            Assert.AreEqual(ReturnValue.Success, _projectController.RemoveProject(project2.Id.Value));
+        }
+
+        [TestMethod]
+        public void TitleLengthTest()
+        {
+            Random rnd = new Random();
+            string title1 = "UnitTest TitleLenght this title is far far far too long for me.." + rnd.Next(999);
+            Assert.AreEqual(ReturnValue.StringLengthFail, _projectController.CreateProject(title1));
         }
 
         [TestMethod]
