@@ -106,10 +106,6 @@ namespace Logic.Controllers
         public Models.Task GetTask(int id)
         {
             Models.Task task = DbTask.GetTask(id);
-            if (task == null)
-            {
-                throw new KeyNotFoundException(id.ToString() + " Does not excist!");
-            }
             return task;
         }
 
@@ -146,6 +142,22 @@ namespace Logic.Controllers
             //    default:
             //        return ReturnValue.UnknownFail;
             //}
+        }
+
+        public ReturnValue UpdateTask(Models.Task task)
+        {
+            Task returnTask= (Models.Task)utility.Sanitizer(task);
+            returnTask.LastEdited = DateTime.UtcNow;
+            bool success = DbTask.UpdateTast(returnTask);
+            if(!success)
+                return ReturnValue.Fail;
+            task = DbTask.GetTask((int) task.Id.Value);
+            if(task.Title.Equals(returnTask.Title) &&
+                task.Description.Equals(returnTask.Description) &&
+                task.Status.Equals(returnTask.Status) && 
+                task.Priority.Equals(returnTask.Priority))
+                return ReturnValue.Success;
+            return ReturnValue.Fail;
         }
 
     }
