@@ -111,6 +111,7 @@
 .detailView h2 {
     text-decoration: underline;
     font-style: italic;
+    font-size: 22px;
 }
 
 .detailView :disabled {

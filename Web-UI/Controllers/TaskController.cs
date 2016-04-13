@@ -73,7 +73,7 @@ namespace Web_UI.Controllers
             Task t = TC.GetTask(id);
 
             VMTask vt = new VMTask(t.Id, t.Title, t.Description, TheirEnumExtensions.ToWebEnumTaskStatus(t.Status), TheirEnumExtensions.ToWebEnumPriority(t.Priority), t.Created, t.DueDate, t.LastEdited, t.ProjectId);
-            if(t == null)
+            if (t == null)
             {
                 return HttpNotFound();
             }
@@ -87,21 +87,42 @@ namespace Web_UI.Controllers
         {
             try
             {
-                // TODO: Add update logic here
-                // TODO: Update timestamp to use the one in model and not the one made up here...
-
                 if (ModelState.IsValid)
                 {
                     VMTask task = new VMTask();
+                    task.Id = id;
                     task.Title = Request.Form["Title"];
                     task.Description = Request.Form["Description"];
-                    task.CreatedDate = DateTime.UtcNow;
+                    task.Status = (Status)Enum.Parse(typeof(Status), Request.Form["Status"]);
+                    task.Priority = (Priority)Enum.Parse(typeof(Priority), Request.Form["Priority"]);
+                    task.DueDate = DateTime.ParseExact(Request.Form["DueDate"], "dd-MM-yyyy H:mm:ss", null); // value = 27-05-2016 11:9:43 from the request form
+                    task.LastChangedDate = DateTime.UtcNow;
+                    task.CreatedDate = DateTime.ParseExact(Request.Form["CreatedDate"], "dd-MM-yyyy H:mm:ss", null);
 
-                    // TODO: Change from container to DB
-                    //container.AddTask(task);
+                    Task update = new Task
+                    {
+                        Id = task.Id,
+                        Title = task.Title,
+                        Description = task.Description,
+                        Status = MyEnumExtensions.ToLogicEnumStatus(task.Status),
+                        Priority = MyEnumExtensions.ToLogicEnumPriority(task.Priority),
+                        DueDate = task.DueDate,
+                        LastEdited = task.LastChangedDate,
+                        Created = task.CreatedDate
+                    };
+
+                    ReturnValue result = TC.UpdateTask(update);
+                    if (result == ReturnValue.Success)
+                    {
+                        return RedirectToAction("Index", "Project");
+                    }
+                    else
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
                 }
-
-                return RedirectToAction("Index");
+                else
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             catch
             {

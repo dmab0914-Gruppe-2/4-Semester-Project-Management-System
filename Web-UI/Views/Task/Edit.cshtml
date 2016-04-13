@@ -59,18 +59,26 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DueDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control", type ="text" } })
+                @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control", type = "DateTime" } })
                 @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
             </div>
         </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.CreatedDate, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.CreatedDate, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.CreatedDate, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.CreatedDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CreatedDate, new { htmlAttributes = new { @class = "form-control", type = "DateTime", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.CreatedDate, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LastChangedDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LastChangedDate, new { htmlAttributes = new { @class = "form-control", type = "DateTime", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.LastChangedDate, "", new { @class = "text-danger", type = "DateTime" })
+            </div>
+        </div>
 
         <div>
             @Html.ActionLink("Back", "Details", new { id = Model.Id }, new { @class = "btn btn-primary" }) | <input type="submit" value="Save" class="btn btn-default" />
@@ -91,22 +99,20 @@
         });
         CKEDITOR.instances['Description'].setData(oldText);
     </script>
-@*<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<script>
-    $(function () {
-        $("#DueDate").datepicker({
-            numberOfMonths: 3,
-            showButtonPanel: true,
-            
-            dateFormat: 'dd/MM/yyyy',
-
-            onSelect: function (datetext) {
-                var d = new Date(); // for now
-                datetext = datetext + " " + d.getHours() + ": " + d.getMinutes() + ": " + d.getSeconds();
-                $('#DueDate').val(datetext);
-            }
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#DueDate").datepicker({
+                numberOfMonths: 3,
+                showButtonPanel: true,
+                dateFormat: 'dd-mm-yy',
+                onSelect: function (datetext) {
+                    var d = new Date(); // for now
+                    datetext = datetext + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+                    $('#DueDate').val(datetext);
+                }
+            });
         });
-    });
-</script>*@
+    </script>
 }
