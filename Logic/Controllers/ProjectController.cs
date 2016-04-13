@@ -127,6 +127,7 @@ namespace Logic.Controllers
                     return ReturnValue.Success;
                 return ReturnValue.Fail;
             }
+            return ReturnValue.Fail;
         }
 
         public Project[] GetProject(string title)
