@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -15,12 +16,12 @@ namespace UnitTestProject
     {
         private static Logic.Controllers.IProjectController _projectController;
         private static Project _project;
-        private static bool _projectRemoved = false;
 
         #region Class Initialize and Cleanup
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
+            
             _projectController = new ProjectController();
             _project = new Project
             {
@@ -42,25 +43,40 @@ namespace UnitTestProject
         [TestInitialize]
         public void Initialize()
         {
-            //Assert.IsTrue(new DbProject().AddProject(_project));
-            //Assert.IsNotNull(_project.Id);
+            Assert.IsTrue(new DbProject().AddProject(_project));
+            Assert.IsNotNull(_project.Id);
         }
 
         [TestCleanup]
         public void Cleanup()
         {
-            if (!_projectRemoved)
-            {
-                //Debug.Assert(_project.Id != null, "_project.Id != null");
-                //Assert.IsTrue(new DbProject().RemoveProject(_project.Id.Value));
-            }
+            Debug.Assert(_project.Id != null, "_project.Id != null");
+            Assert.IsTrue(new DbProject().RemoveProject(_project.Id.Value));
+
         }
 
         [TestMethod]
-        public void CreateProject()
+        public void CreateAndRemoveProjectSuccess()
         {
-            //_projectController.CreateProject()
+            const string title1 = "Et virkeligt obskurt #navn!!!?! yea12389";
+            const string title2 = "Mega fancy title13379! '); DROP TABLE Project";
+            Assert.AreEqual(ReturnValue.Success, _projectController.CreateProject(title1));
+            Assert.AreEqual(ReturnValue.Success, _projectController.CreateProject(title2));
+            Assert.AreEqual(true, _projectController.GetAllProjects().Length > 0);
+            //Time To remove them again.. DUH DUH DUUUHHHHH!!!...
+            Project project1 = _projectController.GetProject(title1).FirstOrDefault();
+            //Project project2 = _projectController.GetProject(title2).FirstOrDefault(); //TODO Awaiting changes from @SplintDK to unsanitize a sanitized string
+            Assert.IsNotNull(project1);
+            //Assert.IsNotNull(project2);
+            Debug.Assert(project1.Id != null, "project1.Id != null");
+            Assert.AreEqual(ReturnValue.Success, _projectController.RemoveProject(project1.Id.Value));
+            //Debug.Assert(project2.Id != null, "project2.Id != null");
+            //Assert.AreEqual(ReturnValue.Success, _projectController.RemoveProject(project2.Id.Value)); 
+
+
             #region old shit
+
+            return;
             ReturnValue result = _projectController.CreateProject("Something", "Worked");
             if (result != ReturnValue.Success)
                 Assert.Fail("ReturnValue is not success");
@@ -75,13 +91,19 @@ namespace UnitTestProject
         }
 
         [TestMethod]
+        public void CreateAndRemoveProjectFail()
+        {
+            //TODO test for too long title and such
+        }
+
+        [TestMethod]
         public void GetProject()
         {
-            Project[] projects = _projectController.GetProject("Something");
-            _project = projects.FirstOrDefault();
-            if (!_project.Description.Equals("Worked"))
+            Project[] projects = _projectController.GetProject("UnitTestProject");
+            Project project = projects.FirstOrDefault();
+            if (!project.Description.Equals(_project.Description))
                 Assert.Fail("Description mismatch");
-            if (!_project.Title.Equals("Something"))
+            if (!project.Title.Equals(_project.Title))
                 Assert.Fail("Title Mismatch");
         }
 
@@ -90,12 +112,16 @@ namespace UnitTestProject
         {
             //Generate something which probably doesnt excist in the database...
             Random rnd = new Random();
-            int rndNumber = rnd.Next();
+            string title = rnd.Next().ToString();
+            string description = rnd.Next().ToString();
+            const bool done = true;
+            DateTime createdDate = DateTime.UtcNow;
 
             //Update the project with something hopefully random
-            Project[] projects = _projectController.GetProject("Something");
-            _project = projects.FirstOrDefault();
-            _project.Title = rndNumber.ToString();
+            _project.Title = title;
+            _project.Description = description;
+            _project.Done = done;
+            _project.CreatedDate = DateTime.UtcNow;
             ReturnValue rt = _projectController.EditProject(_project);
             if (!rt.Equals(ReturnValue.Success))
                 Assert.Fail("Project controller did not return success");
@@ -105,6 +131,7 @@ namespace UnitTestProject
         [TestMethod]
         public void RemoveProject()
         {
+
             Project[] projectCandidates = _projectController.GetProject("Something");
             foreach (Project project in projectCandidates)
             {
