@@ -41,7 +41,7 @@ namespace Web_UI.Controllers
                     string description = Request.Form["description"];
                     Status status = (Status)Enum.Parse(typeof(Status), Request.Form["Status"]);
                     Priority priority = (Priority)Enum.Parse(typeof(Priority), Request.Form["Priority"]);
-                    DateTime dueDate = DateTime.ParseExact(Request.Form["DueDate"], "yyyy-MM-dd", null);
+                    DateTime dueDate = DateTime.ParseExact(Request.Form["DueDate"], "dd-MM-yyyy H:mm:ss", null);
                     int id = Convert.ToInt32(RouteData.Values["projectId"] + Request.Url.Query.Split('=')[1]);
                     if (title != null && title.Length > 0)
                     {
@@ -98,6 +98,8 @@ namespace Web_UI.Controllers
                     task.DueDate = DateTime.ParseExact(Request.Form["DueDate"], "dd-MM-yyyy H:mm:ss", null); // value = 27-05-2016 11:9:43 from the request form
                     task.LastChangedDate = DateTime.UtcNow;
                     task.CreatedDate = DateTime.ParseExact(Request.Form["CreatedDate"], "dd-MM-yyyy H:mm:ss", null);
+                    int projectid = TC.GetTask(id).ProjectId;
+               
 
                     Task update = new Task
                     {
@@ -108,9 +110,10 @@ namespace Web_UI.Controllers
                         Priority = MyEnumExtensions.ToLogicEnumPriority(task.Priority),
                         DueDate = task.DueDate,
                         LastEdited = task.LastChangedDate,
-                        Created = task.CreatedDate
+                        Created = task.CreatedDate,
+                        ProjectId = projectid
                     };
-
+                    
                     ReturnValue result = TC.UpdateTask(update);
                     if (result == ReturnValue.Success)
                     {
@@ -133,22 +136,44 @@ namespace Web_UI.Controllers
         // GET: Task/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            Task t = TC.GetTask(id);
+            VMTask vt = new VMTask();
+            vt.Id = t.Id;
+            vt.Title = t.Title;
+            vt.Description = t.Description;
+            vt.Status = TheirEnumExtensions.ToWebEnumTaskStatus(t.Status);
+            vt.Priority = TheirEnumExtensions.ToWebEnumPriority(t.Priority);
+            vt.CreatedDate = t.Created;
+            vt.DueDate = t.DueDate;
+            vt.LastChangedDate = t.LastEdited;
+            vt.ProjectId = t.ProjectId;
+
+            return View(vt);
         }
 
         // POST: Task/Delete/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, FormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
+                Task t = TC.GetTask(id);
+                if(t.Id != null)
+                {
+                    ReturnValue result = TC.RemoveTask((int)t.Id);
 
-                return RedirectToAction("Index");
+                    if(result == ReturnValue.Success)                    
+                        return RedirectToAction("Index", "Project");                    
+                    else
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                else
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             catch
             {
-                return View();
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
         }
     }
