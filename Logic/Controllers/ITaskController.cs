@@ -12,5 +12,6 @@ namespace Logic.Controllers
         Task[] GetTask(string title);
         Task GetTask(int id);
         ReturnValue RemoveTask(int id);
+        ReturnValue UpdateTask(Models.Task task);
     }
 }
