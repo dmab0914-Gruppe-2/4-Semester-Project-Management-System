@@ -28,17 +28,17 @@ namespace Web_UI.Models
 
 
         [DisplayName("Created on")]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy H:mm:ss}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy H:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime CreatedDate { get; set; }
        
         
         [DisplayName("Due date")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy H:mm:ss}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy H:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime? DueDate { get; set; }
 
 
         [DisplayName("Last changed")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy H:mm:ss}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy H:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime? LastChangedDate { get; set; }
        
         

@@ -112,7 +112,8 @@
         $("#DueDate").datepicker({
             numberOfMonths: 3,
             showButtonPanel: true,
-            dateFormat: 'dd-mm-yy',
+            //dateFormat: 'dd-mm-yy',
+            dateFormat: 'mm-dd-yy',
             onSelect: function (datetext) {
                 var d = new Date(); // for now
                 datetext = datetext + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
