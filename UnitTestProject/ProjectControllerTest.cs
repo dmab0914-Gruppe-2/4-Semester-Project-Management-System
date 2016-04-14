@@ -82,7 +82,7 @@ namespace UnitTestProject
             Debug.Assert(project1.Id != null, "project1.Id != null");
             Assert.AreEqual(ReturnValue.Success, _projectController.RemoveProject(project1.Id.Value));
             Debug.Assert(project2.Id != null, "project2.Id != null");
-            Assert.AreEqual(ReturnValue.Success, _projectController.RemoveProject(project2.Id.Value)); 
+            Assert.AreEqual(ReturnValue.Success, _projectController.RemoveProject(project2.Id.Value));
         }
 
         [TestMethod]
@@ -109,10 +109,19 @@ namespace UnitTestProject
         }
 
         [TestMethod]
-        public void CreateAndRemoveProjectFail()
+        public void TitleLengthTest()
         {
+            Random rnd = new Random();
+            string title1 = "UnitTest TitleLenght this title is far far far too long for me.." + rnd.Next(999);
+            Assert.AreEqual(ReturnValue.StringLengthFail, _projectController.CreateProject(title1));
 
-            //TODO test for too long title and such
+            string title2 = "UnitTest TitleLenght this is the max ok lenght " + rnd.Next(999);
+            Assert.AreEqual(ReturnValue.Success, _projectController.CreateProject(title2));
+            Project project2 = _projectController.GetProject(title2).FirstOrDefault();
+            Assert.IsNotNull(project2);
+            Assert.IsNotNull(project2.Id);
+            Debug.Assert(project2.Id != null, "project2.Id != null");
+            Assert.AreEqual(ReturnValue.Success, _projectController.RemoveProject(project2.Id.Value));
         }
 
         [TestMethod]
@@ -120,10 +129,9 @@ namespace UnitTestProject
         {
             Project[] projects = _projectController.GetProject("UnitTestProject");
             Project project = projects.FirstOrDefault();
-            if (!project.Description.Equals(_project.Description))
-                Assert.Fail("Description mismatch");
-            if (!project.Title.Equals(_project.Title))
-                Assert.Fail("Title Mismatch");
+            Debug.Assert(project != null, "project != null");
+            Assert.AreEqual(_project.Title, project.Title);
+            Assert.AreEqual(_project.Description, project.Description);
         }
 
         [TestMethod]
@@ -131,41 +139,27 @@ namespace UnitTestProject
         {
             //Generate something which probably doesnt excist in the database...
             Random rnd = new Random();
-            string title = rnd.Next().ToString();
-            string description = rnd.Next().ToString();
+            string title = "UnitTest Update" + rnd.Next(999);
+            string description = "UnitTest Update" + rnd.Next(999);
             const bool done = true;
             DateTime createdDate = DateTime.UtcNow;
 
             //Update the project with something hopefully random
-            _project.Title = title;
-            _project.Description = description;
-            _project.Done = done;
-            _project.CreatedDate = DateTime.UtcNow;
-            ReturnValue rt = _projectController.EditProject(_project);
-            if (!rt.Equals(ReturnValue.Success))
-                Assert.Fail("Project controller did not return success");
-
-        }
-
-        [TestMethod]
-        public void RemoveProject()
-        {
-
-            Project[] projectCandidates = _projectController.GetProject("Something");
-            foreach (Project project in projectCandidates)
-            {
-                int? id = project.Id;
-                if (id == null)
-                    Assert.Fail("Id is null after get method!");
-                int Id = (int)id;
-                _projectController.RemoveProject(Id);
-            }
-            projectCandidates = _projectController.GetProject("Something");
-            if (projectCandidates.Length != 0)
-                Assert.Fail("Still contains projects after removal!");
-
-
-            //projectController.RemoveProject();
+            Debug.Assert(_project.Id != null, "_project.Id != null");
+            Project project = _projectController.GetProject(_project.Id.Value);
+            project.Title = title;
+            project.Description = description;
+            project.Done = done;
+            project.CreatedDate = createdDate;
+            Assert.AreEqual(ReturnValue.Success, _projectController.EditProject(project));
+            Assert.AreEqual(_project.Id, project.Id);
+            Debug.Assert(project.Id != null, "project.Id != null");
+            Project projectAfterUpdate = _projectController.GetProject(project.Id.Value);
+            Assert.AreEqual(project.Title, projectAfterUpdate.Title);
+            Assert.AreEqual(project.Description, projectAfterUpdate.Description);
+            Assert.AreEqual(project.Done, projectAfterUpdate.Done);
+            Assert.AreEqual(project.CreatedDate, projectAfterUpdate.CreatedDate);
+            Assert.AreEqual(project.Id, projectAfterUpdate.Id);
         }
 
         [TestMethod]
@@ -173,55 +167,5 @@ namespace UnitTestProject
         {
             Task[] tasks = _projectController.GetTasksFromProject(1);
         }
-
-        [TestMethod]
-        public void AddTaskToMethod()
-        {
-
-        }
-
-        #region Private test related operations methods
-
-        #endregion
-        #region Old stuff
-        //[TestCleanup]
-        //public void Cleanup()
-        //{
-        //    //Something projects removal
-        //    Project[] projectCandidates = projectController.GetProject("Something");
-        //    foreach (Project project in projectCandidates)
-        //    {
-        //        int? id = project.Id;
-        //        if (id == null)
-        //            Assert.Fail("Id is null after get method!");
-        //        int Id = (int)id;
-        //        projectController.RemoveProject(Id);
-        //    }
-
-        //    //Billy projects removal
-        //    projectCandidates = projectController.GetProject("Billy");
-        //    foreach (Project project in projectCandidates)
-        //    {
-        //        int? id = project.Id;
-        //        if (id == null)
-        //            Assert.Fail("Id is null after get method!");
-        //        int Id = (int)id;
-        //        projectController.RemoveProject(Id);
-        //    }
-
-        //    //Edited random projects removal
-        //    projectCandidates = projectController.GetAllProjects();
-        //    List<Project> projects = new List<Project>();   
-        //    foreach (Project project in projectCandidates)
-        //    {
-        //        if(project.Description.Equals("Worked"))
-        //            projects.Add(project);
-        //    }
-        //    foreach (Project project in projects)
-        //    {
-        //        projectController.RemoveProject((int) project.Id);
-        //    }
-        //}
-        #endregion
     }
 }

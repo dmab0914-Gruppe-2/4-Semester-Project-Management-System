@@ -153,16 +153,19 @@ namespace Web_UI.Controllers
             try
             {
                 Project p = PC.GetProject(id);
-                //TO DO
+                if (p.Id != null)
+                {
+                    ReturnValue rv = PC.RemoveProject(id);
 
-                // remove tasks from project 
-
-                ReturnValue rv = PC.RemoveProject(id);
-
-                if (rv == ReturnValue.Success)
-                    return RedirectToAction("Index");
+                    if (rv == ReturnValue.Success)
+                        return RedirectToAction("Index");
+                    else
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
                 else
+                {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
             }
             catch
             {

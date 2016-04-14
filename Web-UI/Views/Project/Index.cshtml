@@ -42,13 +42,17 @@
                     var htmlStr = '';
                     $.each(data, function (k, v) {
                         var id = v.Id;
-                        var btn = '@Html.ActionLink(linkText: "Open task",actionName: "Edit",controllerName: "Task",routeValues: new { id = -1 }, htmlAttributes: new { @class = "btn btn-default" })';
-                        btn = btn.replace('-1', id);
-                        htmlStr += '<h3>' + v.Title + '</h3><div class="task-list"><p>' + v.Description + '</p><br />' + btn + '</div>';
+
+                        var btnEdit = '@Html.ActionLink(linkText: "Open task", actionName: "Edit", controllerName: "Task", routeValues: new { id = -1 }, htmlAttributes: new { @class = "btn btn-primary" })';
+                        btnEdit = btnEdit.replace('-1', id);
+
+                        var btnRemove = '@Html.ActionLink(linkText: "Remove task", actionName: "Delete", controllerName: "Task", routeValues: new { id = -1 }, htmlAttributes: new { @class = "btn btn-default" })';
+                        btnRemove = btnRemove.replace('-1', id);
+                        htmlStr += '<h3>' + v.Title + '</h3><div class="task-list"><p>' + v.Description + '</p><br />' + btnEdit + ' | ' + btnRemove + '</div>';
                     });
                     $("#tasks").html(htmlStr);
                 });
-                var btn = '@Html.ActionLink(linkText: "Create new task", actionName: "Create", controllerName: "Task", routeValues: new { projectId = -1 }, htmlAttributes: new { @class = "btn btn-default" })';
+                var btn = '@Html.ActionLink(linkText: "Create new task", actionName: "Create", controllerName: "Task", routeValues: new { projectId = -1 }, htmlAttributes: new { @class = "btn btn-primary" })';
                 btn = btn.replace('-1', pId);
                 $("#addTask").html(btn);
             });
