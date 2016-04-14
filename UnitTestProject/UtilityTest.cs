@@ -24,7 +24,7 @@ namespace UnitTestProject
 
             //Forgot how to cast objects... this is how...
             Project returnProject = (Project)utility.Sanitizer(project);
-            if (returnProject.Title.Equals(title))
+            if (returnProject.Title.Equals("''CREATE TABLE YouDoneGoofed(id int IDENTITY(1,1) NOT NULL, Primary key id)"))
             {
                 Assert.Fail();
             }

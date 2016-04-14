@@ -21,6 +21,7 @@ namespace ConsoleApp
             Console.WriteLine("2. Object Sanitizer");
             Console.WriteLine("3. Get Projects from Task");
             Console.WriteLine("4. Sanitize any object");
+            Console.WriteLine("5. Desanitize any object");
             
             string input = Console.ReadLine().ToLower();
             if (input.Equals("1"))
@@ -39,7 +40,54 @@ namespace ConsoleApp
             {
                 AnyObjectSanitizer();
             }
+            if (input.Equals("5"))
+            {
+                AnyObjectDesanitizer();
+            }
             goto a;
+        }
+
+        private static void AnyObjectDesanitizer()
+        {
+            //Set variables
+            Console.WriteLine("Please enter the following values:");
+            Console.WriteLine("Project name: ");
+            string pname = Console.ReadLine();
+            Console.WriteLine("Description: ");
+            string pdesc = Console.ReadLine();
+
+            //Create project
+            Project project = new Project
+            {
+                Title = pname,
+                Description = pdesc,
+                CreatedDate = DateTime.UtcNow,
+                LastChange = DateTime.UtcNow,
+                Done = false,
+            };
+
+            //Sanitize code
+            Console.WriteLine("Before");
+            foreach (PropertyInfo p in project.GetType().GetProperties())
+            {
+                Console.WriteLine("\t{0} - {1}", p.Name, p.GetValue(project, null));
+            }
+            Console.WriteLine("After");
+            foreach (PropertyInfo p in project.GetType().GetProperties())
+            {
+                if (p.PropertyType == typeof(string))
+                {
+                    p.SetValue(project, Desanitize(p.GetValue(project, null).ToString()));
+                    Console.WriteLine("\t{0} - {1}", p.Name, p.GetValue(project, null));
+                }
+            }
+
+            Console.WriteLine("Object variables:");
+            foreach (PropertyInfo propertyInfo in project.GetType().GetProperties())
+            {
+                Console.WriteLine("{0} - {1}", propertyInfo.Name, propertyInfo.GetValue(project, null));
+            }
+            Console.ReadLine();
         }
 
         private static void AnyObjectSanitizer()
@@ -62,19 +110,48 @@ namespace ConsoleApp
             };
 
             //Sanitize code
+            Console.WriteLine("Before");
             foreach (PropertyInfo p in project.GetType().GetProperties())
             {
-                Console.WriteLine("Before");
-                Console.WriteLine("\t{0} - {1}", p.Name, p.GetValue(project, null));
-                if (p.PropertyType == typeof (string))
+                Console.WriteLine("\t{0} - {1}", p.Name, p.GetValue(project, null));   
+            }
+            Console.WriteLine("After");
+            foreach (PropertyInfo p in project.GetType().GetProperties())
+            {
+                if (p.PropertyType == typeof(string))
                 {
-                    p.SetValue(project, "I am a string..");
+                    p.SetValue(project, Sanitize(p.GetValue(project, null).ToString()));
+                    Console.WriteLine("\t{0} - {1}", p.Name, p.GetValue(project, null));
                 }
-                Console.WriteLine("After");
-                Console.WriteLine("\t{0} - {1}", p.Name, p.GetValue(project, null));
+            }
+
+            Console.WriteLine("Object variables:");
+            foreach (PropertyInfo propertyInfo in project.GetType().GetProperties())
+            {
+                Console.WriteLine("{0} - {1}", propertyInfo.Name, propertyInfo.GetValue(project, null));
             }
             Console.ReadLine();
             
+        }
+
+        private static object BuildObject(PropertyInfo[] propertyInfos)
+        {
+
+            return "";
+        }
+
+        private static string Sanitize(string s)
+        {
+            if (s.Contains("'"))
+                return s.Replace("'", "''");
+            return s;
+        }
+
+        private static string Desanitize(string s)
+        {
+            if (s.Contains("''"))
+                return s.Replace("''", "'");
+            return s;
         }
 
         private static void GetProjectsFromTaskTest()
@@ -92,7 +169,7 @@ namespace ConsoleApp
                 
                 Console.WriteLine("Please enter a string for the sanitizer");
                 string input = Console.ReadLine();
-                string output = utility.Sanitizer(input);
+                string output = (string)utility.Sanitizer(input);
                 Console.WriteLine("Returned from sanitizer: {0}", output);
                 Console.WriteLine("Try again? (Y/n)");
                 string proceed = Console.ReadLine();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,73 +19,42 @@ namespace Logic.Controllers
         /// <returns>Project or Task which is safe to execute variables against sql server</returns>
         public object Sanitizer(object input)
         {
-            //foreach (FieldInfo property in input.GetType().GetFields())
-            //{
-            //    if (property.GetType() is String)
-            //    {
 
-            //    }
-            //}
-
-            if (input is Project)
+            foreach (PropertyInfo p in input.GetType().GetProperties())
             {
-                Project project = new Project();
-                project = (Project) input;
-                if (project.Description != null)
-                    project.Description = Sanitizer(project.Description);
-                if (project.Title != null)
-                    project.Title = Sanitizer(project.Title);
-                if (project.LeaderUser != null)
+                if (p.PropertyType == typeof(string))
                 {
-                    if (project.LeaderUser.Email != null)
-                        project.LeaderUser.Email = Sanitizer(project.LeaderUser.Email);
-                    if (project.LeaderUser.Username != null)
-                        project.LeaderUser.Username = Sanitizer(project.LeaderUser.Username);
+                    //if (!string.IsNullOrEmpty(p.GetValue(input, null).ToString()))
+                    //if(p.CanRead && p.CanWrite)
+                    if(Nullable.GetUnderlyingType(p.PropertyType) != null)
+                    {
+                        p.SetValue(input, Sanitize(p.GetValue(input, null).ToString()));
+                        Console.WriteLine("\t{0} - {1}", p.Name, p.GetValue(input, null));
+                    }
                 }
-                return project;
-
-
             }
-            if (input is Models.Task)
-            {
-                Models.Task task = new Models.Task();
-                task = (Models.Task) input;
-                if (task.Description != null)
-                    task.Description = Sanitizer(task.Description);
-                if (task.Title != null)
-                    task.Title = Sanitizer(task.Title);
-                if (task.AssignedUser != null)
-                {
-                    if (task.AssignedUser.Email != null)
-                        task.AssignedUser.Email = Sanitizer(task.AssignedUser.Email);
-                    if (task.AssignedUser.Username != null)
-                        task.AssignedUser.Username = Sanitizer(task.AssignedUser.Username);
-                }
-                return task;
+            return input;
+        }
 
-            }
-            return null;
+        public static string Sanitize(string s)
+        {
+            if (s.Contains("'"))
+                return s.Replace("'", "''");
+            return s;
+        }
 
-
-            //throw new NotImplementedException("Didn't finish this function yet.");
-
+        public static string Desanitize(string s)
+        {
+            if (s.Contains("''"))
+                return s.Replace("''", "'");
+            return s;
         }
 
         public bool StringLength50(string s)
         {
-            if(s.Length <= 50)
+            if (s.Length <= 50)
                 return true;
             return false;
-        }
-
-    public string Sanitizer(string input)
-        {
-            if (input.Contains("'"))
-            {
-                string output = input.Replace("'", "''");
-                return output;
-            }
-            return input;
         }
     }
 }
