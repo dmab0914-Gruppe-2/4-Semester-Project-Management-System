@@ -167,11 +167,5 @@ namespace UnitTestProject
         {
             Task[] tasks = _projectController.GetTasksFromProject(1);
         }
-
-        [TestMethod]
-        public void AddTaskToMethod()
-        {
-
-        }
     }
 }
