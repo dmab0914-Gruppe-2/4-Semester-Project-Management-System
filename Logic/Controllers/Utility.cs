@@ -29,8 +29,20 @@ namespace Logic.Controllers
                     if(Nullable.GetUnderlyingType(p.PropertyType) != null)
                     {
                         p.SetValue(input, Sanitize(p.GetValue(input, null).ToString()));
-                        Console.WriteLine("\t{0} - {1}", p.Name, p.GetValue(input, null));
                     }
+                }
+            }
+            return input;
+        }
+
+        public object Desanitizer(object input)
+        {
+            foreach (PropertyInfo p in input.GetType().GetProperties())
+            {
+                //if (p.PropertyType == typeof(string))
+                if(Nullable.GetUnderlyingType(p.PropertyType) != null)
+                {
+                    p.SetValue(input, Desanitize(p.GetValue(input, null).ToString()));
                 }
             }
             return input;
