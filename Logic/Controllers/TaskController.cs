@@ -26,7 +26,7 @@ namespace Logic.Controllers
         {
             if (utility.StringLength50(title))
             {
-                Models.Task task = new Models.Task
+                Task task = new Task
                 {
                     Title = title,
                     Description = description,
@@ -37,7 +37,7 @@ namespace Logic.Controllers
                     LastEdited = DateTime.UtcNow,
                     Status = ts
                 };
-                Models.Task returnTask = (Models.Task)utility.Sanitizer(task);
+                Task returnTask = (Task)utility.Sanitizer(task);
                 return AddTask(returnTask);
             }
             return ReturnValue.StringLengthFail;
@@ -48,7 +48,7 @@ namespace Logic.Controllers
         {
             if (utility.StringLength50(title))
             {
-                Models.Task task = new Models.Task
+                Task task = new Task
                 {
                     Title = title,
                     Description = description,
@@ -60,7 +60,7 @@ namespace Logic.Controllers
                     LastEdited = DateTime.UtcNow
 
                 };
-                Models.Task returnTask = (Models.Task)utility.Sanitizer(task);
+                Task returnTask = (Task)utility.Sanitizer(task);
                 return AddTask(returnTask);
             }
             return ReturnValue.StringLengthFail;
@@ -70,7 +70,7 @@ namespace Logic.Controllers
         {
             if (utility.StringLength50(title))
             {
-                Models.Task task = new Models.Task
+                Task task = new Task
                 {
                     Title = title,
                     Description = description,
@@ -82,7 +82,7 @@ namespace Logic.Controllers
                     ProjectId = projectId,
 
                 };
-                Models.Task returnTask = (Models.Task)utility.Sanitizer(task);
+                Task returnTask = (Task)utility.Sanitizer(task);
                 return AddTask(returnTask);
             }
             return ReturnValue.StringLengthFail;
@@ -92,7 +92,7 @@ namespace Logic.Controllers
         {
             if (utility.StringLength50(title))
             {
-                Models.Task task = new Task
+                Task task = new Task
                 {
                     Title = title,
                     Description = description,
@@ -103,23 +103,31 @@ namespace Logic.Controllers
                     Created = DateTime.UtcNow,
                     Status = TaskStatus.Unassigned
                 };
-                Models.Task returnTask = (Models.Task)utility.Sanitizer(task);
+                Task returnTask = (Task)utility.Sanitizer(task);
                 return AddTask(returnTask);
             }
             return ReturnValue.StringLengthFail;
         }
 
-        public Models.Task[] GetTask(string title)
+        public Task[] GetTask(string title)
         {
+            Task[] tasks;
+            List<Task> sanitizedTasks = new List<Task>();
             if (title.Length > 0)
-                return DbTask.GetTask(title).ToArray();
+                 tasks = DbTask.GetTask(title).ToArray();
             else
                 throw new KeyNotFoundException(title + " Does not excist!");
+            foreach (Task task in tasks)
+            {
+                Task Sanitizedtask = (Task)utility.Desanitizer(task);
+                sanitizedTasks.Add(Sanitizedtask);
+            }
+            return sanitizedTasks.ToArray();
         }
 
-        public Models.Task GetTask(int id)
+        public Task GetTask(int id)
         {
-            Models.Task task = DbTask.GetTask(id);
+            Task task = (Task) utility.Desanitizer(DbTask.GetTask(id));
             return task;
         }
 
@@ -132,7 +140,7 @@ namespace Logic.Controllers
             return ReturnValue.Fail;
         }
 
-        private ReturnValue AddTask(Models.Task task)
+        private ReturnValue AddTask(Task task)
         {
             switch (DbTask.AddTask(task))
             {
@@ -158,11 +166,11 @@ namespace Logic.Controllers
             //}
         }
 
-        public ReturnValue UpdateTask(Models.Task task)
+        public ReturnValue UpdateTask(Task task)
         {
             if (task.Id != null && utility.StringLength50(task.Title))
             {
-                Task returnTask = (Models.Task)utility.Sanitizer(task);
+                Task returnTask = (Task)utility.Sanitizer(task);
                 returnTask.LastEdited = DateTime.UtcNow;
                 bool success = DbTask.UpdateTast(returnTask);
                 if (!success)
