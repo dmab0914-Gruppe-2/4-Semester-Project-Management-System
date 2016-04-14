@@ -29,8 +29,6 @@ namespace UnitTestProject
             ReturnValue result = tc.CreateTask(task.Title, task.Description, task.Priority, task.ProjectId);
             if (result != ReturnValue.Success)
                 Assert.Fail("Failed at something when creating");
-
-
         }
 
         [TestMethod]
@@ -38,11 +36,11 @@ namespace UnitTestProject
         {
             Task[] tasks = tc.GetTask("Worked");
             Task task = tasks.FirstOrDefault();
-            if(task == null)
+            if (task == null)
                 Assert.Fail("Task is null");
-            if(!task.Title.Equals("Worked"))
+            if (!task.Title.Equals("Worked"))
                 Assert.Fail("Title not equal to created task test");
-            if(!task.Description.Equals("Something"))
+            if (!task.Description.Equals("Something"))
                 Assert.Fail("Description is not equal to create task test");
 
             //if (!tasks.Contains(tasks.FirstOrDefault(
@@ -57,6 +55,31 @@ namespace UnitTestProject
         }
 
         [TestMethod]
+        public void EditTask()
+        {
+            Task task = tc.GetTask(_taskId);
+            Random rnd = new Random();
+            int rndNbr = rnd.Next();
+            string description = rndNbr.ToString();
+            task.Description = description;
+            task.Priority = Priority.High;
+            ReturnValue rv = tc.UpdateTask(task);
+            if (rv != ReturnValue.Success)
+            {
+                Assert.Fail("Controller call to UpdateTask went wrong");
+            }
+            task = tc.GetTask(_taskId);
+            if (!task.Description.Equals(rndNbr.ToString()))
+            {
+                Assert.Fail("Updated task does not equal the test random number");
+            }
+            if (task.Priority != Priority.High)
+            {
+                Assert.Fail("Updated task priority does not match the updated test priority");
+            }
+        }
+
+        [TestMethod]
         public void GetTaskId()
         {
             //Works as long as the db scripts havent changed the properties 
@@ -68,18 +91,25 @@ namespace UnitTestProject
             Task task = tc.GetTask(1);
             if (!task.Title.Equals("My task"))
                 Assert.Fail("Name not equal to db script");
-            if(!task.Description.Equals("we need to get this stuff done fast"))
+            if (!task.Description.Equals("we need to get this stuff done fast"))
                 Assert.Fail("Description is not equal to db script ");
-            if(!task.Priority.Equals(Priority.Unassigned))
+            if (!task.Priority.Equals(Priority.Unassigned))
                 Assert.Fail("Priority does not match");
-            if(!task.Status.Equals(TaskStatus.Assigned))
+            if (!task.Status.Equals(TaskStatus.Assigned))
                 Assert.Fail("Task status does not match db script!");
+        }
+
+        [TestMethod]
+        public void RemoveTask()
+        {
+            ReturnValue rv = tc.RemoveTask(_taskId);
+            if (rv != ReturnValue.Success) { Assert.Fail("Return value is not success!"); }
         }
 
         [TestCleanup]
         public void CleanupCrew()
         {
-            tc.RemoveTask(_taskId);
+
         }
     }
 }
