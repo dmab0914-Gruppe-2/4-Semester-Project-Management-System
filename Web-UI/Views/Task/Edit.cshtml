@@ -88,17 +88,24 @@
 
 
 @section Scripts {
+    @* Vallidates input *@
     @Scripts.Render("~/bundles/jqueryval")
+
+    @* Large Text editor *@
     <script src="~/Scripts/ckeditor/ckeditor.js"></script>
     <script type="text/javascript">
         var oldText = document.getElementById("Description").value;
         var editor = CKEDITOR.instances['Description'];
-        if (editor) { editor.destroy(true); }
+        if (editor) {
+            editor.destroy(true);
+        }
         CKEDITOR.replace('Description', {
             enterMode: CKEDITOR.ENTER_BR,
         });
         CKEDITOR.instances['Description'].setData(oldText);
     </script>
+
+    @* Date "popup" picker *@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script>
