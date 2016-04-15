@@ -45,13 +45,22 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.DueDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group">
+        @Html.Label("Due date", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.DueDateDate, new { htmlAttributes = new { @class = "form-control dateControl", type = "text" } })
+            @Html.ValidationMessageFor(model => model.DueDateDate, "", new { @class = "text-danger" })
         </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Due time", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.DueDateTime, new { htmlAttributes = new { @class = "form-control col-md-2", type = "text", onChange = "timeRex()" } })
+            <label id="lblErrMsg" class="text-danger"></label>
+
+        </div>
+    </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -67,15 +76,41 @@
 </div>
 
 @section Scripts {
+    @* Vallidates input *@
     @Scripts.Render("~/bundles/jqueryval")
+
+    @* Large Text editor *@
     <script src="~/Scripts/ckeditor/ckeditor.js"></script>
     <script type="text/javascript">
         var oldText = document.getElementById("Description").value;
         var editor = CKEDITOR.instances['Description'];
-        if (editor) { editor.destroy(true); }
+        if (editor) {
+            editor.destroy(true);
+        }
         CKEDITOR.replace('Description', {
             enterMode: CKEDITOR.ENTER_BR,
         });
         CKEDITOR.instances['Description'].setData(oldText);
+    </script>
+
+    @* Date "popup" picker *@
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script>
+        $(".dateControl").datepicker({
+            numberOfMonths: 3,
+            showButtonPanel: true,
+            dateFormat: 'mm-dd-yy',
+        });
+        function timeRex() {
+            var string = document.getElementById("DueDateTime").value;
+            var errMsg;
+            var re = new RegExp("^(?:0?[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$");
+            if (!re.test(string)) {
+                errMsg = "Time must be in exampel: 12:37 (hour:min:sek)";
+            }
+            else { errMsg = ""; }
+            document.getElementById("lblErrMsg").innerHTML = errMsg;
+        }
     </script>
 }

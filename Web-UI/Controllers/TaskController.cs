@@ -42,7 +42,9 @@ namespace Web_UI.Controllers
                     string description = Request.Form["description"];
                     Status status = (Status)Enum.Parse(typeof(Status), Request.Form["Status"]);
                     Priority priority = (Priority)Enum.Parse(typeof(Priority), Request.Form["Priority"]);
-                    DateTime dueDate = DateTime.ParseExact(Request.Form["DueDate"], "dd-MM-yyyy H:mm:ss", null);
+                    string dueDateDate = Request.Form["DueDateDate"];
+                    string dueDateTime = Request.Form["DueDateTime"];
+                    DateTime dueDate = Utility.ParseDateTime(dueDateDate, dueDateTime);
                     int id = Convert.ToInt32(RouteData.Values["projectId"] + Request.Url.Query.Split('=')[1]);
                     if (title != null && title.Length > 0)
                     {
