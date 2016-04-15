@@ -88,10 +88,10 @@ namespace Logic.Controllers
         /// </summary>
         /// <param name="date">The date</param>
         /// <param name="time">The time</param>
-        /// <returns>The DateTime object of the given date and time</returns>
+        /// <returns>The DateTime object of the given date and time in the following format: "dd-MM-yyyy H:mm:ss"</returns>
         public static DateTime ParseDateTime(string date, string time)
         {
-            return DateTime.Parse(date + " " + time);
+            return DateTime.ParseExact(date + " " + time, "dd-MM-yyyy H:mm:ss", null);
         }
     }
 }

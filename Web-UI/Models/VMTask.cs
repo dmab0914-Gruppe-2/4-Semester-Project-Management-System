@@ -35,6 +35,8 @@ namespace Web_UI.Models
         [DisplayName("Due date")]
         [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy H:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime? DueDate { get; set; }
+        public string DueDateDate { get; set; }
+        public string DueDateTime { get; set; }
 
 
         [DisplayName("Last changed")]

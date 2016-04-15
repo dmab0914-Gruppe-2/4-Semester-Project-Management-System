@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -71,13 +72,24 @@ namespace Web_UI.Controllers
         public ActionResult Edit(int id)
         {
             Task t = TC.GetTask(id);
-
-            VMTask vt = new VMTask(t.Id, t.Title, t.Description, TheirEnumExtensions.ToWebEnumTaskStatus(t.Status), TheirEnumExtensions.ToWebEnumPriority(t.Priority), t.Created, t.DueDate, t.LastEdited, t.ProjectId);
             if (t == null)
             {
                 return HttpNotFound();
             }
-
+            //VMTask vt = new VMTask(t.Id, t.Title, t.Description, TheirEnumExtensions.ToWebEnumTaskStatus(t.Status), TheirEnumExtensions.ToWebEnumPriority(t.Priority), t.Created, t.DueDate, t.LastEdited, t.ProjectId);
+            Debug.Assert(t.DueDate != null, "t.DueDate != null");
+            VMTask vt = new VMTask
+            {
+                Id = t.Id,
+                Description = t.Description,
+                Status = TheirEnumExtensions.ToWebEnumTaskStatus(t.Status),
+                Priority = TheirEnumExtensions.ToWebEnumPriority(t.Priority),
+                CreatedDate = t.Created,
+                DueDateDate = Utility.SplitDateTime(t.DueDate.Value)[0],
+                DueDateTime = Utility.SplitDateTime(t.DueDate.Value)[1],
+                LastChangedDate = t.LastEdited,
+                ProjectId = t.ProjectId
+            };
             return View(vt);
         }
 
@@ -95,11 +107,13 @@ namespace Web_UI.Controllers
                     task.Description = Request.Form["Description"];
                     task.Status = (Status)Enum.Parse(typeof(Status), Request.Form["Status"]);
                     task.Priority = (Priority)Enum.Parse(typeof(Priority), Request.Form["Priority"]);
-                    task.DueDate = DateTime.ParseExact(Request.Form["DueDate"], "dd-MM-yyyy H:mm:ss", null); // value = 27-05-2016 11:9:43 from the request form
+                    //task.DueDate = DateTime.ParseExact(Request.Form["DueDate"], "dd-MM-yyyy H:mm:ss", null); // value = 27-05-2016 11:9:43 from the request form
+                    task.DueDateDate = Request.Form["DueDateDate"];
+                    task.DueDateTime = Request.Form["DueDateTime"];
                     task.LastChangedDate = DateTime.UtcNow;
                     task.CreatedDate = DateTime.ParseExact(Request.Form["CreatedDate"], "dd-MM-yyyy H:mm:ss", null);
                     int projectid = TC.GetTask(id).ProjectId;
-               
+
 
                     Task update = new Task
                     {
@@ -108,12 +122,13 @@ namespace Web_UI.Controllers
                         Description = task.Description,
                         Status = MyEnumExtensions.ToLogicEnumStatus(task.Status),
                         Priority = MyEnumExtensions.ToLogicEnumPriority(task.Priority),
-                        DueDate = task.DueDate,
+                        //DueDate = task.DueDate,
+                        DueDate = Utility.ParseDateTime(task.DueDateDate, task.DueDateTime),
                         LastEdited = task.LastChangedDate,
                         Created = task.CreatedDate,
                         ProjectId = projectid
                     };
-                    
+
                     ReturnValue result = TC.UpdateTask(update);
                     if (result == ReturnValue.Success)
                     {
@@ -159,12 +174,12 @@ namespace Web_UI.Controllers
             try
             {
                 Task t = TC.GetTask(id);
-                if(t.Id != null)
+                if (t.Id != null)
                 {
                     ReturnValue result = TC.RemoveTask((int)t.Id);
 
-                    if(result == ReturnValue.Success)                    
-                        return RedirectToAction("Index", "Project");                    
+                    if (result == ReturnValue.Success)
+                        return RedirectToAction("Index", "Project");
                     else
                         return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
