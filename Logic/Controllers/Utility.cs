@@ -68,5 +68,28 @@ namespace Logic.Controllers
                 return true;
             return false;
         }
+
+        /// <summary>
+        /// Splits a n object of the type DateTime into date and time seperately. 
+        /// </summary>
+        /// <param name="dateTime">The DateTime object to split</param>
+        /// <returns>An array of the type string. slot 0 is date, slot 1 is time</returns>
+        public static string[] SplitDateTime(DateTime dateTime)
+        {
+            string date = dateTime.ToShortDateString();
+            string time = dateTime.ToLongTimeString();
+            return new[] { date, time };
+        }
+
+        /// <summary>
+        /// Parses a string of date and a string of time to an object of the type DateTime
+        /// </summary>
+        /// <param name="date">The date</param>
+        /// <param name="time">The time</param>
+        /// <returns>The DateTime object of the given date and time</returns>
+        public static DateTime ParseDateTime(string date, string time)
+        {
+            return DateTime.Parse(date + " " + time);
+        }
     }
 }
