@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Reflection;
@@ -78,7 +79,7 @@ namespace Logic.Controllers
         /// <returns>An array of the type string. slot 0 is date, slot 1 is time</returns>
         public static string[] SplitDateTime(DateTime dateTime)
         {
-            dateTime = DateTime.ParseExact(dateTime.ToShortDateString(), "dd-MM-yyyy H:mm:ss", null);
+            dateTime = DateTime.ParseExact(dateTime.ToString(CultureInfo.CurrentCulture), "dd-MM-yyyy H:mm:ss", null);
             string date = dateTime.ToShortDateString();
             string time = dateTime.ToLongTimeString();
             return new[] { date, time };
