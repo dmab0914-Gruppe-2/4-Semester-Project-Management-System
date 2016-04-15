@@ -26,7 +26,7 @@ namespace Logic.Controllers
                 {
                     //if (!string.IsNullOrEmpty(p.GetValue(input, null).ToString()))
                     //if(p.CanRead && p.CanWrite)
-                    if(Nullable.GetUnderlyingType(p.PropertyType) != null)
+                    if (Nullable.GetUnderlyingType(p.PropertyType) != null)
                     {
                         p.SetValue(input, Sanitize(p.GetValue(input, null).ToString()));
                     }
@@ -39,10 +39,12 @@ namespace Logic.Controllers
         {
             foreach (PropertyInfo p in input.GetType().GetProperties())
             {
-                //if (p.PropertyType == typeof(string))
-                if(Nullable.GetUnderlyingType(p.PropertyType) != null)
+                if (p.PropertyType == typeof(string))
                 {
-                    p.SetValue(input, Desanitize(p.GetValue(input, null).ToString()));
+                    if (Nullable.GetUnderlyingType(p.PropertyType) != null)
+                    {
+                        p.SetValue(input, Desanitize(p.GetValue(input, null).ToString()));
+                    }
                 }
             }
             return input;
