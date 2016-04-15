@@ -26,6 +26,7 @@ namespace UnitTestProject
                 ProjectId = 1,
                 Status = TaskStatus.Unassigned,
             };
+            
             ReturnValue result = tc.CreateTask(task.Title, task.Description, task.Priority, task.ProjectId);
             if (result != ReturnValue.Success)
                 Assert.Fail("Failed at something when creating");
@@ -104,6 +105,11 @@ namespace UnitTestProject
         {
             ReturnValue rv = tc.RemoveTask(_taskId);
             if (rv != ReturnValue.Success) { Assert.Fail("Return value is not success!"); }
+            Task[] tasks = tc.GetTask("Worked");
+            foreach (Task task in tasks)
+            {
+                if (tc.RemoveTask(task.Id.Value) != ReturnValue.Success) {Assert.Fail("Cleanup did not work!"); }
+            }
         }
 
         [TestCleanup]
