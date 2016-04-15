@@ -26,29 +26,23 @@ namespace Web_UI.Models
         public VMUser AssignedUser { get; set; }
         //Timestamp of change / creation. TBD
 
-
         [DisplayName("Created on")]
         [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy H:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime CreatedDate { get; set; }
-       
-        
-        [DisplayName("Due date")]
-        [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy H:mm:ss}", ApplyFormatInEditMode = true)]
-        public DateTime? DueDate { get; set; }
-        public string DueDateDate { get; set; }
-        public string DueDateTime { get; set; }
 
+        public string DueDateDate { get; set; }
+
+        public string DueDateTime { get; set; }
 
         [DisplayName("Last changed")]
         [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy H:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime? LastChangedDate { get; set; }
-       
-        
+
         public VMTask()
         {
 
         }
-        public VMTask(int? id, string title, string desc, Enums.Status status, Enums.Priority priority, DateTime created, DateTime? duedate, DateTime? lastedited, int projectId)
+        public VMTask(int? id, string title, string desc, Enums.Status status, Enums.Priority priority, DateTime created, DateTime? lastedited, int projectId)
         {
             this.Id = id;
             this.Title = title;
@@ -56,7 +50,6 @@ namespace Web_UI.Models
             this.Status = status;
             this.Priority = priority;
             this.CreatedDate = created;
-            this.DueDate = duedate;
             this.LastChangedDate = lastedited;
             this.ProjectId = projectId;
         }

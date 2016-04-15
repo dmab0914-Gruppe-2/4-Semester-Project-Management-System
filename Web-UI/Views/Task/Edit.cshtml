@@ -57,17 +57,26 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DueDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Due date", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control", type = "DateTime" } })
-                @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.DueDateDate, new { htmlAttributes = new { @class = "form-control dateControl", type = "text" } })
+                @Html.ValidationMessageFor(model => model.DueDateDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Due time", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DueDateTime, new { htmlAttributes = new { @class = "form-control col-md-2", type = "text", onChange = "timeRex()" } })
+                <label id="lblErrMsg" class="text-danger"></label>
+
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.CreatedDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CreatedDate, new { htmlAttributes = new { @class = "form-control", type = "DateTime" } })
+                @Html.EditorFor(model => model.CreatedDate, new { htmlAttributes = new { @class = "form-control", type = "DateTime", @readonly = "true" } })
                 @Html.ValidationMessageFor(model => model.CreatedDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -109,16 +118,19 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script>
-        $("#DueDate").datepicker({
+        $(".dateControl").datepicker({
             numberOfMonths: 3,
             showButtonPanel: true,
-            //dateFormat: 'dd-mm-yy',
             dateFormat: 'mm-dd-yy',
-            onSelect: function (datetext) {
-                var d = new Date(); // for now
-                datetext = datetext + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
-                $('#DueDate').val(datetext);
-            }
         });
+        function timeRex() {
+            var string = document.getElementById("DueDateClock").value;
+            var errMsg;
+            var re = new RegExp("^(?:0?[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$");
+            if (!re.test(string)) {
+                errMsg = "Time must be in exampel: 12:37 (hour:min)";
+            }
+            document.getElementById("lblErrMsg").innerHTML = errMsg;
+        }
     </script>
 }

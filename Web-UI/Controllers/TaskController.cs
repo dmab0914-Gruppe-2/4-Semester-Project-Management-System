@@ -81,6 +81,7 @@ namespace Web_UI.Controllers
             VMTask vt = new VMTask
             {
                 Id = t.Id,
+                Title = t.Title,
                 Description = t.Description,
                 Status = TheirEnumExtensions.ToWebEnumTaskStatus(t.Status),
                 Priority = TheirEnumExtensions.ToWebEnumPriority(t.Priority),
@@ -159,7 +160,6 @@ namespace Web_UI.Controllers
             vt.Status = TheirEnumExtensions.ToWebEnumTaskStatus(t.Status);
             vt.Priority = TheirEnumExtensions.ToWebEnumPriority(t.Priority);
             vt.CreatedDate = t.Created;
-            vt.DueDate = t.DueDate;
             vt.LastChangedDate = t.LastEdited;
             vt.ProjectId = t.ProjectId;
 
