@@ -112,7 +112,7 @@ namespace Web_UI.Controllers
                     task.DueDateDate = Request.Form["DueDateDate"];
                     task.DueDateTime = Request.Form["DueDateTime"];
                     task.LastChangedDate = DateTime.UtcNow;
-                    task.CreatedDate = DateTime.ParseExact(Request.Form["CreatedDate"], "dd-MM-yyyy H:mm:ss", null);
+                    task.CreatedDate = DateTime.ParseExact(Request.Form["CreatedDate"], "MM-dd-yyyy H:mm:ss", null);
                     int projectid = TC.GetTask(id).ProjectId;
 
 
