@@ -18,7 +18,7 @@ namespace Logic.Controllers
         }
 
         public ReturnValue CreateTask(string title, string description, Priority priority, TaskStatus ts,
-            int projectId, DateTime duedate)
+            int projectId, DateTime? duedate)
         {
             if (utility.StringLength50(title))
             {
