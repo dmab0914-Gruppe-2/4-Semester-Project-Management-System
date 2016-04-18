@@ -24,9 +24,8 @@ namespace Logic.Models
         //project status
         [Column]
         public bool Done { get; set; }
-        //We're using the ISO 8601 Standard for DateTime. 
-        //YYYY-MM-DD hh:mm:ss.mss
-        //2016-05-25 22:15:55.000
+        //We're using the murica Standard for DateTime. 
+        //MM-dd-yyyy hh:mm:ss.ms
         [Column]
         public DateTime CreatedDate { get; set; }
         [Column]

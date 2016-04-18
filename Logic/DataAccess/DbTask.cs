@@ -16,6 +16,7 @@ namespace Logic.DataAccess
             DbContext = DbContext.Instance;
             if (DbContext == null)
             {
+                //TODO Some sort of DBContext DbProject error handling?
                 //throw new SqlConnectionException("Database connection failed!");
             }
         }
@@ -84,7 +85,6 @@ namespace Logic.DataAccess
 
         public bool UpdateTasK(Task task)
         {
-            //throw new NotImplementedException();
             if (DbContext == null) return false;
             bool error = false;
             try

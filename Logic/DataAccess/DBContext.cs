@@ -26,8 +26,6 @@ namespace Logic.DataAccess
         public static string Error { get; private set; }
         private DbContext()
             : base(ConnectionString())
-        //: base(@"Data Source=localhost\SQLEXPRESS;Initial Catalog=ProjectShare;Integrated Security=True")
-        //: base("Data Source=kraka.ucn.dk;Initial Catalog=dmab0914_2Sem_2;User ID=dmab0914_2Sem_2;Password=IsAllowed")
         {
         }
 
@@ -114,13 +112,7 @@ namespace Logic.DataAccess
             return false;
         }
 
-
-        //public Table<User> Users;
         public Table<Project> Projects;
         public Table<Task> Tasks;
-        //public Table<ProjectUsers> ProjectUsers;
-        //public Table<ProjectFiles> ProjectFiles;
-        //public Table<ChatMessage> ChatMessages;
-        //public Table<FileChat> FileChats;
     }
 }
