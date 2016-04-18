@@ -18,8 +18,29 @@ namespace DataAccessConsoleTest
             //TestProject();
             //TestTask();
             //TestGetTastsByProject();
-            TestProjectIdWhenAddingToDB();
+            //TestProjectIdWhenAddingToDB();
+            SubstringStuff();
             Console.ReadLine();
+        }
+
+        private static void SubstringStuff()
+        {
+            DateTime dateTime = DateTime.UtcNow;
+            string[] returnStuff = SplitDateTime(dateTime);
+            Console.WriteLine("Date is: " + returnStuff[0]);
+            Console.WriteLine("Time is: " + returnStuff[1]);
+        }
+
+        /// <summary>
+        /// Splits a n object of the type DateTime into date and time seperately. 
+        /// </summary>
+        /// <param name="dateTime">The DateTime object to split</param>
+        /// <returns>An array of the type string. slot 0 is date, slot 1 is time</returns>
+        private static string[] SplitDateTime(DateTime dateTime)
+        {
+            string date = dateTime.ToShortDateString();
+            string time = dateTime.ToLongTimeString();
+            return new []{date,time};
         }
 
         private static void TestGetTastsByProject()
@@ -48,7 +69,7 @@ namespace DataAccessConsoleTest
                 LastChange = DateTime.UtcNow
             };
             dbProject.AddProject(project);
-            
+
             Console.WriteLine("Project id is: " + project.Id);
         }
 
@@ -86,7 +107,7 @@ namespace DataAccessConsoleTest
                 Console.WriteLine("Project id is null..");
             }
             Console.WriteLine("##DONE##");
-            
+
         }
 
         private static void PrintProjectInformation(Project project)
