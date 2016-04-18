@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Logic.DataAccess;
 using Logic.Models;
 using Task = Logic.Models.Task;
@@ -14,17 +10,10 @@ namespace Logic.Controllers
 {
     public class ProjectController : IProjectController
     {
-        //private Container container = Container.Instance;
         private DbProject DbProject { get; set; }
         private DbTask DbTask { get; set; }
         private Utility utility = new Utility();
         TaskController taskController = new TaskController();
-
-        //private string DATETIME_FORMAT = "YYYY-MM-DD hh:mm:ss.fff";
-        //We're using the ISO 8601 Standard for DateTime. 
-        //YYYY-MM-DD hh:mm:ss.mss
-        //2016-05-25 22:15:55.000
-
 
         public ProjectController()
         {
@@ -143,44 +132,9 @@ namespace Logic.Controllers
             return DbProject.GetProject(id);
         }
 
-        public ReturnValue AddTaskToProject(int taskId, int projectId)
-        {
-            Project project = DbProject.GetProject(projectId);
-            Task task = DbTask.GetTask(taskId);
-            if (project == null || task == null)
-            {
-                throw new KeyNotFoundException("Project or Task does not excist!");
-            }
-            project.Tasks.Add(task);
-
-            //todo change to dbaccess code...
-            project.Tasks.Add(task);
-            throw new NotImplementedException("Not done yet..");
-        }
-
-        public ReturnValue RemoveTaskFromProject(int taskId, int projectId)
-        {
-            Project project = DbProject.GetProject(projectId);
-            if (project == null)
-            {
-                throw new KeyNotFoundException("Project with id: " + projectId + " does not excist!");
-            }
-            Task task = DbTask.GetTask(taskId);
-            if (task == null)
-            {
-                throw new KeyNotFoundException("Task with id: " + taskId + " does not excist!");
-            }
-            // TODO when DBaccess is done, rewrite this to use dbaccess
-            project.Tasks.Remove(task);
-            return ReturnValue.Success;
-        }
-
-
-
         public Project[] GetAllProjects()
         {
             return DbProject.GetAllProjects().ToArray();
-            //return container.GetAllProjects().ToArray();
         }
 
         public Models.Task[] GetTasksFromProject(int projectId)
@@ -219,29 +173,6 @@ namespace Logic.Controllers
                 return ReturnValue.UnknownFail;
             }
             return ReturnValue.UnknownFail;
-
-            //switch (container.AddProject(project))
-            //{
-            //    //Success
-            //    case 0:
-            //        return ReturnValue.Success;
-            //    //Unsuccess
-            //    case 1:
-            //        //container.RemoveProject(project);
-            //        return ReturnValue.Fail;
-            //    //Error
-            //    default:
-            //        container.RemoveProject(project);
-            //        return ReturnValue.UnknownFail;
-            //}
         }
-
-
-        //private DateTime ParseDateTime(DateTime dt)
-        //{
-        //    //DateTime parsedDateTime = DateTime.UtcNow;
-        //    bool success = DateTime.TryParse(dt.ToString(), DATETIME_FORMAT, null, DateTimeStyles.None, out parsedDateTime);
-        //    return new DateTime();
-        //}
     }
 }

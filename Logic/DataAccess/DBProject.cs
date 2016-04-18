@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Dynamic;
 using System.Linq;
 using System.Transactions;
 using Logic.Models;
-using IsolationLevel = System.Data.IsolationLevel;
 
 namespace Logic.DataAccess
 {
@@ -121,7 +119,7 @@ namespace Logic.DataAccess
             return DbContext.Projects.ToList();
         }
 
-        public bool UpdateProject(Project project) //TODO test
+        public bool UpdateProject(Project project)
         {
             //throw new NotImplementedException();
             if (DbContext == null) return false;
@@ -194,7 +192,7 @@ namespace Logic.DataAccess
                         {
                             foreach (Task task in project.Tasks)
                             {
-                                if (task.Id != null) success.Add(DbTask.RemoveTask(task.Id.Value)); //TODO remove tasks from project
+                                if (task.Id != null) success.Add(DbTask.RemoveTask(task.Id.Value));
                                 else success.Add(false);
                             }
                         }

@@ -1,10 +1,6 @@
 ﻿using System;
-using Logic.Models;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Logic.DataAccess;
 using Task = Logic.Models.Task;
 
@@ -151,19 +147,6 @@ namespace Logic.Controllers
                 default:
                     return ReturnValue.UnknownFail;
             }
-
-            //switch (container.AddTask(task))
-            //{
-            //    //Success add
-            //    case 0:
-            //        return ReturnValue.Success;
-            //    //Unsuccess add 
-            //    case 1:
-            //        return ReturnValue.Fail;
-            //    //Fail
-            //    default:
-            //        return ReturnValue.UnknownFail;
-            //}
         }
 
         public ReturnValue UpdateTask(Task task)
@@ -172,7 +155,7 @@ namespace Logic.Controllers
             {
                 Task returnTask = (Task)utility.Sanitizer(task);
                 returnTask.LastEdited = DateTime.UtcNow;
-                bool success = DbTask.UpdateTast(returnTask);
+                bool success = DbTask.UpdateTasK(returnTask);
                 if (!success)
                     return ReturnValue.Fail;
                 Debug.Assert(task.Id != null, "task.Id != null");

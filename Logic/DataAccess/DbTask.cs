@@ -82,7 +82,7 @@ namespace Logic.DataAccess
             return DbContext.Tasks.ToList();
         }
 
-        public bool UpdateTast(Task task) //TODO test
+        public bool UpdateTasK(Task task)
         {
             //throw new NotImplementedException();
             if (DbContext == null) return false;
