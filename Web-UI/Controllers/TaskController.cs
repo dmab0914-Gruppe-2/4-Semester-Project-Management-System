@@ -44,7 +44,11 @@ namespace Web_UI.Controllers
                     Priority priority = (Priority)Enum.Parse(typeof(Priority), Request.Form["Priority"]);
                     string dueDateDate = Request.Form["DueDateDate"];
                     string dueDateTime = Request.Form["DueDateTime"];
-                    DateTime dueDate = Utility.ParseDateTime(dueDateDate, dueDateTime);
+                    DateTime? dueDate = null;
+                    if (dueDateDate != "" && dueDateTime != "")
+                    {
+                        dueDate = Utility.ParseDateTime(dueDateDate, dueDateTime);
+                    }
                     int id = Convert.ToInt32(RouteData.Values["projectId"] + Request.Url.Query.Split('=')[1]);
                     if (title != null && title.Length > 0)
                     {
@@ -79,7 +83,7 @@ namespace Web_UI.Controllers
                 return HttpNotFound();
             }
             //VMTask vt = new VMTask(t.Id, t.Title, t.Description, TheirEnumExtensions.ToWebEnumTaskStatus(t.Status), TheirEnumExtensions.ToWebEnumPriority(t.Priority), t.Created, t.DueDate, t.LastEdited, t.ProjectId);
-            Debug.Assert(t.DueDate != null, "t.DueDate != null");
+            //Debug.Assert(t.DueDate != null, "t.DueDate != null");
             VMTask vt = new VMTask
             {
                 Id = t.Id,
@@ -87,12 +91,15 @@ namespace Web_UI.Controllers
                 Description = t.Description,
                 Status = TheirEnumExtensions.ToWebEnumTaskStatus(t.Status),
                 Priority = TheirEnumExtensions.ToWebEnumPriority(t.Priority),
-                CreatedDate = t.Created,
-                DueDateDate = Utility.SplitDateTime(t.DueDate.Value)[0],
-                DueDateTime = Utility.SplitDateTime(t.DueDate.Value)[1],
+                CreatedDate = t.Created,                
                 LastChangedDate = t.LastEdited,
                 ProjectId = t.ProjectId
             };
+            if(t.DueDate != null)
+            {
+                vt.DueDateDate = Utility.SplitDateTime(t.DueDate.Value)[0];
+                vt.DueDateTime = Utility.SplitDateTime(t.DueDate.Value)[1];
+            }
             return View(vt);
         }
 
@@ -113,6 +120,11 @@ namespace Web_UI.Controllers
                     //task.DueDate = DateTime.ParseExact(Request.Form["DueDate"], "dd-MM-yyyy H:mm:ss", null); // value = 27-05-2016 11:9:43 from the request form
                     task.DueDateDate = Request.Form["DueDateDate"];
                     task.DueDateTime = Request.Form["DueDateTime"];
+                    DateTime? dueDate = null;
+                    if (task.DueDateDate != "" && task.DueDateTime != "")
+                    {
+                        dueDate = Utility.ParseDateTime(task.DueDateDate, task.DueDateTime);
+                    }
                     task.LastChangedDate = DateTime.UtcNow;
                     task.CreatedDate = DateTime.ParseExact(Request.Form["CreatedDate"], "MM-dd-yyyy H:mm:ss", null);
                     int projectid = TC.GetTask(id).ProjectId;
@@ -126,7 +138,8 @@ namespace Web_UI.Controllers
                         Status = MyEnumExtensions.ToLogicEnumStatus(task.Status),
                         Priority = MyEnumExtensions.ToLogicEnumPriority(task.Priority),
                         //DueDate = task.DueDate,
-                        DueDate = Utility.ParseDateTime(task.DueDateDate, task.DueDateTime),
+                        //DueDate = Utility.ParseDateTime(task.DueDateDate, task.DueDateTime),
+                        DueDate = dueDate,
                         LastEdited = task.LastChangedDate,
                         Created = task.CreatedDate,
                         ProjectId = projectid
