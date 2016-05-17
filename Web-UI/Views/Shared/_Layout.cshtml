@@ -9,7 +9,7 @@
     <title>PMS</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    
+
     <!-- DataTables CSS -->
     <link href="@Url.Content("~/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css")" rel="stylesheet" type="text/css" />
     <!-- DataTables Responsive CSS -->
@@ -20,27 +20,33 @@
     <link href="~/Content/Main.css" rel="stylesheet" />
 
     <!-- jQuery -->
-    @Scripts.Render("~/bundles/jquery")
+    @*@Scripts.Render("~/bundles/jquery")*@
+    <script src="~/Scripts/jquery-1.6.4.js"></script>
+
     <script src="@Url.Content("~/bower_components/jquery/dist/jquery.min.js")"></script>
     @Scripts.Render("~/bundles/bootstrap")
     <script src="@Url.Content("~/bower_components/metisMenu/dist/metisMenu.min.js")"></script>
+
+    <!-- SignalR -->
+    @RenderSection("signalr", required: false)
 
 </head>
 <body>
     <div id="wrapper">
         <!-- Navigation -->
         @Html.Action("Index", "Navbar")
-        
+
         <div id="page-wrapper">
-            @RenderBody()          
+            @RenderBody()
+            
         </div>
         <!-- /#page-wrapper -->
+        
     </div>
     <!-- /#wrapper -->
-         
     <!-- DataTables JavaScript -->
     <script src="@Url.Content("~/bower_components/raphael/raphael-min.js")"></script>
- 
+
     <!-- DataTables JavaScript -->
     <script src="@Url.Content("~/bower_components/datatables/media/js/jquery.dataTables.min.js")"></script>
     <script src="@Url.Content("~/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js")"></script>

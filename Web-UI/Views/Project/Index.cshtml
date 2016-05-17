@@ -14,14 +14,19 @@
 <div class="row">
     <div class="col-lg-5">
         <h2 id="Addtask">Your Projects</h2>
-        <div class="col-lg-5">
-            @foreach (var p in Model)
-            {
-                <div id="projectList" class="col-lg-5">
-                    <label>@Html.RadioButton("name", p.Id.ToString(), false, new { @class = "RadioButtonItem" })<span>@p.Title</span></label>
-                </div>
-            }
+        <div class="col-lg-5" data-bind="template:{name: 'projectTask-template' , foreach: projects }">
         </div>
+
+        <script src="~/Scripts/Signalr/signalr-projectsTask.js"></script>
+
+        <script type="text/html" id="projectTask-template">
+            <div id="projectList" class="col-lg-5">
+                <label>
+                    <input class="RadioButtonItem" id="name" type="radio" name="name" data-bind="attr:{value: Id }">
+                    <span data-bind="text: Title"></span>
+                </label>
+            </div>
+        </script>
 
     </div>
     <!-- /.col-lg-5 Project list -->
@@ -33,9 +38,16 @@
     <!-- /.col-lg-5 task info list -->
 </div>
 <!-- /.row -->
+@section Signalr {
+    <script type="text/javascript" src="~/Scripts/jquery.signalR-2.2.0.js"></script>
+    <script type="text/javascript" src="~/Scripts/knockout-3.4.0.js"></script>
+    <script src="~/signalr/hubs"></script>
+}
+
 @section Scripts {
     <script type="text/javascript">
-        $(document).ready(function () {
+        function getTasksforProjectEvent() {
+            console.log("getTasksforProjectEvent");
             $("input[name=name]:radio").change(function () {
                 var pId = $("input[name=name]:checked").val();
                 $.getJSON('/Project/getTasksForProject/', { projectid: pId }, function (data) {
@@ -56,6 +68,6 @@
                 btn = btn.replace('-1', pId);
                 $("#addTask").html(btn);
             });
-        })
+        }
     </script>
 }

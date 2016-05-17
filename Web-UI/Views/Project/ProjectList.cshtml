@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Web_UI.Models.VMProject>
+﻿@*@model IEnumerable<Web_UI.Models.VMProject>*@
+@*  MODEL NOT NEEDED ANY MORE BECAUSE OF SIGNALR*@
 
 @{
     ViewBag.Title = "ProjectList";
@@ -9,18 +10,23 @@
     <p>
         @Html.ActionLink("Create New", "Create")
     </p>
-    <div id="tasks">
-        @foreach (var item in Model)
-        {
-            <h3>@Html.DisplayFor(modelItem => item.Title)</h3>
-            <div class="task-list">
-                <p>@Html.DisplayFor(modelItem => item.Description)</p>
-                <h1>//TODO make list of memebers aswell</h1>
-                <hr />
-                @Html.ActionLink("Open", "Edit", new { id = item.Id }, new { @class = "btn btn-primary"}) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-default" })
-                <h5>@Html.DisplayNameFor(model => model.CreadtedDate) : @Html.DisplayFor(modelItem => item.CreadtedDate) | @Html.DisplayNameFor(model => model.LastChangedDate) : @Html.DisplayFor(modelItem => item.LastChangedDate)</h5>
-            </div>
-        }
+    <div id="tasks" data-bind="template:{name: 'project-template', foreach: projects }">
     </div>
+    <script src="~/Scripts/Signalr/signalr-project.js"></script>
+
+    <script type="text/html" id="project-template">
+        <h3 data-bind="text: Title"></h3>
+        <div class="task-list">
+            <p data-bind="text: Description"></p>
+            <hr />
+            <a data-bind="attr: { 'href': '@Url.Action("Edit")/' + Id() }" class="btn btn-primary">Open</a> |
+            <a data-bind="attr: { 'href': '@Url.Action("Delete")/' + Id() }" class="btn btn-primary">Delete</a>
+        </div>
+    </script>
 </div>
+
+@section Signalr {
+    <script type="text/javascript" src="~/Scripts/jquery.signalR-2.2.0.js"></script>
+    <script type="text/javascript" src="~/Scripts/knockout-3.4.0.js"></script>
+    <script src="~/signalr/hubs"></script>
+}

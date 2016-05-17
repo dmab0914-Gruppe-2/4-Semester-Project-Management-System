@@ -7,6 +7,8 @@ using Logic.Models;
 using Logic.Controllers;
 using Web_UI.Models;
 using Logic;
+using Web_UI.Hubs;
+using Microsoft.AspNet.SignalR;
 
 
 
@@ -15,6 +17,7 @@ namespace Web_UI.Controllers
     public class ProjectController : Controller
     {
         private IProjectController PC = new Logic.Controllers.ProjectController();
+      //  private ProjectHub PH = new ProjectHub(); // DO NOT USE THIS, shit will break !
 
         // GET: Project
         public ActionResult Index()
@@ -29,8 +32,20 @@ namespace Web_UI.Controllers
             return View(projects);
         }
 
-        // GET: Get project list
+        // GET: Get project list  // ONLY need for without signalR 
         public ActionResult ProjectList()
+        {
+            //List<Project> result = PC.GetAllProjects().ToList();
+            //List<VMProject> projects = new List<VMProject>();
+            //foreach (Project p in result)
+            //{
+            //    VMProject vp = new VMProject(p.Id, p.Title, p.Description, p.CreatedDate, p.LastChange, p.Done);
+            //    projects.Add(vp);
+            //}
+            return View();
+        }
+
+        public List<VMProject> AllProjectsToList()
         {
             List<Project> result = PC.GetAllProjects().ToList();
             List<VMProject> projects = new List<VMProject>();
@@ -39,7 +54,8 @@ namespace Web_UI.Controllers
                 VMProject vp = new VMProject(p.Id, p.Title, p.Description, p.CreatedDate, p.LastChange, p.Done);
                 projects.Add(vp);
             }
-            return View(projects);
+
+            return projects;
         }
 
         // GET: Project/Create
@@ -64,6 +80,13 @@ namespace Web_UI.Controllers
                         ReturnValue result = PC.CreateProject(Title, Description);
                         if (result == ReturnValue.Success)
                         {
+                            var added = PC.GetProject(Title).ToList();
+                            Project newP = added.Where(x => x.Title.Equals(Title) && x.Description.Equals(Description)).First();
+                            VMProject vp = new VMProject(newP.Id, newP.Title, newP.Description, newP.CreatedDate, newP.LastChange, newP.Done);
+
+
+                            var context = GlobalHost.ConnectionManager.GetHubContext<ProjectHub>();
+                            context.Clients.All.addedProject(vp);
                             return RedirectToAction("Index");
                         }
                         else
