@@ -23,6 +23,8 @@ $(function () {
             hub.server.getProjects();
         };
 
+
+
         hub.client.populateProjects = function (ProjectArray) {
             console.log("populate projects");
             var projectColletion = $.map(ProjectArray, function (item) {
@@ -35,21 +37,6 @@ $(function () {
         hub.client.addedProject = function (project) {
             console.log("project added");
             projects.push(new Project(project.Id, project.Title, project.Description, project.CreadtedDate, project.LastChangedDate, project.Done));
-            getTasksforProjectEvent();
-        };
-
-        hub.client.removeProject = function (project) {
-            console.log("project removed " + project.Title);
-
-            var index = projects.indexOf(project);
-            projects.splice(index, 1);
-            clearList();
-        };
-
-        hub.client.changedTask = function () {
-            console.log("tasklist changed");
-            //getTasksforProjectEvent();
-            tasklistChanged();
         };
     }
     var projectbase = new Projectbase();

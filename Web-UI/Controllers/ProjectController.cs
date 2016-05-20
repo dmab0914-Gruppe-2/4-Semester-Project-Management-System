@@ -91,7 +91,7 @@ namespace Web_UI.Controllers
                         }
                         else
                         {
-                            return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                         }
                     }
                 }
@@ -173,18 +173,12 @@ namespace Web_UI.Controllers
             try
             {
                 Project p = PC.GetProject(id);
-                
                 if (p.Id != null)
                 {
                     ReturnValue rv = PC.RemoveProject(id);
-                    VMProject vp = new VMProject(p.Id, p.Title, p.Description, p.CreatedDate, p.LastChange, p.Done);
 
                     if (rv == ReturnValue.Success)
-                    {
-                        var context = GlobalHost.ConnectionManager.GetHubContext<ProjectHub>();
-                        context.Clients.All.removeProject(vp);
                         return RedirectToAction("Index");
-                    }
                     else
                         return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
