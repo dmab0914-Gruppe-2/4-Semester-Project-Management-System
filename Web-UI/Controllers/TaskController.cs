@@ -11,6 +11,8 @@ using Web_UI.Models;
 using Logic;
 using Web_UI.Models.Enums;
 using Priority = Web_UI.Models.Enums.Priority;
+using Microsoft.AspNet.SignalR;
+using Web_UI.Hubs;
 
 namespace Web_UI.Controllers
 {
@@ -58,6 +60,8 @@ namespace Web_UI.Controllers
 
                         if (result == ReturnValue.Success)
                         {
+                            var context = GlobalHost.ConnectionManager.GetHubContext<ProjectHub>();
+                            context.Clients.All.changedTask();
                             return RedirectToAction("Index", "Project");
                         }
                         else
@@ -148,6 +152,8 @@ namespace Web_UI.Controllers
                     ReturnValue result = TC.UpdateTask(update);
                     if (result == ReturnValue.Success)
                     {
+                        var context = GlobalHost.ConnectionManager.GetHubContext<ProjectHub>();
+                        context.Clients.All.changedTask();
                         return RedirectToAction("Index", "Project");
                     }
                     else
@@ -194,7 +200,11 @@ namespace Web_UI.Controllers
                     ReturnValue result = TC.RemoveTask((int)t.Id);
 
                     if (result == ReturnValue.Success)
+                    {
+                        var context = GlobalHost.ConnectionManager.GetHubContext<ProjectHub>();
+                        context.Clients.All.changedTask();
                         return RedirectToAction("Index", "Project");
+                    }
                     else
                         return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }

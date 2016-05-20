@@ -35,9 +35,16 @@ $(function () {
             console.log("project added");
             projects.push(new Project(project.Id, project.Title, project.Description, project.CreadtedDate, project.LastChangedDate, project.Done));
         };
+
+        hub.client.removeProject = function (project) {
+            console.log("project removed " + project.Title);
+
+            var index = projects.indexOf(project);
+            projects.splice(index, 1);
+        };
     }
     var projectbase = new Projectbase();
-    
+
     $.connection.hub.start().done(function () {
         // initialization logic that has to occur after SignalR startup
         projectbase.init();
