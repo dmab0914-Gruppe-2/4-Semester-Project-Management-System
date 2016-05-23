@@ -21,6 +21,7 @@ $(function () {
         this.init = function () {
             console.log("init");
             hub.server.getProjects();
+           
         };
 
         hub.client.populateProjects = function (ProjectArray) {
@@ -38,9 +39,14 @@ $(function () {
 
         hub.client.removeProject = function (project) {
             console.log("project removed " + project.Title);
+            projects.removeAll();
+            hub.server.getProjects();
+        };
 
-            var index = projects.indexOf(project);
-            projects.splice(index, 1);
+        hub.client.updatedProject = function (oldProject, newProject, arr) {
+            console.log("project updated " + oldProject.Title + " to " + newProject.Title);
+            projects.removeAll();
+            hub.server.getProjects();
         };
     }
     var projectbase = new Projectbase();

@@ -24,17 +24,18 @@ namespace Web_UI.Hubs
             Clients.Caller.populateProjects(projects.ToArray());
         }
 
-        public void RemoveProject(VMProject vmp)
-        {
+        //public void RemoveProject(VMProject vmp)
+        //{
             
-            Clients.All.removeProject(vmp);
-        }
+        //    Clients.All.removeProject(vmp);
+        //}
 
-        public void UpdateProject(VMProject vmp)
-        {
-            var addedProject = vmp;
-            Clients.All.addedProject(addedProject);
-        }
+        //public void UpdateProject(VMProject oldProject, VMProject newProject)
+        //{
+        //    var projects = pc.AllProjectsToList();
+
+        //    Clients.All.updatedProject(oldProject, newProject, projects);
+        //}
 
         public void UpdateTask()
         {

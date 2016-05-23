@@ -118,7 +118,7 @@ namespace Web_UI.Controllers
                     VMTask task = new VMTask();
                     task.Id = id;
                     task.Title = Request.Form["Title"];
-                    task.Description = Request.Form["Description"];
+                    task.Description = Request.Form["description"];
                     task.Status = (Status)Enum.Parse(typeof(Status), Request.Form["Status"]);
                     task.Priority = (Priority)Enum.Parse(typeof(Priority), Request.Form["Priority"]);
                     //task.DueDate = DateTime.ParseExact(Request.Form["DueDate"], "dd-MM-yyyy H:mm:ss", null); // value = 27-05-2016 11:9:43 from the request form

@@ -40,15 +40,19 @@ $(function () {
 
         hub.client.removeProject = function (project) {
             console.log("project removed " + project.Title);
+            projects.removeAll();
+            hub.server.getProjects();
+        };
 
-            var index = projects.indexOf(project);
-            projects.splice(index, 1);
-            clearList();
+        hub.client.updatedProject = function (oldProject, newProject) {
+            console.log("project updated " + oldProject.Title + " to " + newProject.Title);
+            projects.removeAll();
+            hub.server.getProjects();
+            console.log("diaegf");
         };
 
         hub.client.changedTask = function () {
             console.log("tasklist changed");
-            //getTasksforProjectEvent();
             tasklistChanged();
         };
     }

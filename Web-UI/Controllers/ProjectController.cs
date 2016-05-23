@@ -10,14 +10,12 @@ using Logic;
 using Web_UI.Hubs;
 using Microsoft.AspNet.SignalR;
 
-
-
 namespace Web_UI.Controllers
 {
     public class ProjectController : Controller
     {
         private IProjectController PC = new Logic.Controllers.ProjectController();
-      //  private ProjectHub PH = new ProjectHub(); // DO NOT USE THIS, shit will break !
+        //  private ProjectHub PH = new ProjectHub(); // DO NOT USE THIS, shit will break !
 
         // GET: Project
         public ActionResult Index()
@@ -125,9 +123,14 @@ namespace Web_UI.Controllers
                 {
                     VMProject p = new VMProject();
                     p.Id = id;
-                    p.Title = Request.Form["name"];
+                    p.Title = Request.Form["title"];
                     p.Description = Request.Form["description"];
                     p.Done = Convert.ToBoolean(Request.Form.GetValues("Done")[0]);
+
+                    Project oldProject = PC.GetProject(id); // for signalR
+                    VMProject vmOldProject = null;
+                    if (oldProject != null)
+                        vmOldProject = new VMProject(oldProject.Id, oldProject.Title, oldProject.Description, oldProject.CreatedDate, oldProject.LastChange, oldProject.Done);
 
                     Project update = new Project
                     {
@@ -139,9 +142,21 @@ namespace Web_UI.Controllers
                     };
 
                     ReturnValue result = PC.EditProject(update);
+
+                    Project newProject = PC.GetProject(id); // for signalR
+                    VMProject vmNewProject = null;
+                    if (newProject != null)
+                        vmNewProject = new VMProject(newProject.Id, newProject.Title, newProject.Description, newProject.CreatedDate, newProject.LastChange, newProject.Done);
+
                     if (result == ReturnValue.Success)
                     {
-                        return RedirectToAction("Index");
+                        if(vmNewProject != null && vmOldProject != null && vmNewProject.Id == vmOldProject.Id)
+                        {
+                            var context = GlobalHost.ConnectionManager.GetHubContext<ProjectHub>();
+                            context.Clients.All.updatedProject(vmOldProject, vmNewProject);
+                        }
+                        //return RedirectToAction("Index");
+                        return RedirectToAction("ProjectList");
                     }
                     else
                     {
@@ -173,7 +188,7 @@ namespace Web_UI.Controllers
             try
             {
                 Project p = PC.GetProject(id);
-                
+
                 if (p.Id != null)
                 {
                     ReturnValue rv = PC.RemoveProject(id);
