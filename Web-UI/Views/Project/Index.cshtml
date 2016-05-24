@@ -14,13 +14,14 @@
 <div class="row">
     <div class="col-lg-5">
         <h2 id="Addtask">Your Projects</h2>
-        <div class="col-lg-5" data-bind="template:{name: 'projectTask-template' , foreach: projects }">
+        <div class="col-lg-12" data-bind="template:{name: 'projectTask-template' , foreach: projects }">
         </div>
-
+    </div>
+    <div class="row">
         <script src="~/Scripts/Signalr/signalr-projectsTask.js"></script>
 
         <script type="text/html" id="projectTask-template">
-            <div id="projectList" class="col-lg-5">
+            <div id="projectList" class="col-lg-12">
                 <label>
                     <input class="RadioButtonItem" id="name" type="radio" name="name" data-bind="attr:{value: Id }">
                     <span data-bind="text: Title"></span>

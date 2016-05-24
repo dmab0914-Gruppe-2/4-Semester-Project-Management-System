@@ -1,5 +1,5 @@
 ﻿@*@model IEnumerable<Web_UI.Models.VMProject>*@
-@*  MODEL NOT NEEDED ANY MORE BECAUSE OF SIGNALR*@
+@*  MODEL NOT NEEDED ANY MORE BECAUSE OF SIGNALR, all is being made with js and signalR*@
 
 @{
     ViewBag.Title = "ProjectList";
@@ -20,7 +20,7 @@
             <p data-bind="text: Description"></p>
             <hr />
             <a data-bind="attr: { 'href': '@Url.Action("Edit")/' + Id() }" class="btn btn-primary">Open</a> |
-            <a data-bind="attr: { 'href': '@Url.Action("Delete")/' + Id() }" class="btn btn-primary">Delete</a>
+            <a data-bind="attr: { 'href': '@Url.Action("Delete")/' + Id() }" class="btn btn-default">Delete</a>
         </div>
     </script>
 </div>
