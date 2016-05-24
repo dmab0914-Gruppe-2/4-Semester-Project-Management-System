@@ -228,8 +228,6 @@ namespace Web_UI.Controllers
                 vt.Priority = TheirEnumExtensions.ToWebEnumPriority(t.Priority);
                 vt.Status = TheirEnumExtensions.ToWebEnumTaskStatus(t.Status);
                 vt.CreatedDate = t.Created;
-                //vt.LastChangedDate = t.LastEdited; //TODO Fix det her skrammel
-                //vt.DueDate = t.DueDate;
 
                 tasks.Add(vt);
             }

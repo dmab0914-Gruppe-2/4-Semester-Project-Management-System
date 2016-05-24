@@ -19,12 +19,7 @@ namespace Web_UI.Controllers
     public class TaskController : Controller
     {
         private ITaskController TC = new Logic.Controllers.TaskController();
-        // GET: Task
-        public ActionResult Index()
-        {
-
-            return View();
-        }
+       
 
         // GET: Task/Create
         public ActionResult Create(int projectId)
@@ -86,8 +81,6 @@ namespace Web_UI.Controllers
             {
                 return HttpNotFound();
             }
-            //VMTask vt = new VMTask(t.Id, t.Title, t.Description, TheirEnumExtensions.ToWebEnumTaskStatus(t.Status), TheirEnumExtensions.ToWebEnumPriority(t.Priority), t.Created, t.DueDate, t.LastEdited, t.ProjectId);
-            //Debug.Assert(t.DueDate != null, "t.DueDate != null");
             VMTask vt = new VMTask
             {
                 Id = t.Id,
@@ -121,7 +114,6 @@ namespace Web_UI.Controllers
                     task.Description = Request.Form["description"];
                     task.Status = (Status)Enum.Parse(typeof(Status), Request.Form["Status"]);
                     task.Priority = (Priority)Enum.Parse(typeof(Priority), Request.Form["Priority"]);
-                    //task.DueDate = DateTime.ParseExact(Request.Form["DueDate"], "dd-MM-yyyy H:mm:ss", null); // value = 27-05-2016 11:9:43 from the request form
                     task.DueDateDate = Request.Form["DueDateDate"];
                     task.DueDateTime = Request.Form["DueDateTime"];
                     DateTime? dueDate = null;
@@ -141,8 +133,6 @@ namespace Web_UI.Controllers
                         Description = task.Description,
                         Status = MyEnumExtensions.ToLogicEnumStatus(task.Status),
                         Priority = MyEnumExtensions.ToLogicEnumPriority(task.Priority),
-                        //DueDate = task.DueDate,
-                        //DueDate = Utility.ParseDateTime(task.DueDateDate, task.DueDateTime),
                         DueDate = dueDate,
                         LastEdited = task.LastChangedDate,
                         Created = task.CreatedDate,
