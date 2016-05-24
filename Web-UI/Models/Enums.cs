@@ -15,7 +15,7 @@ namespace Web_UI.Models.Enums
         //Unassigned
         Unassigned = 2,
         //In progress
-        InProgress = 2
+        InProgress = 3
     }
     public enum Priority
     {
