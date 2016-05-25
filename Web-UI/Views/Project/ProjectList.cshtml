@@ -17,7 +17,7 @@
     <script type="text/html" id="project-template">
         <h3 data-bind="text: Title"></h3>
         <div class="task-list">
-            <p data-bind="text: Description"></p>
+            <div data-bind="text: Description"></div>
             <hr />
             <a data-bind="attr: { 'href': '@Url.Action("Edit")/' + Id() }" class="btn btn-primary">Open</a> |
             <a data-bind="attr: { 'href': '@Url.Action("Delete")/' + Id() }" class="btn btn-default">Delete</a>

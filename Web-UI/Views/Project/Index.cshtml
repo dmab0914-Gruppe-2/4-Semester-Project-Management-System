@@ -47,18 +47,6 @@
 
 @section Scripts {
     <script type="text/javascript">
-        function find_key_by_value(set, value) {
-            for (var k in set) {
-                if (set.hasOwnProperty(k)) {
-                    if (set[k] == value) {
-                        return k;
-                    }
-                }
-            }
-            return undefined;
-        }
-    </script>
-    <script type="text/javascript">
         function getTasksforProjectEvent() {
             console.log("getTasksforProjectEvent");
             $("input[name=name]:radio").change(function () {
