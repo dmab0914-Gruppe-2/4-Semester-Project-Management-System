@@ -17,7 +17,7 @@ namespace Web_UI.Controllers
         private IProjectController PC = new Logic.Controllers.ProjectController();
         //  private ProjectHub PH = new ProjectHub(); // DO NOT USE THIS, shit will break !
 
-        // GET: Project
+        // GET: Project // alt kode indhold i denne funktion er ligegyldigt 
         public ActionResult Index()
         {
             List<Project> result = PC.GetAllProjects().ToList();

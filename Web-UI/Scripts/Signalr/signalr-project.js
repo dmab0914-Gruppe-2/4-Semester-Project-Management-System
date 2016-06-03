@@ -50,7 +50,7 @@ $(function () {
         };
     }
     var projectbase = new Projectbase();
-
+    $.connection.hub.logging = true;
     $.connection.hub.start().done(function () {
         // initialization logic that has to occur after SignalR startup
         projectbase.init();

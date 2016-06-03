@@ -17,12 +17,12 @@ namespace Web_UI.Hubs
 
             Clients.Caller.populateProjects(projects.ToArray());
         }
-        public void GetProjectsList()
-        {
-            var projects = pc.AllProjectsToList();
+        //public void GetProjectsList()
+        //{
+        //    var projects = pc.AllProjectsToList();
 
-            Clients.Caller.populateProjects(projects.ToArray());
-        }
+        //    Clients.Caller.populateProjects(projects.ToArray());
+        //}
 
         //public void RemoveProject(VMProject vmp)
         //{
