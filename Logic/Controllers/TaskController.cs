@@ -158,6 +158,8 @@ namespace Logic.Controllers
                 bool success = DbTask.UpdateTasK(returnTask);
                 if (!success)
                     return ReturnValue.Fail;
+                Debug.Assert(returnTask.Id != null, "returnTask.Id != null");
+                returnTask = GetTask((int)returnTask.Id); //Changed for exam
                 Debug.Assert(task.Id != null, "task.Id != null");
                 task = DbTask.GetTask((int)task.Id.Value);
                 if (task.Title.Equals(returnTask.Title) &&

@@ -168,7 +168,7 @@ namespace Logic.DataAccess
         /// <summary>
         /// Removes a given project and all dependencies in the form of tasks.
         /// </summary>
-        /// <param name="projectId">THe id of the project to remove</param>
+        /// <param name="projectId">The id of the project to remove</param>
         /// <returns>True if sucessfull. False if not.</returns>
         public bool RemoveProject(int projectId)
         {

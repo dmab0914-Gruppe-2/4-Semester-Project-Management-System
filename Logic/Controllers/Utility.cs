@@ -13,7 +13,6 @@ namespace Logic.Controllers
         /// <returns>Project or Task which is safe to execute variables against sql server</returns>
         public object Sanitizer(object input)
         {
-
             foreach (PropertyInfo p in input.GetType().GetProperties())
             {
                 if (p.PropertyType == typeof(string))
